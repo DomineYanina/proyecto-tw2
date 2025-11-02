@@ -8,6 +8,6 @@ datasource db {
 }
 
 model videojuego {
-  id     Int    @id @default(autoincrement())
-  nombre String
+  id     Int     @id @default(autoincrement())
+  nombre String?
 }
