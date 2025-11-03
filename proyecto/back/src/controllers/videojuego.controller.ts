@@ -39,4 +39,40 @@ export class VideojuegoController {
             response.status(500).json({ message: 'No se pudo obtener el videojuego', error });
         }
     }
+
+    public crearVideojuego = async(req: Request, res: Response) => {
+        try {
+            const nuevoVideojuego = await videojuegoService.crearVideojuego(req.body);
+            res.status(201).json(nuevoVideojuego);
+        } catch (error) {
+            res.status(400).json({ message: 'Error al crear el videojuego', error: (error as Error).message });
+        }       
+    }
+
+    public actualizarVideojuego = async(req: Request, res: Response) => {
+        try {
+            const id = Number(req.params.id);
+            const nombre = req.body.nombre;
+            if(isNaN(id)) {
+                return res.status(400).json({ message: 'ID inválido' });
+            }
+            const videojuegoActualizado = await videojuegoService.actualizarVideojuego(id, { nombre });
+            res.status(200).json(videojuegoActualizado);
+        } catch (error) {
+            res.status(400).json({ message: 'Error al actualizar el videojuego', error: (error as Error).message });
+        }
+    }
+
+    public eliminarVideojuego = async(req: Request, res: Response) => {
+        try {
+            const id = Number(req.params.id);
+            if(isNaN(id)) {
+                return res.status(400).json({ message: 'ID inválido' });
+            }
+            await videojuegoService.eliminarVideojuego(id);
+            res.status(204).send();
+        } catch (error) {
+            res.status(400).json({ message: 'Error al eliminar el videojuego', error: (error as Error).message });
+        }
+    }
 }
