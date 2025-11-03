@@ -17,7 +17,7 @@ export class UserService {
         return await this.userRepository.findUserById(id_usuario);
     }
 
-    async createUser(data: { nombre: string; email: string; contrasena: string }) {
+    async createUser(data: { nombre: string; email: string; contrasena: string; apellido: string }): Promise<User> {
        
         const hashedPassword = await bcrypt.hash(data.contrasena, 10);
         const userDataToSave = {
@@ -27,7 +27,7 @@ export class UserService {
         return await this.userRepository.createUser(userDataToSave);
     }
 
-    async updateUser(id_usuario: number, data: { nombre?: string; email?: string; contrasena?: string }): Promise<User | null> {
+    async updateUser(id_usuario: number, data: { nombre?: string; email?: string; contrasena?: string }){
         return await this.userRepository.updateUser(id_usuario, data);
     }
 

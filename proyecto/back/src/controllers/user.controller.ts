@@ -7,7 +7,7 @@ export class UserController {
     constructor(private userService: UserService = new UserService()) {}
 
     public findAllUsers = async (req: Request, res: Response): Promise<void> => {
-        const users: User[] =  await this.userService.findAllUsers();
+        const users = await this.userService.findAllUsers();
         res.json(users);
     }
 
@@ -27,9 +27,9 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response) => {
         try {
-            const { nombre, email, contrasena } = req.body;
+            const { nombre, email, contrasena, apellido } = req.body;
 
-            const newUser = await this.userService.createUser({ nombre, email, contrasena });
+            const newUser = await this.userService.createUser({ nombre, email, contrasena, apellido});
             res.status(201).json(newUser);
             
         } catch (error) {

@@ -44,16 +44,22 @@ export class UserRepository {
         });
     }
 
-    async createUser(data: { nombre: string; email: string; contrasena: string }) {
+    async createUser(data: { nombre: string; email: string; contrasena: string; apellido: string }) {
       return await prisma.usuarios.create({
         data,
       });
     }
 
-    async updateUser(id_usuario: number, data: { nombre?: string; email?: string; contrasena?: string }) {
+    async updateUser(id_usuario: number, data: { nombre?: string; email?: string; contrasena?: string; apellido?: string }) {
       return await prisma.usuarios.update({
         where: { id_usuario },
         data,
+        select: { 
+            id_usuario: true,
+            nombre: true,
+            email: true,
+            apellido: true
+        },
       });
     }
 
