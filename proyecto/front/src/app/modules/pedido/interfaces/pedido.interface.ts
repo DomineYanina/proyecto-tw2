@@ -1,23 +1,23 @@
-// Mapea la tabla Pedido
-export interface Pedido {
-  id: number;
-  usuario_id: number; // FK de Usuario
-  fecha_creacion: Date;
-  estado: 'pendiente' | 'pagado' | 'enviado' | 'cancelado'; // Mapea tu campo ENUM
-  total: number;
+// pedido.interface.ts
 
-  // Si la API populariza el usuario o los ítems:
-  //usuario?: Usuario; 
-  items?: PedidoVideojuego[]; // Array de los ítems comprados
+import { Usuario } from '../../usuario/interfaces/usuario.interface';
+import { Videojuego } from '../../videojuego/interfaces/videojuego.interface';
+
+export type EstadoPedido = 'pendiente' | 'completado' | 'cancelado';
+
+export interface PedidoVideojuego {
+    pedido_id: number;
+    videojuego_id: number;
+    cantidad: number;
+    videojuego?: Videojuego; // IMPORTADO
 }
 
-// Mapea la tabla Videojuego_Pedido (la tabla de unión M:N)
-export interface PedidoVideojuego {
-  id: number;
-  pedido_id: number;
-  videojuego_id: number;
-  cantidad: number;
-  
-  // Opcional, si quieres anidar los datos del juego
-  //videojuego?: Videojuego; 
+export interface Pedido {
+    id: number;
+    usuario_id: number;
+    fecha_creacion: Date;
+    estado: EstadoPedido; 
+    total: number;
+    usuario?: Usuario; // IMPORTADO
+    videojuegos?: PedidoVideojuego[]; 
 }

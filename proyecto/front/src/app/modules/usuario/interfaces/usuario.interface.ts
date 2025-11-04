@@ -1,0 +1,18 @@
+export type RolUsuario = 'cliente' | 'administrador';
+
+// usuario.interface.ts
+
+import { Carrito } from '../../pedido/interfaces/carrito.interface';
+import { Pedido } from '../../pedido/interfaces/pedido.interface';
+
+export interface Usuario {
+    id: number;
+    email: string;
+    password_hash: string;
+    usuario: string;
+    rol: RolUsuario; 
+    
+    // Relaciones (listas para ser cargadas opcionalmente)
+    carrito?: Carrito; // Relación 1:1 (Carrito)
+    pedidos_lista?: Pedido[]; // Relación 1:N (Historial de Pedidos)
+}
