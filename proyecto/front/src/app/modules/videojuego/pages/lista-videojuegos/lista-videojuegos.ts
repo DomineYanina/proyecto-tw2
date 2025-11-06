@@ -13,7 +13,7 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
   videojuegoService = inject(VideojuegoService);
 
   ngOnInit(): void {
-    // Código a ejecutar al inicializar el componente
+    this.listarVideojuegos();
   }
 
   ngOnDestroy(): void {

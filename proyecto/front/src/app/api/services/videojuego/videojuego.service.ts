@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Videojuego} from '../../../modules/videojuego/interfaces/videojuego.interface';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -13,7 +14,7 @@ export class VideojuegoService {
   constructor() { }
 
   listVideojuegos(): Observable<Videojuego[]> {
-    return this.http.get<Videojuego[]>('${environment.apiUrl}/videojuego/');
+    return this.http.get<Videojuego[]>(`${environment.apiUrl}/videojuego/`);
   }
 
 
