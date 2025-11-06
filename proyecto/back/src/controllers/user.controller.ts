@@ -1,9 +1,9 @@
 import { type Request, type Response } from 'express';
 import { UserService } from '../service/user.service.js';
-import { UserRepository } from '../repository/user.repository.js';
-import type { User } from '../models/user.model.js';
+import type { usuario as User } from '@prisma/client';
 
 export class UserController {
+    
     constructor(private userService: UserService = new UserService()) {}
 
     public findAllUsers = async (req: Request, res: Response): Promise<void> => {
@@ -12,40 +12,61 @@ export class UserController {
     }
 
     public getUserById = async (req: Request, res: Response) => {
-        const id_usuario = Number(req.params.id);
-        if (isNaN(id_usuario)) {
+        
+        const id = Number(req.params.id); 
+        
+        if (isNaN(id)) {
             res.status(400).json({ message: 'ID de usuario inválido' });
             return;
         }
-        const user = await this.userService.findUserById(id_usuario);
+        
+        
+        const user = await this.userService.findUserById(id); 
+        
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
-            
         }
         res.status(200).json(user);
     }
 
     public createUser = async (req: Request, res: Response) => {
         try {
-            const { nombre, email, contrasena, apellido } = req.body;
+            
+            const { 
+                nombre, 
+                apellido, 
+                email, 
+                usuario, 
+                direccion, 
+                contrasena 
+            } = req.body;
 
-            const newUser = await this.userService.createUser({ nombre, email, contrasena, apellido});
+            
+            const newUser = await this.userService.createUser({ nombre, apellido, email, usuario, direccion, contrasena });
             res.status(201).json(newUser);
             
         } catch (error) {
-            res.status(500).json({ message: 'Error al crear usuario' });
+            
+            const message = error instanceof Error ? error.message : 'Error interno';
+            res.status(500).json({ message: `Error al crear usuario: ${message}` });
         }
     }
+    
     public updateUser = async (req: Request, res: Response) => {
-        const id_usuario = Number(req.params.id);
-        const { nombre, email, contrasena } = req.body;
+        
+        const id = Number(req.params.id);
+        
+        
+        const { nombre, email, contrasena, apellido, usuario, direccion } = req.body;
 
-        if (isNaN(id_usuario)) {
+        if (isNaN(id)) {
             return res.status(400).json({ message: 'ID de usuario inválido' });
         }
 
         try {
-            const updatedUser = await this.userService.updateUser(id_usuario, { nombre, email, contrasena });
+            
+            const updateData = { nombre, email, contrasena, apellido, usuario, direccion };
+            const updatedUser = await this.userService.updateUser(id, updateData);
 
             if (updatedUser) {
                 res.status(200).json(updatedUser);
@@ -53,36 +74,45 @@ export class UserController {
                 res.status(404).json({ message: 'Usuario no encontrado' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error al actualizar usuario' });
+             const message = error instanceof Error ? error.message : 'Error interno';
+            res.status(500).json({ message: `Error al actualizar usuario: ${message}` });
         }
     }
 
     public deleteUser = async (req: Request, res: Response) => {
-        const id_usuario = Number(req.params.id);
-        if (isNaN(id_usuario)) {
+        
+        const id = Number(req.params.id); 
+        if (isNaN(id)) {
             res.status(400).json({ message: 'ID de usuario inválido' });
             return;
         }
         
         try {
-            await this.userService.deleteUser(id_usuario);
+            
+            await this.userService.deleteUser(id); 
             res.status(204).send();
+            
         } catch (error) {
-            if (error instanceof Error && error.message === 'Usuario no encontrado') {
-                return res.status(404).json({ message: error.message });
-            }
-            return res.status(500).json({ message: 'Error al eliminar usuario' });
+             
+             if (error instanceof Error && error.message.includes('No existe el usuario')) {
+                 return res.status(404).json({ message: 'Usuario no encontrado' });
+             }
+             return res.status(500).json({ message: 'Error al eliminar usuario' });
         }
     }
+    
     public login = async (req: Request, res: Response) => {
         
         const { email, contrasena } = req.body;
 
         try {
+            
             const user = await this.userService.login(email, contrasena);
-            res.json(user);
+            res.status(200).json(user); // Código 200 para login exitoso
+            
         } catch (error) {
-            const message = error instanceof Error ? error.message : String(error) || 'Error de autenticación';
+            // El UserService lanza 'Credenciales inválidas' en caso de fallo.
+            const message = error instanceof Error ? error.message : 'Error de autenticación';
             res.status(401).json({ message });
         }
     }
