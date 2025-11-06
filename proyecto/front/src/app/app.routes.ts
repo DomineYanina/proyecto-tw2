@@ -10,8 +10,12 @@ export const routes: Routes = [
         loadChildren: () => import('./modules/videojuego/videojuego.routes').then(v => v.videojuegoRoutes)
     },
     {
+        path: 'carrito',
+        loadChildren: () => import('./modules/carrito/carrito.routes').then(c => c.carritoRoutes)
+    },
+    {
         path: 'usuario',
-        //loadChildren: () => import('./modules/usuario/usuario.routes').then(u => u.usuarioRoutes)
+        loadChildren: () => import('./modules/usuario/usuario.routes').then(u => u.usuarioRoutes)
     },
     {
         path: '**',
