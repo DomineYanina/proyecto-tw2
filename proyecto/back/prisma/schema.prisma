@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model carrito {
+  usuario_id    Int
+  videojuego_id Int
+  cantidad      Int        @default(1)
+  usuario       usuario    @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_id")
+  videojuego    videojuego @relation(fields: [videojuego_id], references: [id], onUpdate: NoAction, map: "fk_videojuego_del_carrito_id")
+
+  @@id([usuario_id, videojuego_id])
+}
+
+model desarrollador {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(255)
+  videojuego videojuego[]
+}
+
+model pedido {
+  id               Int                @id @default(autoincrement())
+  usuario_id       Int
+  fecha_creacion   DateTime           @default(dbgenerated("CURRENT_DATE")) @db.Date
+  estado           estadopedido       @default(pendiente)
+  total            Float
+  usuario          usuario            @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_id")
+  pedidovideojuego pedidovideojuego[]
+}
+
+model pedidovideojuego {
+  pedido_id     Int
+  videojuego_id Int
+  cantidad      Int        @default(1)
+  pedido        pedido     @relation(fields: [pedido_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_pedido_id")
+  videojuego    videojuego @relation(fields: [videojuego_id], references: [id], onUpdate: NoAction, map: "fk_videojuego_del_pedido_id")
+
+  @@id([pedido_id, videojuego_id])
+}
+
+model requisitos_pc {
+  id            Int        @id @default(autoincrement())
+  so_minimo     String     @db.VarChar(255)
+  videojuego_id Int        @unique
+  cpu_minima    String     @db.VarChar(255)
+  ram_minima    Int
+  gpu_minima    String     @db.VarChar(255)
+  videojuego    videojuego @relation(fields: [videojuego_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_videojuego_id")
+}
+
+model usuario {
+  id            Int        @id @default(autoincrement())
+  email         String     @unique @db.VarChar(255)
+  password_hash String     @db.VarChar(255)
+  usuario       String     @unique @db.VarChar(255)
+  nombre        String     @db.VarChar(255)
+  apellido      String     @db.VarChar(255)
+  direccion     String     @db.VarChar(255)
+  rol           rolusuario @default(cliente)
+  carrito       carrito[]
+  pedido        pedido[]
+}
+
+model videojuego {
+  id                Int                     @id @default(autoincrement())
+  nombre            String?
+  descripcion       String?
+  precio            Float?
+  id_desarrollador  Int
+  fecha_lanzamiento DateTime                @db.Date
+  requiere_online   Boolean                 @default(false)
+  espacio_minimo    Int
+  clasificacion     clasificacionvideojuego @default(E)
+  genero            generovideojuego        @default(otros)
+  plataforma        plataformavideojuego    @default(pc)
+  carrito           carrito[]
+  pedidovideojuego  pedidovideojuego[]
+  requisitos_pc     requisitos_pc?
+  desarrollador     desarrollador           @relation(fields: [id_desarrollador], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_desarrollador")
+}
+
+enum clasificacionvideojuego {
+  E
+  T
+  M
+  AO
+  RP
+}
+
+enum estadopedido {
+  pendiente
+  completado
+  cancelado
+}
+
+enum generovideojuego {
+  accion
+  aventura
+  rpg
+  estrategia
+  deportes
+  simulacion
+  otros
+}
+
+enum plataformavideojuego {
+  pc
+  playstation
+  xbox
+  nintendo
+  movil
+}
+
+enum rolusuario {
+  cliente
+  administrador
+}

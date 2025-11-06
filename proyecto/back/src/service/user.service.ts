@@ -1,0 +1,93 @@
+import { UserRepository } from '../repository/user.repository.js';
+import * as bcrypt from 'bcrypt';
+
+import type { usuario as User } from '@prisma/client'; 
+
+export class UserService {
+    private userRepository: UserRepository;
+
+    constructor() {
+        
+        this.userRepository = new UserRepository(); 
+    }
+
+    async findAllUsers(){
+        return await this.userRepository.findAllUsers();
+    }
+
+    
+    async findUserById(id: number){ 
+        return await this.userRepository.findUserById(id);
+    }
+
+   
+    async createUser(data: { 
+        nombre: string; 
+        apellido: string; 
+        email: string;
+        usuario: string;     
+        direccion: string;   
+        contrasena: string;  
+    }): Promise<User> {
+        
+        const hashedPassword = await bcrypt.hash(data.contrasena, 10);
+        
+       
+        const userDataToSave = {
+            nombre: data.nombre,
+            apellido: data.apellido,
+            email: data.email,
+            usuario: data.usuario,
+            direccion: data.direccion,
+            password_hash: hashedPassword 
+        };
+        
+        
+        return await this.userRepository.createUser(userDataToSave); 
+    }
+
+    
+    async updateUser(id: number, data: { 
+        nombre?: string; 
+        email?: string; 
+        usuario?: string;     
+        apellido?: string;
+        direccion?: string;   
+        contrasena?: string; 
+    }){
+        let dataToUpdate: any = { ...data };
+
+        
+        if (data.contrasena) {
+            const hashedPassword = await bcrypt.hash(data.contrasena, 10);
+            dataToUpdate.password_hash = hashedPassword; 
+            delete dataToUpdate.contrasena; 
+        }
+        
+        return await this.userRepository.updateUser(id, dataToUpdate); 
+    }
+
+    
+    async deleteUser(id: number) { 
+        return await this.userRepository.deleteUser(id);
+    }
+
+    async login(email: string, contrasenaPlana: string) {
+        
+        const userPasswordData = await this.userRepository.findPasswordByEmail(email);
+
+        if (!userPasswordData) {
+            throw new Error('Credenciales inválidas');
+        }
+
+        
+        const isMatch = await bcrypt.compare(contrasenaPlana, userPasswordData.password_hash);
+
+        if (!isMatch) {
+            throw new Error('Credenciales inválidas');
+        }
+
+        
+        return await this.userRepository.findUserById(userPasswordData.id); 
+    }
+}
