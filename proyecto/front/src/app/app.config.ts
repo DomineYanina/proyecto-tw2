@@ -9,7 +9,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({eventCoalescing: true}),
+    provideZonelessChangeDetection(),
     provideRouter(routes),
     providePrimeNG({
       theme: {
