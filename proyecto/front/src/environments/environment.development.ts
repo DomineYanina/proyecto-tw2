@@ -1,5 +1,4 @@
 export const environment = {
-  api_user: 'http://localhost:3000/api/user',
-  api_videojuego: 'http://localhost:3000/api/videojuego',
-  prod: false,
+  api_url: "http://localhost:3000/api",
+  prod: false
 };
