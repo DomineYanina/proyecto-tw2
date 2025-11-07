@@ -1,1 +1,52 @@
-<p>lista-videojuegos works!</p>
+<p-table [value]="videojuegos" [tableStyle]="{'min-width': '60rem'}">
+    <ng-template #header>
+        <tr>
+            <th pSortableColumn="nombre" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Nombre
+                    <p-sortIcon field="nombre" />
+                </div>
+            </th>
+            <th pSortableColumn="descripcion" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Descripción
+                    <p-sortIcon field="descripcion" />
+                </div>
+            </th>
+            <th pSortableColumn="precio" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Precio
+                    <p-sortIcon field="precio" />
+                </div>
+            </th>
+            <th pSortableColumn="fecha_lanzamiento" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Fecha de Lanzamiento
+                    <p-sortIcon field="fecha_lanzamiento" />
+                </div>
+            </th>
+            <th pSortableColumn="genero" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Género
+                    <p-sortIcon field="genero" />
+                </div>
+            </th>
+            <th pSortableColumn="plataforma" style="width:20%">
+                <div class="flex items-center gap-2">
+                    Plataforma
+                    <p-sortIcon field="plataforma" />
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-videojuego>
+        <tr>
+            <td>{{videojuego.nombre }}</td>
+            <td>{{videojuego.descripcion }}</td>
+            <td>{{videojuego.precio}}</td>
+            <td>{{videojuego.fecha_lanzamiento}}</td>
+            <td>{{videojuego.genero}}</td>
+            <td>{{videojuego.plataforma}}</td>
+        </tr>
+    </ng-template>
+</p-table>
