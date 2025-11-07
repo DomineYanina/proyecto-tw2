@@ -1,1 +1,31 @@
 
+<div class="row">
+  <div class="col">
+    <h1>Detalle del Usuario</h1>
+  </div>
+  <div class="col text-end">
+    <p-button icon="pi pi-undo" [routerLink]="[`/usuario/view-user`]"></p-button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <p-card>
+      <div class="row">
+        <div class="col">
+          <h2>Nombre: {{ usuario.nombre }}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h2>Usuario: {{ usuario.usuario }}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h2>Nombre: {{ usuario.email }}</h2>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

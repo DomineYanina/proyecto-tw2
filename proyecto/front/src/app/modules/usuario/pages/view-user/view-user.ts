@@ -1,11 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
 import { Usuario } from '../../interfaces/usuario.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Button } from "primeng/button";
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-view-user',
-  imports: [],
+  imports: [Button,RouterLink,Card],
+
   templateUrl: './view-user.html',
   styleUrl: './view-user.css',
 })
@@ -15,6 +18,7 @@ export class ViewUser {
   activatedRoute = inject(ActivatedRoute);
   id: number = 0;
   usuario!: Usuario;
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -32,6 +36,7 @@ export class ViewUser {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         console.log(usuario);
+        this.cdr.detectChanges();
       },
       error: (error) => {
         // Manejo de errores
