@@ -1,0 +1,25 @@
+import { inject } from '@angular/core';
+import {
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpHandlerFn
+} from '@angular/common/http';
+import { AuthService } from './auth.service';
+
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+
+  // Si existe token, clona la request y agrega el header Authorization
+  if (token) {
+    const cloned = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return next(cloned);
+  }
+
+  // Si no hay token, continúa sin modificar
+  return next(req);
+};

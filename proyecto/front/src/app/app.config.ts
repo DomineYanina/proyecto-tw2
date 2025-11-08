@@ -1,10 +1,10 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth.interceptor'; // 👈 importa tu interceptor
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +17,7 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     MessageService,
-    provideHttpClient(withFetch())
+    // 👇 combinación de fetch + interceptor
+    provideHttpClient(withFetch(), withInterceptors([AuthInterceptor]))
   ]
 };
