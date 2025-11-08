@@ -17,12 +17,12 @@ export class ViewUser {
 
   usuarioService = inject(UsuarioService);
   activatedRoute = inject(ActivatedRoute);
-  id: number = 0;
+  //id: number = 0;
   usuario!: Usuario;
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    //this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       this.verUsuario();
 
   }
@@ -32,7 +32,7 @@ export class ViewUser {
 
   verUsuario() {
 
-    this.usuarioService.getUsuario(this.id).subscribe({
+    this.usuarioService.getUsuario().subscribe({
 
       next: (usuario: Usuario) => {
         this.usuario = usuario;

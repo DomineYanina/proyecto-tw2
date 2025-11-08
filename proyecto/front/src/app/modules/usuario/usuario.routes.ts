@@ -6,7 +6,7 @@ import { LoginUserComponent } from './pages/login-user/login-user.component';
 export const usuarioRoutes: Routes = [
 
     {
-        path: 'verUsuario/:id', // ¡Cambiado de 'perfil/:id' a solo ':id'!
+        path: 'verUsuario', // ¡Cambiado de 'perfil/:id' a solo ':id'!
         component: ViewUser
     },
     {
