@@ -6,9 +6,11 @@
     styleClass="videojuego-card"
   >
     <ng-template pTemplate="header">
-      <div class="card-image-placeholder">
-        
-      </div>
+        <img
+            [src]="'/assets/portadas/' + videojuego.url_portada" 
+            [alt]="'Portada de ' + videojuego.nombre" 
+            class="videojuego-portada"
+        >
     </ng-template>
 
     <ng-template pTemplate="content">

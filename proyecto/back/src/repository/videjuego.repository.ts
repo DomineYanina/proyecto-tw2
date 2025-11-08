@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import {prisma} from '../prisma.js';
 
 export class VideojuegoRepository{
@@ -11,7 +12,7 @@ export class VideojuegoRepository{
         });
     }
 
-    async createVideojuego(data:{nombre: string}){
+    async createVideojuego(data: Prisma.videojuegoCreateInput) {
         return await prisma.videojuego.create({
             data
         });

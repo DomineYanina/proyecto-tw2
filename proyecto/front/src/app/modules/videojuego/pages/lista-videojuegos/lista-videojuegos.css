@@ -32,3 +32,21 @@
     text-overflow: ellipsis;
     min-height: 5em; /* Asegura una altura mínima */
 }
+
+/* Ajusta estos valores según el tamaño que desees para las imágenes */
+.videojuego-portada {
+    width: 100%; /* La imagen ocupa todo el ancho de la tarjeta */
+    height: 200px; /* Altura fija para que todas las cards sean uniformes */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsionarse */
+    display: block; /* Elimina posibles márgenes inferiores del navegador */
+}
+
+/* Manten los estilos del contenedor para la cuadrícula */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* ... otros estilos ... */

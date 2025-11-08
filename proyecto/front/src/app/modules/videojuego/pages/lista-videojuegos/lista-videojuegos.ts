@@ -29,6 +29,7 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
     this.videojuegoService.listVideojuegos().subscribe({
       next: (videojuegos: Videojuego[]) => {
         this.videojuegos = videojuegos;
+        console.log(this.videojuegos);
         this.cdr.detectChanges();
       },
       error: () => {
