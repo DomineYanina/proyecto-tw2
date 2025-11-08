@@ -13,21 +13,20 @@ export const usuarioRoutes: Routes = [
       path: 'registro',
       component:CreateUser
     },
+    // {
+    //     path: '**', // Este debe ir al final, o podría atrapar ':id' si lo pones primero
+    //     redirectTo: ''
+    // },
     {
-        path: '**', // Este debe ir al final, o podría atrapar ':id' si lo pones primero
-        redirectTo: ''
+      path: 'login',
+      component: LoginUserComponent
+    },
+    // {
+    //   path: ':id',
+    //   component: ViewUser
+    // },
+    {
+      path: '**',
+      redirectTo: 'login' // 👈 opcional: redirige a login si la ruta no existe
     }
-
-  {
-    path: 'login',
-    component: LoginUserComponent
-  },
-  {
-    path: ':id',
-    component: ViewUser
-  },
-  {
-    path: '**',
-    redirectTo: 'login' // 👈 opcional: redirige a login si la ruta no existe
-  }
 ];
