@@ -40,14 +40,14 @@ export class VideojuegoController {
         }
     }
 
-    public crearVideojuego = async(req: Request, res: Response) => {
+    /*public crearVideojuego = async(req: Request, res: Response) => {
         try {
             const nuevoVideojuego = await videojuegoService.crearVideojuego(req.body);
             res.status(201).json(nuevoVideojuego);
         } catch (error) {
             res.status(400).json({ message: 'Error al crear el videojuego', error: (error as Error).message });
         }       
-    }
+    }*/
 
     public actualizarVideojuego = async(req: Request, res: Response) => {
         try {
@@ -73,6 +73,38 @@ export class VideojuegoController {
             res.status(204).send();
         } catch (error) {
             res.status(400).json({ message: 'Error al eliminar el videojuego', error: (error as Error).message });
+        }
+    }
+
+    public getRequisitosPC = async (request: Request, response: Response) => {
+        try {
+            const id = Number(request.params.id);
+            if(isNaN(id)) {
+                return response.status(400).json({ message: 'ID inválido' });
+            }
+            const requisitosPC = await videojuegoService.obtenerRequisitosPC(id);
+            if (!requisitosPC) {
+                return response.status(404).json({ message: 'Requisitos no encontrados' });
+            }
+            response.status(200).json(requisitosPC);
+        } catch (error) {
+            response.status(500).json({ message: 'Error al obtener los requisitos de PC', error });
+        }
+    }
+
+    public getDesarrollador = async (request: Request, response: Response) => {
+        try {
+            const id = Number(request.params.id);
+            if(isNaN(id)) {
+                return response.status(400).json({ message: 'ID inválido' });
+            }
+            const desarrollador = await videojuegoService.obtenerDesarrollador(id);
+            if (!desarrollador) {
+                return response.status(404).json({ message: 'Desarrollador no encontrado' });
+            }
+            response.status(200).json(desarrollador);
+        } catch (error) {
+            response.status(500).json({ message: 'Error al obtener el desarrollador', error });
         }
     }
 }

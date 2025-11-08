@@ -1,16 +1,25 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { VideojuegoService } from '../../../../api/services/videojuego/videojuego.service';
 import { Videojuego } from '../../interfaces/videojuego.interface';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-videojuegos',
-  imports: [],
+  standalone: true,
+  imports: [TableModule, CommonModule, CardModule, ButtonModule],
   templateUrl: './lista-videojuegos.html',
   styleUrl: './lista-videojuegos.css'
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
+  videojuegos: Videojuego[] = [];
   videojuegoService = inject(VideojuegoService);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.listarVideojuegos();
@@ -22,8 +31,10 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
 
   listarVideojuegos(): void {
     this.videojuegoService.listVideojuegos().subscribe({
-      next: (data: Videojuego[]) => {
-        console.log(data);
+      next: (videosjuegos: Videojuego[]) => {
+        this.videojuegos = videosjuegos;
+        console.log(this.videojuegos);
+        this.cdr.detectChanges();
       },
       error: () => {
 
@@ -32,5 +43,9 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
 
       }
     })
+  }
+
+  verDetalles(id: number): void {
+    this.router.navigate(['/videojuego/detalle-videojuego', id]);
   }
 }

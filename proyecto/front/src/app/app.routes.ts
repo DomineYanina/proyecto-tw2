@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
+import { ViewUser } from './modules/usuario/pages/view-user/view-user';
 
 export const routes: Routes = [
     {
         path: 'pedido',
         loadChildren: () => import('./modules/pedido/pedido.routes').then(p => p.pedidoRoutes)
+    },
+    {
+        path: 'perfil',
+        loadChildren: () => import('./modules/usuario/usuario.routes').then(pr => pr.usuarioRoutes)
     },
     {
         path: 'videojuego',
@@ -19,6 +24,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'usuario/login' // Redirige a login si la ruta no existe
     }
 ];
