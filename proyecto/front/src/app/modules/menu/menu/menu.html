@@ -1,14 +1,37 @@
 <div class="container mt-5">
     <div class="row">
+        <!-- ÍTEM DESPLEGABLE: Videojuegos -->
         <div class="col">
-            <p-button [routerLink]="['/videojuego']" label="Videojuegos" severity="help" />
+            <!-- Botón que sirve de ancla y disparador -->
+            <p-button 
+                label="Videojuegos" 
+                severity="help" 
+                icon="pi pi-chevron-down" 
+                iconPos="right"
+                #menuAnchor 
+                (click)="menu.toggle($event)" 
+            />
+
+            <!-- Componente de menú desplegable (popup) -->
+            <p-menu 
+                #menu 
+                [model]="menuItems" 
+                [popup]="true"
+                [style]="{'width': '15rem'}"
+            />
         </div>
+
+        <!-- ÍTEM SIMPLE: Pedidos -->
         <div class="col">
             <p-button [routerLink]="['/pedido']" label="Pedidos" severity="danger" />
         </div>
+        
+        <!-- ÍTEM SIMPLE: Carrito -->
         <div class="col">
             <p-button [routerLink]="['/carrito']" label="Carrito" severity="danger" />
         </div>
+        
+        <!-- ÍTEM SIMPLE: Usuario -->
         <div class="col">
             <p-button [routerLink]="['/usuario']" label="Usuario" severity="contrast" />
         </div>
