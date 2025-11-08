@@ -78,6 +78,7 @@ model videojuego {
   clasificacion     clasificacionvideojuego @default(E)
   genero            generovideojuego        @default(otros)
   plataforma        plataformavideojuego    @default(pc)
+  url_portada       String?                 @db.VarChar
   carrito           carrito[]
   pedidovideojuego  pedidovideojuego[]
   requisitos_pc     requisitos_pc?
