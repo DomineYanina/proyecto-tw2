@@ -10,7 +10,7 @@ export interface Usuario {
     email: string;
     password_hash: string;
     usuario: string;
-    rol: RolUsuario;
+    rol?: RolUsuario;
     nombre: string;
     apellido: string;
     direccion: string;
