@@ -1,6 +1,9 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
+import { Router } from '@angular/router';
+import { UsuarioRegistro } from '../../interfaces/usuarioRegistro.interface';
 
 @Component({
   selector: 'app-create-user',
@@ -10,6 +13,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CreateUser {
 
+  usuarioService = inject(UsuarioService);
+  router = inject(Router);
   private fb = inject(FormBuilder);
 
   mensajeError = signal("");
@@ -21,14 +26,13 @@ export class CreateUser {
     { nombre: 'contra', tipo: "password" },
     { nombre: 'nombre', tipo: "text" },
     { nombre: 'apellido', tipo: "text" },
-    { nombre: 'direccion', tipo: "text" },
-  ];
+    { nombre: 'direccion', tipo: "text" }];
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ["", [Validators.required,Validators.email]],
+      email: ["", [Validators.required, Validators.email]],
       usuario: ["", [Validators.required]],
-      contra: ["", [Validators.required,Validators.pattern('(?=.*[0-9])')]],
+      contra: ["", [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{5,}/)]],
       nombre: ["", [Validators.required]],
       apellido: ["", [Validators.required]],
       direccion: ["", [Validators.required]]
@@ -38,45 +42,44 @@ export class CreateUser {
   eventEmitterFormEmpleado = output<Usuario>();
 
   sendUsuario() {
-    console.log(this.form.value);
-
-
-
-    //Validaciones de contraseña y usuario/mail encontrados
-    if(true){
-      this.mensajeError.set("Error");
-    }
+    const usuarioNuevo: UsuarioRegistro = {
+      usuario: this.form.get('usuario')!.value,
+      nombre: this.form.get('nombre')!.value,
+      email: this.form.get('email')!.value,
+      contrasena: this.form.get('contra')!.value,
+      apellido: this.form.get('apellido')!.value,
+      direccion: this.form.get('direccion')!.value,
+    };
 
     this.form.reset();
-  }
 
-  //probar despues
-  hayCamposVacios(): boolean {
-    let i: number = 0;
-    let campoVacio: boolean = false;
+    //TODO terminar esto con los codigo de error
+    this.usuarioService.crearNuevoUsuario(usuarioNuevo).subscribe({
+      next: (valor) => {
+        console.log("exito");
+        console.log(valor.usuario);
+      },
+      error: (error) => {
+        console.log("fallo " + error)
+        this.mensajeError.set("error");
+        console.error("❌ Error recibido:", error);
+        console.log("Código:", error.status);
+        console.log("Mensaje genérico:", error.message);
+        console.log("Cuerpo del error (backend):", error.error);
 
-    while (!campoVacio && i < this.camposFormulario.length) {
-      let nombreCampo: string = this.camposFormulario[i].nombre;
-      let valorCampo: string = this.form.get(nombreCampo)?.value;
-
-      if (valorCampo.length == 0) {
-        campoVacio = true;
+        // Acceder al mensaje del backend
+        const mensaje = error.error?.message || "Error desconocido";
+        this.mensajeError.set(mensaje);
+      }, complete: () => {
+        //Solo se ejecuta cuando es correcto
+        this.mensajeError.set("");
+        console.log("termino");
+        this.router.navigate(['/usuario/login']);
       }
-      i++;
     }
-    return campoVacio;
+    )
   }
 }
-
-// const usuario: Usuario = {
-//   id: 0,
-//   usuario: this.form.get('usuario')?.value,
-//   nombre: this.form.get('nombre')?.value,
-//   email: "",
-//   password_hash: "",
-//   apellido:"",
-//   direccion:"",
-// };
 
 // console.log(usuario.nombre);
 // this.eventEmitterFormEmpleado.emit(usuario);
@@ -96,3 +99,12 @@ export class CreateUser {
 // Pero dentro de funciones tengo que poner LET y CONST para el tipado
 // const filas:number=this.camposFormulario.length;
 // let i:number=0;
+
+// Expresiones regulares
+// /^ --> inicia
+// $/ --> asi terminar
+// Al menos un número [0-9]
+// Al menos una letra mayúscula [A-Z]
+// Al menos una letra minuscula [a-z]
+// Al menos un símbolo [!@#$%^&*]
+// Mínimo 8 caracteres . {8,}
