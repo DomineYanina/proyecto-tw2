@@ -4,10 +4,11 @@ import { Usuario } from '../../interfaces/usuario.interface';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Button } from "primeng/button";
 import { Card } from 'primeng/card';
+import { Tag } from 'primeng/tag';
 
 @Component({
   selector: 'app-view-user',
-  imports: [Button,RouterLink,Card],
+  imports: [Button,RouterLink,Card,Tag,Card],
 
   templateUrl: './view-user.html',
   styleUrl: './view-user.css',
@@ -30,7 +31,7 @@ export class ViewUser {
   }
 
   verUsuario() {
-    //this.router.navigate(['/perfil', usuario.id]);
+
     this.usuarioService.getUsuario(this.id).subscribe({
 
       next: (usuario: Usuario) => {
@@ -39,10 +40,10 @@ export class ViewUser {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        // Manejo de errores
+
       },
       complete: () => {
-        // Lógica al completar la solicitud
+
       }
     });
   }

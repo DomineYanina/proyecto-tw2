@@ -1,1 +1,37 @@
-<p>detalle-videojuego works!</p>
+<section class="contenedor-grande">
+    <div>
+        <h2>{{ videojuego?.nombre }}</h2>
+        <p-image [src]="'/assets/portadas/' + videojuego?.url_portada" alt="Image" width="500" />
+            <p class="descripcion-detalle">{{ videojuego?.descripcion }}</p>
+    </div>
+    <p-divider layout="vertical" />
+    <div>
+        <div class="detalle-contenido">
+            <h2>Detalles del Videojuego</h2>
+            <p><strong>Género:</strong> {{ videojuego?.genero }}</p>
+            <p><strong>Plataforma:</strong> {{ videojuego?.plataforma }}</p>
+            <p><strong>Precio:</strong> ${{ videojuego?.precio }}</p>
+            <p><strong>Fecha de Lanzamiento:</strong> {{ videojuego?.fecha_lanzamiento | date }}</p>
+            <p><strong>Desarrollador:</strong> {{ desarrollador?.nombre}}</p>
+            <p-divider />
+            <h2>Requerimientos</h2>
+            <p><strong>Requiere Conexión en Línea:</strong> {{ videojuego?.requiere_online ? 'Sí' : 'No' }}</p>
+            <p><strong>Requiere Espacio en Disco:</strong> {{ videojuego?.espacio_minimo }} GB</p>@if (videojuego?.plataforma === 'pc') {
+            <p-divider />
+            <h2>Requisitos Mínimos para PC</h2>
+            <p><strong>SO Mínimo:</strong> {{ requisitos?.so_minimo }}</p>
+            <p><strong>CPU Mínima:</strong> {{ requisitos?.cpu_minima }}</p>
+            <p><strong>RAM Mínima:</strong> {{ requisitos?.ram_minima }} GB</p>
+            <p><strong>GPU Mínima:</strong> {{ requisitos?.gpu_minima }}</p>
+        }
+        </div>
+    </div>
+    <div class="contenedor-botones">
+        <p-button label="Volver a la Lista" icon="pi pi-arrow-left" (click)="volverALaLista()"></p-button>
+        <!--<p-button label="Agregar al carrito" icon="pi pi-shopping-cart" (click)="comprarVideojuego()"></p-button>-->
+    </div>
+</section>
+
+
+
+

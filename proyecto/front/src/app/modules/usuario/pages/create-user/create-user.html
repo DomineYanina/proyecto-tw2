@@ -1,1 +1,23 @@
-<p>create-user works!</p>
+<h1>Registro</h1>
+@if (mensajeError().length>0) {
+<h2>{{mensajeError()}}
+</h2>
+}
+<form [formGroup]="form" (ngSubmit)="sendUsuario()" autocomplete="off">
+  @for (campo of camposFormulario; track campo) {
+  <div>
+    <label [for]="campo.nombre">{{campo.nombre}}:</label>
+    <input [id]="campo.nombre" [type]="campo.tipo" [formControlName]="campo.nombre" required>
+    @if (campo.nombre=="email" && form.get('email')?.touched
+    && form.get('email')?.invalid) {
+    <small style="color:red"> Formato de email inválido</small>
+    }
+  </div>
+
+  }
+  <button type="submit" [disabled]="form.invalid">Enviar</button>
+</form>
+<!-- form.get('email')?.touched
+ Me indica que el usuario lo toco una vez al menos
+
+ SMALL etiqueta de contenido secundario-->

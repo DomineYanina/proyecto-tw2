@@ -4,7 +4,7 @@ import { ListaVideojuegos } from './pages/lista-videojuegos/lista-videojuegos';
 
 export const videojuegoRoutes: Routes = [
     {
-        path: 'detalle-videojuego',
+        path: 'detalle-videojuego/:id',
         component: DetalleVideojuego
     },
     {

@@ -24,6 +24,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'usuario/login' // Redirige a login si la ruta no existe
     }
 ];

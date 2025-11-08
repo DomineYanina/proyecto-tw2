@@ -1,0 +1,57 @@
+/*
+ * Contenedor principal del menú: Fija la barra en la parte superior
+ * y garantiza que ocupe todo el ancho de la ventana.
+ */
+.menu-container {
+    background-color: #2c3e50; /* Fondo oscuro (azul marino) */
+    padding: 0.75rem 0; /* Relleno vertical */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Sombra suave para elevación */
+    position: fixed; /* Fija el menú en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+}
+
+/* * Estilo para el contenedor de los botones (anteriormente .container .row)
+ * Usamos Flexbox para distribuir los botones uniformemente.
+ */
+.menu-row {
+    display: flex;
+    justify-content: center; /* Centra el grupo de botones horizontalmente */
+    max-width: 1200px; /* Ancho máximo para el menú */
+    margin: 0 auto; /* Centra el contenedor en la pantalla */
+    gap: 1rem; /* Espacio entre columnas/ítems */
+}
+
+/* * Estilo para cada columna que contiene un botón
+ */
+.menu-col {
+    /* Permitir que la columna crezca o se encoja para distribución */
+    flex-grow: 0; 
+    flex-shrink: 0;
+    /* Los botones tendrán su propio estilo */
+}
+
+/* * Ajuste de los botones para un aspecto uniforme
+ */
+.p-button {
+    min-width: 120px; /* Ancho mínimo para todos los botones */
+    transition: transform 0.2s;
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Efecto hover */
+.p-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* * Para asegurar que el contenido de la página no quede oculto
+ * detrás del menú fijo, el contenido principal (router-outlet)
+ * debe tener un margen superior igual o superior a la altura del menú.
+ * (La altura del menú es ~50px, usamos 60px para margen de seguridad)
+ */
+body {
+    padding-top: 60px; 
+}
