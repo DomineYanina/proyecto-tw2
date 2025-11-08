@@ -30,4 +30,16 @@ export class VideojuegoRepository{
             where: { id : id }
         });
     }
+
+    async findRequisitosPCByVideojuegoId(id: number) {
+        return await prisma.requisitos_pc.findUnique({
+            where: { videojuego_id: id }
+        });
+    }
+
+    async findDesarrolladorByVideojuegoId(id: number) {
+        return await prisma.desarrollador.findUnique({
+            where: { id: id }
+        });
+    }
 }

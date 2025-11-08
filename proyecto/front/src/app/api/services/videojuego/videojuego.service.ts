@@ -17,6 +17,18 @@ export class VideojuegoService {
     return this.http.get<Videojuego[]>(`${environment.apiUrl}/videojuego/`);
   }
 
+  getVideojuegoById(id: number): Observable<Videojuego> {
+    return this.http.get<Videojuego>(`${environment.apiUrl}/videojuego/${id}`);
+  }
+
+  getRequisitosPCByVideojuegoId(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/videojuego/${id}/requisitos-pc`);
+  }
+
+
+  getDesarrolladorByVideojuegoId(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/videojuego/desarrollador/${id}`);
+  }
 
 
 }

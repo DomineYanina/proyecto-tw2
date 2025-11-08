@@ -12,13 +12,13 @@ export class VideojuegoService {
         return await this.videojuegoRepository.findVideojuegoById(id);
     }
 
-    async crearVideojuego(data:{[nombre: string]:any}){
+    /*async crearVideojuego(data:{[nombre: string]:any}){
         const{nombre} = data;
         if(!nombre|| typeof nombre !== 'string'){
             throw new Error('El nombre del videojuego es obligatorio y debe ser una cadena.');
         }
-        return await this.videojuegoRepository.createVideojuego({nombre});
-    }
+        return await this.videojuegoRepository.createVideojuego({data});
+    }*/
 
     async actualizarVideojuego(id: number, data:{[nombre: string]:any}){
         return await this.videojuegoRepository.updateVideojuego(id, data);
@@ -32,4 +32,11 @@ export class VideojuegoService {
         }
     }
 
+    async obtenerRequisitosPC(id: number){
+        return await this.videojuegoRepository.findRequisitosPCByVideojuegoId(id);
+    }
+
+    async obtenerDesarrollador(id: number){
+        return await this.videojuegoRepository.findDesarrolladorByVideojuegoId(id);
+    }
 }
