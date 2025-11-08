@@ -35,6 +35,7 @@ export interface Videojuego {
     clasificacion: ClasificacionVideojuego; // Usando ENUM Type
     genero: GeneroVideojuego; // Usando ENUM Type
     plataforma: PlataformaVideojuego; // Usando ENUM Type
+    url_portada: string;
 
     // Objetos relacionados (para ser incluidos en la respuesta del backend)
     desarrollador?: Desarrollador;
