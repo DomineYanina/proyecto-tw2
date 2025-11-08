@@ -1,31 +1,72 @@
 
-<div class="row">
-  <div class="col">
-    <h1>Detalle del Usuario</h1>
+ <div class="container mt-4">
+
+  <div class="row align-items-center mb-4">
+    <div class="col-6">
+      <h1 class="h3 mb-0">Detalle del Usuario</h1>
+    </div>
+    <div class="col-6 text-end">
+      <p-button
+        icon="pi pi-undo"
+        label="Volver"
+        [routerLink]="['/usuario/view-user']"
+        styleClass="p-button-secondary"
+      ></p-button>
+    </div>
   </div>
-  <div class="col text-end">
-    <p-button icon="pi pi-undo" [routerLink]="[`/usuario/view-user`]"></p-button>
+
+  <div class="row">
+    <div class="col-12 col-lg-8"> <p-card header="Información Principal de la Cuenta" subheader="Detalles de acceso y contacto">
+
+        <div class="p-4">
+
+          <div class="row mb-3 border-bottom pb-2">
+            <div class="col-12 col-md-4">
+              <span class="text-muted fw-bold">Nombre:</span>
+            </div>
+            <div class="col-12 col-md-8">
+              <p class="lead mb-0">{{ usuario.nombre }}</p>
+            </div>
+          </div>
+
+          <div class="row mb-3 border-bottom pb-2">
+            <div class="col-12 col-md-4">
+              <span class="text-muted fw-bold">Usuario:</span>
+            </div>
+            <div class="col-12 col-md-8">
+              <p class="lead mb-0">{{ usuario.usuario }}</p>
+            </div>
+          </div>
+
+          <div class="row mb-3 border-bottom pb-2">
+            <div class="col-12 col-md-4">
+              <span class="text-muted fw-bold">Email:</span>
+            </div>
+            <div class="col-12 col-md-8">
+              <p class="lead mb-0 d-inline me-3">{{ usuario.email }}</p>
+
+              <p-tag value="Verificado" severity="success"></p-tag>
+            </div>
+          </div>
+
+          <div class="row mb-0">
+            <div class="col-12 col-md-4">
+              <span class="text-muted fw-bold">Estado:</span>
+            </div>
+            <div class="col-12 col-md-8">
+              <p-tag value="Activo" severity="info"></p-tag>
+            </div>
+          </div>
+
+        </div>
+
+        <ng-template pTemplate="footer">
+            <p-button label="Editar Datos" icon="pi pi-pencil" styleClass="p-button-primary"></p-button>
+        </ng-template>
+
+      </p-card>
+
+    </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col">
-    <p-card>
-      <div class="row">
-        <div class="col">
-          <h2>Nombre: {{ usuario.nombre }}</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h2>Usuario: {{ usuario.usuario }}</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h2>Nombre: {{ usuario.email }}</h2>
-        </div>
-      </div>
-    </p-card>
-  </div>
-</div>
