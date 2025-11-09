@@ -1,10 +1,13 @@
 
-import { type Request, type Response } from 'express';
+import { request, type Request, type Response } from 'express';
 import { CarritoService } from '../service/carrito.service.js';
 import { CarritoRepository } from '../repository/carrito.repository.js';
+import { PedidoRepository } from '../repository/pedido.repository.js';
+
 
 const carritoRepository = new CarritoRepository();
-const carritoService = new CarritoService(carritoRepository);
+const pedidoRepository = new PedidoRepository();
+const carritoService = new CarritoService(carritoRepository, pedidoRepository);
 
 export class CarritoController {
     constructor() {
@@ -41,6 +44,38 @@ export class CarritoController {
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Error interno';
             res.status(500).json({ message: `Error al agregar item: ${message}` });
+        }
+    }
+
+    public realizarCompra = async (req: Request, res: Response) => {
+        try {
+            // 1. Lee la propiedad userId directamente del cuerpo.
+            const { id: userIdStr } = req.params;
+
+            const userId = Number(userIdStr);
+
+            // 3. Valida el número resultante.
+            if (isNaN(userId) || userId <= 0) {
+                console.error('ID recibido:', userId);
+                return res.status(400).json({ message: 'ID de usuario inválido en el cuerpo de la solicitud' });
+            }
+
+            const pedido = await carritoService.realizarCompra(userId);
+
+            if (!pedido || !pedido.id) {
+                throw new Error('El servicio de compra no devolvió un objeto de pedido válido.');
+            }
+
+            res.status(201).json({ 
+                message: 'Compra realizada con éxito. Carrito vaciado.', 
+                pedidoId: pedido.id 
+            });
+        } catch (error) {
+            console.error('⚠️ Error al intentar realizar la compra:', error);
+            const message = error instanceof Error ? error.message : 'Error interno';
+            res.status(500).json({ 
+                message: `Error al procesar la compra: ${message}` 
+            });
         }
     }
 }

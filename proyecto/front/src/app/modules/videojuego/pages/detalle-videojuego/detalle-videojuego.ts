@@ -10,7 +10,7 @@ import { DatePipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../../core/auth.service';
-import { CarritoService } from '../../../carrito/services/carrito.service';
+import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
 
 @Component({

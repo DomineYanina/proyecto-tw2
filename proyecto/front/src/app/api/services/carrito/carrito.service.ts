@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Carrito, CarritoItem } from '../../../modules/carrito/interfaces/carrito.interface';
 import { environment } from '../../../../environments/environment.development';
+import { Pedido } from '../../../modules/pedido/interfaces/pedido.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,19 @@ export class CarritoService {
 
   obtenerCarrito(id: number): Observable<CarritoItem[]> {
       return this.http.get<CarritoItem[]>(`${environment.api_url}/carrito/${id}`);
-    }
+  }
+
+  agregarItem(usuario_id: number, videojuego_id: number, cantidad: number = 1): Observable<any> {
+    const item = {  
+      usuario_id: usuario_id,
+      videojuego_id: videojuego_id,
+      cantidad: cantidad
+    };
+    
+    return this.http.post(`${environment.api_url}/carrito/agregar`, item); 
+  }
+
+  realizarCompra(userId: number): Observable<Pedido> {
+      return this.http.post<Pedido>(`${environment.api_url}/carrito/compra/${userId}`, {});
+  }
 }

@@ -12,7 +12,7 @@ export const pedidoRoutes: Routes = [
         component: DetallePedido
     },
     {
-        path: 'checkout',
+        path: 'checkout/:id',
         component: Checkout
     },
     {

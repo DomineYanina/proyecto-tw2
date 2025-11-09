@@ -111,5 +111,49 @@ export class ListaCarrito implements OnInit {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
 
-  
+  comprar(): void {
+    const userIdStr = this.authService.getUserId();
+    console.log('Iniciando proceso de compra para el usuario ID:', userIdStr);
+
+    if (!userIdStr) {
+      console.error('Error: Usuario no autenticado para realizar la compra.');
+      // Opcional: Redirigir al login si el ID no existe
+      this.router.navigate(['/auth/login']); 
+      return;
+    }
+
+    const userId = parseInt(userIdStr, 10);
+
+    // 1. Llamar al servicio para realizar la compra
+    this.carritoService.realizarCompra(userId)
+      .pipe(
+        catchError(err => {
+          console.error('Error al procesar la compra:', err);
+          // Opcional: Mostrar un mensaje de error al usuario
+          alert('Hubo un error al procesar tu compra. Inténtalo de nuevo.');
+          return of(null); // Emitir un valor nulo para completar el Observable sin error
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.id) {
+            console.log('Compra realizada con éxito:', response);
+            
+            // 1. Limpiar el estado del carrito en el front-end
+            this.carritoItems = [];
+            this.calcularTotales();
+            this.cdr.detectChanges(); 
+            
+            // 2. Navegar a la página de checkout, pasando el ID del pedido
+            this.router.navigate(['/checkout', response.id]); // Redirección al nuevo componente
+          }
+        },
+        error: (err) => {
+          // Ya manejado en catchError, pero por si acaso.
+          console.error('Suscripción terminada con error:', err);
+        }
+      });
+  }
+
+
 }

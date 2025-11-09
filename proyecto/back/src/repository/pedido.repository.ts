@@ -1,32 +1,20 @@
-import { Prisma } from '@prisma/client';
+import { estadopedido, Prisma } from '@prisma/client';
 import {prisma} from '../prisma.js';
-
-export class CarritoRepository{
-
-    // ✅ CarritoRepository (Solución)
-    async findCarritoByUsuario(id: number){
-        return prisma.carrito.findMany({
-            where: { usuario_id: id },
-            // Incluye la data del videojuego en cada ítem del carrito
-            include: {
-                videojuego: true 
-            }
-        });
-    }
+export class PedidoRepository{
 
     async agregarItem(data: { 
-        userId: number, 
+        pedidoId: number, 
         videojuegoId: number, 
         cantidad: number
     }) {
         // CORRECCIÓN: Usar la sintaxis 'connect' para asociar las relaciones 
         // y asignar 'cantidad' directamente.
-        return await prisma.carrito.create({
+        return await prisma.pedidovideojuego.create({
             data: {
                 // Relaciona el carrito con el usuario existente usando su ID
-                usuario: { 
+                pedido: { 
                     connect: { 
-                        id: data.userId 
+                        id: data.pedidoId 
                     } 
                 },
                 // Relaciona el carrito con el videojuego existente usando su ID
@@ -40,10 +28,25 @@ export class CarritoRepository{
             },
         });
     }
-   
-    async vaciarCarritoPorUsuario(userId: number) {
-        return prisma.carrito.deleteMany({
-            where: { usuario_id: userId }
+
+    async crearPedido(data:{
+        userId: number,
+        fecha_creacion: Date,
+        estado: estadopedido,
+        total: number
+    })  {
+        return await prisma.pedido.create({
+            data: {
+                usuario: { 
+                    connect: { 
+                        id: data.userId
+                    }
+                },
+                fecha_creacion: data.fecha_creacion,
+                estado: data.estado,
+                total: data.total
+            },
         });
     }
+
 }
