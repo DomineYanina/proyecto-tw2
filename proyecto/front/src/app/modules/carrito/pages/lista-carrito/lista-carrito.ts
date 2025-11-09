@@ -106,9 +106,10 @@ export class ListaCarrito implements OnInit {
     this.totalCarrito = total;
     this.cantidadTotal = cantidad;
   }
-
   
   seguirComprando(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
+
+  
 }
