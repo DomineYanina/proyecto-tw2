@@ -19,9 +19,17 @@ export class AuthService {
         if (response?.token) {
           localStorage.setItem('token', response.token); // ✅ guarda el token
           localStorage.setItem('user', JSON.stringify(response.user)); // opcional, guarda el usuario
+
+          if (response.user && response.user.id) {
+             localStorage.setItem('user_id', response.user.id); // ✅ guarda el ID del usuario
+          }
         }
       })
     );
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem('user_id');
   }
 
   // 🧭 Obtener el token actual
@@ -38,6 +46,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('user_id');
   }
 
   // 📦 Obtener info del usuario logueado

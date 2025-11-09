@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
+  
   videojuegos: Videojuego[] = [];
   videojuegoService = inject(VideojuegoService);
   private cdr = inject(ChangeDetectorRef);
