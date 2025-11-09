@@ -14,8 +14,8 @@ export class UsuarioService {
   private authService = inject(AuthService);
 
 
-
-  constructor() { }
+  constructor() {
+  }
 
   getUsuario(): Observable<Usuario> {
     const user = this.authService.getUser();
@@ -24,5 +24,13 @@ export class UsuarioService {
     }
     return this.http.get<Usuario>(`${environment.api_url}/user/${user.id}`);
 
+  }
+
+  updateUsuario(usuario: Usuario): Observable<Usuario> {
+    const user = this.authService.getUser();
+    if (!user || !user.id) {
+      throw new Error('Usuario no autenticado o ID no disponible');
+    }
+    return this.http.put<Usuario>(`${environment.api_url}/user/${user.id}`, usuario);
   }
 }
