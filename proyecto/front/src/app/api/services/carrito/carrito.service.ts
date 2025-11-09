@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Carrito } from '../../../modules/carrito/interfaces/carrito.interface';
+import { Carrito, CarritoItem } from '../../../modules/carrito/interfaces/carrito.interface';
 import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class CarritoService {
 
   constructor() { }
 
-  obtenerCarrito(id: number): Observable<Carrito> {
-      return this.http.get<Carrito>(`${environment.api_url}/carrito/${id}`);
+  obtenerCarrito(id: number): Observable<CarritoItem[]> {
+      return this.http.get<CarritoItem[]>(`${environment.api_url}/carrito/${id}`);
     }
 }

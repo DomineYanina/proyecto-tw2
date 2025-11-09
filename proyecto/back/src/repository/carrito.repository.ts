@@ -3,9 +3,14 @@ import {prisma} from '../prisma.js';
 
 export class CarritoRepository{
 
+    // ✅ CarritoRepository (Solución)
     async findCarritoByUsuario(id: number){
         return prisma.carrito.findMany({
-            where: { usuario_id: id }
+            where: { usuario_id: id },
+            // Incluye la data del videojuego en cada ítem del carrito
+            include: {
+                videojuego: true 
+            }
         });
     }
 
