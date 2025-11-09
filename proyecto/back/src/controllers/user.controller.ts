@@ -51,7 +51,7 @@ export class UserController {
         let contenido: any = Object.values(req.body);
         for (const value of contenido) {
             if (!value || value.toString() == "") {
-                throw new Error("camposVacios");;
+                throw new Error("campos Vacios");;
             }
         }
     }

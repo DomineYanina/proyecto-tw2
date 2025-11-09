@@ -48,7 +48,7 @@ export class UserService {
             return await this.userRepository.createUser(userDataToSave);
         } catch (error: any) {
             if (error.code === 'P2002') {
-                throw new Error('usuarioExistente')
+                throw new Error('usuario Existente')
             }
             throw error;
         }
@@ -58,14 +58,14 @@ export class UserService {
         // [^\s@] caracteres que no sean @
         const emailPatron = /^[^\s@]+@[^\s@]+$/;
         if (!emailPatron.test(mail)) {
-            throw new Error("mailInvalido");
+            throw new Error("mail Invalido");
         }
     }
 
     public validacionPass(password: string) {
         const passPatron = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{5,}/;
         if (!passPatron.test(password)) {
-            throw new Error("passwordInvalida")
+            throw new Error("password Invalida")
         }
     }
 
