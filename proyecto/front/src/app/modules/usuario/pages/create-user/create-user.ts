@@ -39,8 +39,6 @@ export class CreateUser {
     });
   }
 
-  eventEmitterFormEmpleado = output<Usuario>();
-
   sendUsuario() {
     const usuarioNuevo: UsuarioRegistro = {
       usuario: this.form.get('usuario')!.value,
@@ -51,39 +49,21 @@ export class CreateUser {
       direccion: this.form.get('direccion')!.value,
     };
 
-    this.form.reset();
-
-    //TODO terminar esto con los codigo de error
     this.usuarioService.crearNuevoUsuario(usuarioNuevo).subscribe({
       next: (valor) => {
-        console.log("exito");
-        console.log(valor.usuario);
+        console.log(valor);
       },
       error: (error) => {
-        console.log("fallo " + error)
-        this.mensajeError.set("error");
-        console.error("❌ Error recibido:", error);
-        console.log("Código:", error.status);
-        console.log("Mensaje genérico:", error.message);
-        console.log("Cuerpo del error (backend):", error.error);
-
-        // Acceder al mensaje del backend
-        const mensaje = error.error?.message || "Error desconocido";
+        let mensaje:string = error.error?.tipo || "otro Error";
         this.mensajeError.set(mensaje);
       }, complete: () => {
-        //Solo se ejecuta cuando es correcto
         this.mensajeError.set("");
-        console.log("termino");
+        this.form.reset();
         this.router.navigate(['/usuario/login']);
       }
-    }
-    )
+    })
   }
 }
-
-// console.log(usuario.nombre);
-// this.eventEmitterFormEmpleado.emit(usuario);
-
 // Anotaciones mias
 
 // this.form.get('usuario')?.value
@@ -108,3 +88,9 @@ export class CreateUser {
 // Al menos una letra minuscula [a-z]
 // Al menos un símbolo [!@#$%^&*]
 // Mínimo 8 caracteres . {8,}
+
+//atributos de codigo de error
+// 1 Error recibido:", error);
+// 2 Código:", error.status);
+// 3 Mensaje genérico:", error.message);
+// 4 Cuerpo del error :", error.error);
