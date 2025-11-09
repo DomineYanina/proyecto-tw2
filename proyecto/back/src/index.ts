@@ -1,6 +1,7 @@
 import http from 'node:http';
 import express, {type Request, type Response} from 'express';
 import { AppRoutes } from './routes/routes.js';
+import videojuegoRoutes from './routes/videojuego-routes/videojuego.routes.js';
 
 const app = express();
 import cors from 'cors';
@@ -16,6 +17,10 @@ const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
+
+
 /*app.get('/', (req: Request, res: Response) => {
     res.send('¡Holaaaaaaaa!');
 });*/

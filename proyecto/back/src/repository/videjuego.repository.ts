@@ -1,9 +1,46 @@
 import { Prisma } from '@prisma/client';
-import {prisma} from '../prisma.js';
+import { prisma } from '../prisma.js';
 
 export class VideojuegoRepository{
-    async findAllVideojuegos(){
-        return await prisma.videojuego.findMany();
+    async findAllVideojuegos(filtros?: {
+        nombre?: string;
+        clasificacion?: string;
+        precioMin?: number;
+        precioMax?: number;
+    }){
+        const where: Prisma.videojuegoWhereInput = {};
+
+        if (filtros?.nombre) {
+            where.nombre = {
+                contains: filtros.nombre,
+                mode: 'insensitive'
+            };
+        }
+
+        if (filtros?.clasificacion) {
+            where.clasificacion = filtros.clasificacion as any;
+        }
+
+        if (filtros?.precioMin !== undefined) {
+            where.precio = {
+                ...where.precio,
+                gte: filtros.precioMin
+            };
+        }
+
+        if (filtros?.precioMax !== undefined) {
+            where.precio = {
+                ...where.precio,
+                lte: filtros.precioMax
+            };
+        }
+
+        return await prisma.videojuego.findMany({
+            where,
+            orderBy: {
+                nombre: 'asc'
+            }
+        });
     }
 
     async findVideojuegoById(id: number){
@@ -42,4 +79,9 @@ export class VideojuegoRepository{
             where: { id: id }
         });
     }
+
+
+
+
+
 }
