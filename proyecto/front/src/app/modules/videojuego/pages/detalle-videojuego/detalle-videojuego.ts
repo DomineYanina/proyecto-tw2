@@ -145,7 +145,7 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
       });
   }
 
-  
+ 
   volverALaLista(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
