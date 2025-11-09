@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
+  
   videojuegos: Videojuego[] = [];
   videojuegoService = inject(VideojuegoService);
   private cdr = inject(ChangeDetectorRef);
@@ -31,8 +32,8 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
 
   listarVideojuegos(): void {
     this.videojuegoService.listVideojuegos().subscribe({
-      next: (videosjuegos: Videojuego[]) => {
-        this.videojuegos = videosjuegos;
+      next: (videojuegos: Videojuego[]) => {
+        this.videojuegos = videojuegos;
         console.log(this.videojuegos);
         this.cdr.detectChanges();
       },

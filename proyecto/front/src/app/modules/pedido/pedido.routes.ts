@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { ListaPedidos } from './pages/lista-pedidos/lista-pedidos';
 import { DetallePedido } from './pages/detalle-pedido/detalle-pedido';
-import { Carrito } from './pages/carrito/carrito';
 import { Checkout } from './pages/checkout/checkout';
 export const pedidoRoutes: Routes = [
     {
@@ -13,11 +12,7 @@ export const pedidoRoutes: Routes = [
         component: DetallePedido
     },
     {
-        path: 'carrito',
-        component: Carrito
-    },
-    {
-        path: 'checkout',
+        path: 'checkout/:id',
         component: Checkout
     },
     {
