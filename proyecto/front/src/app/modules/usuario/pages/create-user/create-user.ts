@@ -1,6 +1,5 @@
-import { Component, inject, output, signal } from '@angular/core';
-import { Usuario } from '../../interfaces/usuario.interface';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
 import { Router } from '@angular/router';
 import { UsuarioRegistro } from '../../interfaces/usuarioRegistro.interface';
