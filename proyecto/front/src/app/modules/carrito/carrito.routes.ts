@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
-import { Carrito } from './pages/carrito/carrito';
+import { ListaCarrito } from './pages/lista-carrito/lista-carrito';
 export const carritoRoutes: Routes = [
     {
         path: 'carrito',
-        component: Carrito
+        component: ListaCarrito
     },
     {
         path: '**',
         redirectTo: ''
     }
 ];
+

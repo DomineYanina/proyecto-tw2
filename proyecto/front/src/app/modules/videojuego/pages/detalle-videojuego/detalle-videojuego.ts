@@ -9,6 +9,9 @@ import { ImageModule } from 'primeng/image';
 import { DatePipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../../core/auth.service';
+import { CarritoService } from '../../../../api/services/carrito/carrito.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-detalle-videojuego',
@@ -30,6 +33,9 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
   videojuegoService = inject(VideojuegoService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private authService = inject(AuthService);
+  carritoService = inject(CarritoService);
+  private messageService = inject(MessageService); 
 
   ngOnInit(): void {
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
@@ -85,10 +91,6 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Obtiene los requisitos de PC basándose en el ID de la ruta,
-   * manteniendo la lógica separada ya que no depende del objeto Videojuego.
-   */
   obtenerRequisitosPC(): void {
     this.route.params.pipe(
       switchMap(params => {
@@ -111,7 +113,39 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
     });
   }
 
-  
+  agregarACarrito(): void {
+    const userIdStr = this.authService.getUserId();
+    const videojuegoId = this.videojuego?.id;
+    
+    // 1. Verificar el ID del usuario
+    if (!userIdStr) {
+      this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
+      return;
+    }
+    
+    // 2. Verificar el ID del videojuego
+    if (!videojuegoId) {
+       this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
+       return;
+    }
+
+    const userId = parseInt(userIdStr, 10);
+    
+    // 3. Llamar al servicio del carrito
+    this.carritoService.agregarItem(userId, videojuegoId, 1) // Añade 1 unidad
+      .subscribe({
+        next: (response) => {
+          console.log('Videojuego añadido al carrito:', response);
+          this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
+        },
+        error: (err) => {
+          console.error('Error al añadir al carrito:', err);
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo un error al procesar tu solicitud.'});
+        }
+      });
+  }
+
+ 
   volverALaLista(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
