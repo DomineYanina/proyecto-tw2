@@ -28,8 +28,8 @@ export class UpdateUser {
       email: ['', [Validators.required, Validators.email]],
       //id: [''],
       //password_hash: [''],
-      usuario : [''],
-      direccion : ['']
+      usuario : ['', Validators.required],
+      direccion : ['', Validators.required]
     });
 
     this.cargarDatosUsuarioActual();
