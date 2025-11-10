@@ -4,8 +4,13 @@ export class VideojuegoService {
     constructor(private videojuegoRepository:VideojuegoRepository) {
     }
 
-    async obtenerVideojuegos(){
-        return await this.videojuegoRepository.findAllVideojuegos();
+    async obtenerVideojuegos(filtros?: {
+        nombre?: string;
+        clasificacion?: string;
+        precioMin?: number;
+        precioMax?: number;
+    }){
+        return await this.videojuegoRepository.findAllVideojuegos(filtros);
     }
 
     async obtenerVideojuego(id: number){
@@ -39,4 +44,7 @@ export class VideojuegoService {
     async obtenerDesarrollador(id: number){
         return await this.videojuegoRepository.findDesarrolladorByVideojuegoId(id);
     }
+
+
+ 
 }
