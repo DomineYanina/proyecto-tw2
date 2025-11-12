@@ -1,0 +1,76 @@
+/* Fondo general */
+.registro-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Tarjeta */
+.registro-card {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+/* Título */
+.registro-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+}
+
+input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  font-size: 15px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Botón */
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
