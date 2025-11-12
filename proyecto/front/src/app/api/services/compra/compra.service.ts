@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pedido } from '../interfaces/pedido.interface';
+import { Pedido } from '../../../../app/modules/pedido/interfaces/pedido.interface';
 
 @Injectable({
   providedIn: 'root'
