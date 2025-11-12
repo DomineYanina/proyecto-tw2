@@ -34,6 +34,11 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+    // 📦 Obtener info del usuario logueado
+  getUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
 
   // 👤 Saber si el usuario sigue logueado
   isLoggedIn(): boolean {
@@ -47,9 +52,20 @@ export class AuthService {
     localStorage.removeItem('user_id');
   }
 
-  // 📦 Obtener info del usuario logueado
-  getUser(): any {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+  verificarSiHayUsuarioEnSession():boolean{
+    let hayUsuarioEnSession:boolean=true;
+    if(!this.getToken() || !this.getUser() || !this.getUserId()){
+        hayUsuarioEnSession=false;
+    }
+
+    return hayUsuarioEnSession;
+  }
+
+  verObjetosGuardadosDeLaSession() {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key!);
+      console.log(key, value);
+    }
   }
 }
