@@ -21,14 +21,14 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
   videojuegoService = inject(VideojuegoService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-  // filtros ahora los maneja el componente hijo
+
 
   ngOnInit(): void {
     this.listarVideojuegos();
   }
 
   ngOnDestroy(): void {
-    // Código a ejecutar al destruir el componente
+
   }
 
   listarVideojuegos(): void {
@@ -50,7 +50,7 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
   verDetalles(id: number): void {
     this.router.navigate(['/videojuego/detalle-videojuego', id]);
   }
-  // llamado cuando el componente hijo emite filtros a aplicar
+
   onApply(filtros: { nombre?: string; clasificacion?: string; precioMin?: number; precioMax?: number }): void {
     this.videojuegoService.obtenerFiltrados(filtros).subscribe({
       next: (videojuegos) => {
@@ -63,7 +63,7 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
     });
   }
 
-  // llamado cuando el componente hijo solicita limpiar filtros
+
   onClear(): void {
     this.listarVideojuegos();
   }

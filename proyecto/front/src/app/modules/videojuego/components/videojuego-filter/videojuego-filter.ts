@@ -22,20 +22,18 @@ export class VideojuegoFilter implements OnInit, OnDestroy {
   };
 
   aplicar(): void {
-    // Guardar antes de emitir para persistir cambios inmediatamente
     this.saveFilters();
     this.apply.emit({ ...this.filtros });
   }
 
   limpiar(): void {
     this.filtros = { nombre: '', clasificacion: '', precioMin: undefined, precioMax: undefined };
-    // Limpiar almacenamiento también
+ 
     try { localStorage.removeItem('videojuego-filtros'); } catch (e) { /* ignore */ }
     this.clear.emit();
   }
 
   ngOnInit(): void {
-    // Cargar filtros guardados si existen
     try {
       const raw = localStorage.getItem('videojuego-filtros');
       if (raw) {
@@ -48,13 +46,13 @@ export class VideojuegoFilter implements OnInit, OnDestroy {
         };
       }
     } catch (e) {
-      // Si falla, seguir con valores por defecto
+
       console.warn('No se pudieron cargar filtros guardados:', e);
     }
   }
 
   ngOnDestroy(): void {
-    // Guardar filtros al salir de la pantalla (navegación)
+   
     this.saveFilters();
   }
 
