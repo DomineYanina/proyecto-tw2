@@ -1,31 +1,107 @@
-
-*{
-  color: white;
-}
-.contenedor-grande{
+/* Contenedor principal para las dos tarjetas */
+.contenedor-principal-tarjetas {
+    position: relative; /* Clave para que las tarjetas expandidas se posicionen */
     display: flex;
-    flex-direction: row;
-    align-content: center;
     justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    gap: 3%;
-    margin: 5em 12em;
-    background-color: rgb(133, 40, 220);
-    border-radius: 9px;
+    align-items: flex-start;
+    gap: 2em;
     padding: 2em;
+    margin: 5em 12em;
+    height: auto; /* Ajusta si es necesario si las tarjetas son muy cortas */
 }
 
-.img-game p-image img{
-  border-radius: 5px;
+.tarjeta-medios,
+.tarjeta-info {
+    flex: 1;
+    min-width: 400px; /* Un poco más de ancho para que se vea bien centrado */
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 9px;
+    padding: 1.5em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transición más dramática (spring/pop) */
+    cursor: pointer;
+    z-index: 1; /* Nivel base */
+
+    /* Posicionamiento para la expansión centrada */
+    position: static; /* Por defecto, en el flujo normal */
+    max-width: 50%; /* Ocupa la mitad del contenedor base */
 }
 
-.detalle-contenido{
-  border: 1px solid white;
-  border-radius: 5px;
+/* ESTADO DE EXPANSIÓN: CENTRADO Y OCULTAMIENTO */
+.tarjeta-medios.expandida,
+.tarjeta-info.expandida {
+    position: absolute; /* Ignora el flujo de flexbox */
+    top: 0;
+    left: 50%; /* Mueve el borde izquierdo al centro */
+    transform: translate(-50%, 0) scale(1.1); /* Centra (translateX -50%) y hace POP (scale 1.1) */
+    max-width: 80%; /* La tarjeta expandida ocupa más espacio (ajusta este valor) */
+    box-shadow: 0 0 50px rgba(255, 191, 0, 1); /* Sombra muy brillante */
+    z-index: 100; /* Siempre encima de todo */
 }
 
-.contenedor-botones{
-  background-color: red;
+/* ESTADO DE LA OTRA TARJETA (INACTIVA) */
+.tarjeta-medios:not(.expandida).otra-inactiva,
+.tarjeta-info:not(.expandida).otra-inactiva {
+    /* Clave para ocultar la tarjeta inactiva */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Asegura que no se pueda interactuar */
+    transform: scale(0.9); /* Se encoge un poco al desaparecer */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
 
+/* Media Queries para Responsividad (adaptar el tamaño de la expansión en móvil) */
+@media (max-width: 768px) {
+    .tarjeta-medios.expandida,
+    .tarjeta-info.expandida {
+        position: static; /* Volver al flujo normal en móvil */
+        transform: scale(1.0); /* Evitar el efecto de centrado absoluto */
+        max-width: 100%;
+    }
+}
+
+/* Ajuste de la imagen dentro de la tarjeta de medios */
+.tarjeta-medios p-image img {
+    /* Esto es crucial para que la imagen se adapte al contenedor */
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px; /* Para suavizar las esquinas de la imagen */
+}
+
+/* Fuerza a que ambas tarjetas tengan la misma altura */
+.contenedor-principal-tarjetas {
+    /* Cambia align-items de flex-start a stretch para igualar la altura */
+    align-items: stretch;
+    /* ... el resto de tu CSS ... */
+}
+
+/* Alineación del texto descriptivo debajo de la imagen */
+.tarjeta-medios .descripcion-detalle {
+    text-align: center;
+    margin-top: 1em;
+    padding: 0 0.5em; /* Pequeño padding lateral */
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mejora la separación en la tarjeta de información */
+.tarjeta-info h3.seccion-titulo {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: rgb(255, 217, 0); /* Color dorado para los títulos de sección */
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid rgba(255, 191, 0, 0.2);
+}
+
+.gral{
+background: #FFD90080;
+background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    /* O el gradiente dorado/negro que tenías antes, pero más sutil: */
+    /* background: radial-gradient(circle at top, rgba(255, 191, 0, 0.1) 0%, #111 60%); */
+    min-height: 100vh; /* Asegura que cubra toda la altura de la ventana */
+    padding: 3em 0;
 }

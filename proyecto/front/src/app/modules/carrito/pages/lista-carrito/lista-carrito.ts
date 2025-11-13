@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { of } from 'rxjs'; 
-import { catchError } from 'rxjs/operators'; 
+import { of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { AuthService } from '../../../../core/auth.service';
 import { CarritoItem } from '../../interfaces/carrito.interface';
@@ -14,17 +14,18 @@ import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { TagModule } from 'primeng/tag';
 import { Router } from '@angular/router';
-
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-lista-carrito',
   standalone: true,
   imports: [
-    CommonModule, 
-    TableModule, 
-    ProgressSpinnerModule, 
-    CardModule, 
-    ButtonModule, 
-    ImageModule, 
+    CommonModule,
+    TableModule,
+    ProgressSpinnerModule,
+    CardModule,
+    ButtonModule,
+    ImageModule,
     TagModule,
     CurrencyPipe
   ],
@@ -32,18 +33,19 @@ import { Router } from '@angular/router';
   styleUrl: './lista-carrito.css'
 })
 export class ListaCarrito implements OnInit {
-  
+
+
   // Servicios inyectados
   private carritoService = inject(CarritoService);
   private authService = inject(AuthService);
-  
+
   private router = inject(Router);
-  
+
   // Propiedades reactivas
   carritoItems: CarritoItem[] = [];
-  
+
   private cdr = inject(ChangeDetectorRef);
-  
+
   // Propiedades calculadas
   totalCarrito: number = 0;
   cantidadTotal: number = 0;
@@ -59,7 +61,7 @@ export class ListaCarrito implements OnInit {
       this.calcularTotales();
       return;
     }
-    
+
     const userId = parseInt(userIdStr, 10);
 
     // 1. Obtener el carrito completo (Observable<CarritoItem[]>)
@@ -69,19 +71,19 @@ export class ListaCarrito implements OnInit {
         this.carritoItems = [];
         this.totalCarrito = 0;
         this.cantidadTotal = 0;
-        // ✅ SOLUCIÓN AL ERROR DE TIPADO: 
-        // Se añade un cast al valor que devuelve 'of' para que TypeScript sepa 
+        // ✅ SOLUCIÓN AL ERROR DE TIPADO:
+        // Se añade un cast al valor que devuelve 'of' para que TypeScript sepa
         // que, en caso de error, sigue emitiendo el tipo esperado (CarritoItem[])
-        return of([] as CarritoItem[]); 
+        return of([] as CarritoItem[]);
       })
     )
     .subscribe({
       // El tipo 'itemsCompletos' ya no causará el error porque el tipo del Observable final es consistente.
-      next: (itemsCompletos: CarritoItem[]) => { 
+      next: (itemsCompletos: CarritoItem[]) => {
         this.carritoItems = itemsCompletos;
-        
+
         this.calcularTotales();
-        
+
         console.log('Items de Carrito con Videojuego:', this.carritoItems);
         this.cdr.detectChanges();
       },
@@ -98,7 +100,7 @@ export class ListaCarrito implements OnInit {
     this.carritoItems.forEach(item => {
       // item.videojuego ahora es mandatorio si usas la interfaz actualizada
       if (item.videojuego && item.videojuego.precio && item.cantidad) {
-        total += item.videojuego.precio * item.cantidad; 
+        total += item.videojuego.precio * item.cantidad;
         cantidad += item.cantidad;
       }
     });
@@ -106,7 +108,7 @@ export class ListaCarrito implements OnInit {
     this.totalCarrito = total;
     this.cantidadTotal = cantidad;
   }
-  
+
   seguirComprando(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
@@ -118,7 +120,7 @@ export class ListaCarrito implements OnInit {
     if (!userIdStr) {
       console.error('Error: Usuario no autenticado para realizar la compra.');
       // Opcional: Redirigir al login si el ID no existe
-      this.router.navigate(['/auth/login']); 
+      this.router.navigate(['/auth/login']);
       return;
     }
 
@@ -138,12 +140,12 @@ export class ListaCarrito implements OnInit {
         next: (response) => {
           if (response && response.id) {
             console.log('Compra realizada con éxito:', response);
-            
+
             // 1. Limpiar el estado del carrito en el front-end
             this.carritoItems = [];
             this.calcularTotales();
-            this.cdr.detectChanges(); 
-            
+            this.cdr.detectChanges();
+
             // 2. Navegar a la página de checkout, pasando el ID del pedido
             this.router.navigate(['/checkout', response.id]); // Redirección al nuevo componente
           }
@@ -155,5 +157,34 @@ export class ListaCarrito implements OnInit {
       });
   }
 
+quitarDelCarrito(itemId: number): Observable<any> {
+  const userIdStr = this.authService.getUserId();
+
+  if (!userIdStr) {
+    console.error('Error: Usuario no autenticado para eliminar el ítem.');
+    alert('Debes iniciar sesión para modificar el carrito.');
+    return throwError(() => new Error("usuario no autenticado"));
+  }
+
+  const userId = parseInt(userIdStr, 10);
+
+  // 1. Devuelve el Observable del servicio.
+  return this.carritoService.eliminarItem(userId, itemId).pipe(
+    // 2. Usa el operador 'tap' para manejar los efectos secundarios
+    //    En lugar de asignar 'response' a carritoItems (porque es void),
+    //    llamamos a cargarCarrito() para refrescar la lista desde el backend.
+    tap(() => {
+      this.cargarCarrito(); // <-- ¡La clave! Refresca la lista y recalcula totales.
+      console.log("videoJuegoEliminadoDelCarrito");
+    }),
+    // 3. Usa 'catchError' para manejar errores dentro del flujo del Observable.
+    catchError(err => {
+      console.error("Error al eliminar videojuego:", err);
+      alert('Hubo un error al eliminar el ítem. Inténtalo de nuevo.');
+      // Devolver un Observable que emite un error para propagarlo
+      return throwError(() => err);
+    })
+  );
+}
 
 }

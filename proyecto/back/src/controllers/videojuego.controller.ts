@@ -6,17 +6,24 @@ const videojuegoRepository = new VideojuegoRepository();
 const videojuegoService = new VideojuegoService(videojuegoRepository);
 
 export class VideojuegoController {
+    service: any;
     constructor() {
         // Constructor logic here
     }
 
     public getVideojuegos = async (request: Request, response: Response) => {
-
-        // Logic to get videojuegos
         try {
-            const videojuegos = await videojuegoService.obtenerVideojuegos();
+            const { nombre, clasificacion, precioMin, precioMax } = request.query;
+            
+            const filtros = {
+                nombre: nombre as string,
+                clasificacion: clasificacion as string,
+                precioMin: precioMin ? Number(precioMin) : undefined,
+                precioMax: precioMax ? Number(precioMax) : undefined
+            };
+
+            const videojuegos = await videojuegoService.obtenerVideojuegos(filtros);
             response.status(200).json(videojuegos);
-            // Simulate fetching data
         } catch (error) {
             response.status(500).json({ message: 'Error al obtener videojuegos', error });
         }
@@ -107,4 +114,8 @@ export class VideojuegoController {
             response.status(500).json({ message: 'Error al obtener el desarrollador', error });
         }
     }
+
+
+
+
 }

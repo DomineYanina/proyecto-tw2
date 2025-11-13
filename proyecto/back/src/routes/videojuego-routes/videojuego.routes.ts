@@ -12,4 +12,7 @@ videojuegoRouter.delete('/:id', videojuegoController.eliminarVideojuego.bind(vid
 videojuegoRouter.get('/:id/requisitos-pc', videojuegoController.getRequisitosPC.bind(videojuegoController));
 videojuegoRouter.get('/desarrollador/:id', videojuegoController.getDesarrollador.bind(videojuegoController));
 
+
+
+
 export default videojuegoRouter;
