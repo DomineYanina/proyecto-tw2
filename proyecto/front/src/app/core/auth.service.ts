@@ -38,6 +38,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    // Limpiar filtros guardados de videojuegos al cerrar sesión
+    try { localStorage.removeItem('videojuego-filtros'); } catch(e) { /* ignore */ }
   }
 
   // 📦 Obtener info del usuario logueado
