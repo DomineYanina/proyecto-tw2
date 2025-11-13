@@ -34,7 +34,7 @@ export class CarritoController {
 
     public agregarItem = async (req: Request, res: Response) => {
         try {
-            const { videojuegoId, cantidad } = req.body;
+            const {videojuegoId, cantidad } = req.body;
             const userId = Number(req.params.id);
             if (isNaN(userId)) {
                 return res.status(400).json({ message: 'ID de usuario inválido' });

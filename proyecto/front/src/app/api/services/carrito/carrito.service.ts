@@ -18,13 +18,13 @@ export class CarritoService {
   }
 
   agregarItem(usuario_id: number, videojuego_id: number, cantidad: number = 1): Observable<any> {
-    const item = {  
-      usuario_id: usuario_id,
-      videojuego_id: videojuego_id,
+    const item = {
+
+      videojuegoId: videojuego_id,
       cantidad: cantidad
     };
-    
-    return this.http.post(`${environment.api_url}/carrito/agregar`, item); 
+
+    return this.http.post(`${environment.api_url}/carrito/agregar/${usuario_id}`, item);
   }
 
   realizarCompra(userId: number): Observable<Pedido> {

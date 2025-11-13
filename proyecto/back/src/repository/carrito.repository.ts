@@ -36,7 +36,7 @@ export class CarritoRepository{
                     } 
                 },
                 // Asigna el campo de cantidad
-                cantidad: data.cantidad,
+                cantidad: data.cantidad
             },
         });
     }
