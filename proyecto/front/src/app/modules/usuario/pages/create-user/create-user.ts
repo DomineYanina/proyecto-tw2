@@ -1,6 +1,9 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
+import { Router } from '@angular/router';
+import { UsuarioRegistro } from '../../interfaces/usuarioRegistro.interface';
 
 @Component({
   selector: 'app-create-user',
@@ -10,6 +13,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CreateUser {
 
+  usuarioService = inject(UsuarioService);
+  router = inject(Router);
   private fb = inject(FormBuilder);
 
   mensajeError = signal("");
@@ -21,66 +26,44 @@ export class CreateUser {
     { nombre: 'contra', tipo: "password" },
     { nombre: 'nombre', tipo: "text" },
     { nombre: 'apellido', tipo: "text" },
-    { nombre: 'direccion', tipo: "text" },
-  ];
+    { nombre: 'direccion', tipo: "text" }];
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ["", [Validators.required,Validators.email]],
+      email: ["", [Validators.required, Validators.email]],
       usuario: ["", [Validators.required]],
-      contra: ["", [Validators.required,Validators.pattern('(?=.*[0-9])')]],
+      contra: ["", [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{5,}/)]],
       nombre: ["", [Validators.required]],
       apellido: ["", [Validators.required]],
       direccion: ["", [Validators.required]]
     });
   }
 
-  eventEmitterFormEmpleado = output<Usuario>();
-
   sendUsuario() {
-    console.log(this.form.value);
+    const usuarioNuevo: UsuarioRegistro = {
+      usuario: this.form.get('usuario')!.value,
+      nombre: this.form.get('nombre')!.value,
+      email: this.form.get('email')!.value,
+      contrasena: this.form.get('contra')!.value,
+      apellido: this.form.get('apellido')!.value,
+      direccion: this.form.get('direccion')!.value,
+    };
 
-
-
-    //Validaciones de contraseña y usuario/mail encontrados
-    if(true){
-      this.mensajeError.set("Error");
-    }
-
-    this.form.reset();
-  }
-
-  //probar despues
-  hayCamposVacios(): boolean {
-    let i: number = 0;
-    let campoVacio: boolean = false;
-
-    while (!campoVacio && i < this.camposFormulario.length) {
-      let nombreCampo: string = this.camposFormulario[i].nombre;
-      let valorCampo: string = this.form.get(nombreCampo)?.value;
-
-      if (valorCampo.length == 0) {
-        campoVacio = true;
+    this.usuarioService.crearNuevoUsuario(usuarioNuevo).subscribe({
+      next: (valor) => {
+        console.log(valor);
+      },
+      error: (error) => {
+        let mensaje:string = error.error?.tipo || "otro Error";
+        this.mensajeError.set(mensaje);
+      }, complete: () => {
+        this.mensajeError.set("");
+        this.form.reset();
+        this.router.navigate(['/usuario/login']);
       }
-      i++;
-    }
-    return campoVacio;
+    })
   }
 }
-
-// const usuario: Usuario = {
-//   id: 0,
-//   usuario: this.form.get('usuario')?.value,
-//   nombre: this.form.get('nombre')?.value,
-//   email: "",
-//   password_hash: "",
-//   apellido:"",
-//   direccion:"",
-// };
-
-// console.log(usuario.nombre);
-// this.eventEmitterFormEmpleado.emit(usuario);
-
 // Anotaciones mias
 
 // this.form.get('usuario')?.value
@@ -96,3 +79,18 @@ export class CreateUser {
 // Pero dentro de funciones tengo que poner LET y CONST para el tipado
 // const filas:number=this.camposFormulario.length;
 // let i:number=0;
+
+// Expresiones regulares
+// /^ --> inicia
+// $/ --> asi terminar
+// Al menos un número [0-9]
+// Al menos una letra mayúscula [A-Z]
+// Al menos una letra minuscula [a-z]
+// Al menos un símbolo [!@#$%^&*]
+// Mínimo 8 caracteres . {8,}
+
+//atributos de codigo de error
+// 1 Error recibido:", error);
+// 2 Código:", error.status);
+// 3 Mensaje genérico:", error.message);
+// 4 Cuerpo del error :", error.error);
