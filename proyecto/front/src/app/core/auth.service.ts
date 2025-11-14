@@ -35,10 +35,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
     // 📦 Obtener info del usuario logueado
-  getUser(): any {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-  }
+  // getUser(): any {
+  //   const user = localStorage.getItem('user');
+  //   return user ? JSON.parse(user) : null;
+  // }
 
   // 👤 Saber si el usuario sigue logueado
   isLoggedIn(): boolean {
@@ -49,6 +49,13 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    try { localStorage.removeItem('videojuego-filtros'); } catch(e) { /* ignore */ }
+  }
+
+  // 📦 Obtener info del usuario logueado
+  getUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
     localStorage.removeItem('user_id');
   }
 

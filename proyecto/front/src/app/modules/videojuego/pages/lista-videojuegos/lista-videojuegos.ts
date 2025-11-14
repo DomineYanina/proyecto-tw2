@@ -6,14 +6,14 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { VideojuegoFilter } from '../../components/videojuego-filter/videojuego-filter';
 
 @Component({
   selector: 'app-lista-videojuegos',
   standalone: true,
-  imports: [TableModule, CommonModule, CardModule, ButtonModule, FormsModule],
+  imports: [TableModule, CommonModule, CardModule, ButtonModule, VideojuegoFilter],
   templateUrl: './lista-videojuegos.html',
-  styleUrl: './lista-videojuegos.css'
+  styleUrls: ['./lista-videojuegos.css']
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
@@ -23,19 +23,13 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  filtros = {
-    nombre: '',
-    clasificacion: '',
-    precioMin: undefined as number | undefined,
-    precioMax: undefined as number | undefined
-  };
 
   ngOnInit(): void {
     this.listarVideojuegos();
   }
 
   ngOnDestroy(): void {
-    // Código a ejecutar al destruir el componente
+
   }
 
   listarVideojuegos(): void {
@@ -58,8 +52,8 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
     this.router.navigate(['/videojuego/detalle-videojuego', id]);
   }
 
-  aplicarFiltros(): void {
-    this.videojuegoService.obtenerFiltrados(this.filtros).subscribe({
+  onApply(filtros: { nombre?: string; clasificacion?: string; precioMin?: number; precioMax?: number }): void {
+    this.videojuegoService.obtenerFiltrados(filtros).subscribe({
       next: (videojuegos) => {
         this.videojuegos = videojuegos;
         this.cdr.detectChanges();
@@ -70,13 +64,8 @@ export class ListaVideojuegos implements OnInit, OnDestroy {
     });
   }
 
-  limpiarFiltros(): void {
-    this.filtros = {
-      nombre: '',
-      clasificacion: '',
-      precioMin: undefined,
-      precioMax: undefined
-    };
+
+  onClear(): void {
     this.listarVideojuegos();
   }
 }
