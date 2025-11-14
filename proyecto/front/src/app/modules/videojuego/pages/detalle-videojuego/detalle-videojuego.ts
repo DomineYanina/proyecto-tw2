@@ -1,6 +1,7 @@
-import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
+// 🛑 Importaciones clave para la solución: forkJoin, catchError, take
+import { switchMap, tap, filter, forkJoin, catchError, take } from 'rxjs';
 import { of } from 'rxjs';
 import { DividerModule } from 'primeng/divider';
 import { Desarrollador, RequisitosPC, Videojuego } from '../../interfaces/videojuego.interface';
@@ -12,181 +13,162 @@ import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @Component({
-  selector: 'app-detalle-videojuego',
-  standalone: true,
-  imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule],
-  // Nota: Deberías usar template y styles inline o en el mismo archivo para cumplir con el Single-File Mandate,
-  // pero mantengo la estructura original por el momento.
-  templateUrl: './detalle-videojuego.html',
-  styleUrl: './detalle-videojuego.css'
+    selector: 'app-detalle-videojuego',
+    standalone: true,
+    imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule,ProgressSpinnerModule],
+    templateUrl: './detalle-videojuego.html',
+    styleUrl: './detalle-videojuego.css'
 })
 export class DetalleVideojuego implements OnInit, OnDestroy {
 
-  videojuegoId: number = 0;
-  desarrolladorId: number = 0;
-  videojuegoExtra: Videojuego | null = null;
-  desarrollador: Desarrollador | null = null;
-  videojuego: Videojuego | null = null;
-  requisitos: RequisitosPC | null = null;
-  videojuegoService = inject(VideojuegoService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  carritoService = inject(CarritoService);
-  private messageService = inject(MessageService);
+    spinner: boolean = true;
+    videojuegoId: number = 0;
+    desarrolladorId: number = 0;
+    desarrollador: Desarrollador | null = null;
+    videojuego: Videojuego | null = null;
+    requisitos: RequisitosPC | null = null;
+
+    videojuegoService = inject(VideojuegoService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private authService = inject(AuthService);
+    carritoService = inject(CarritoService);
+    private messageService = inject(MessageService);
+    // 🛑 INYECCIÓN DE ChangeDetectorRef
+    private cdr = inject(ChangeDetectorRef);
 
 
-  @ViewChild('audioFx') audioPlayerRef!: ElementRef<HTMLAudioElement>;
-tarjetaMediosActiva: boolean = false;
-tarjetaInfoActiva: boolean = false;
-// Nueva variable para gestionar el estado de ocultamiento
-otraTarjetaInactiva: boolean = false;
+    @ViewChild('audioFx') audioPlayerRef!: ElementRef<HTMLAudioElement>;
+    tarjetaMediosActiva: boolean = false;
+    tarjetaInfoActiva: boolean = false;
+    otraTarjetaInactiva: boolean = false;
 
-toggleTarjeta(tipo: 'medios' | 'info') {
-    // Lógica para reproducir sonido y alternar estados...
-    if (!this.tarjetaMediosActiva && !this.tarjetaInfoActiva) {
-        this.playFuturisticSound();
+    toggleTarjeta(tipo: 'medios' | 'info') {
+        if (!this.tarjetaMediosActiva && !this.tarjetaInfoActiva) {
+            this.playFuturisticSound();
+        }
+
+        if (tipo === 'medios') {
+            this.tarjetaMediosActiva = !this.tarjetaMediosActiva;
+            this.tarjetaInfoActiva = false;
+        } else {
+            this.tarjetaInfoActiva = !this.tarjetaInfoActiva;
+            this.tarjetaMediosActiva = false;
+        }
+
+        this.otraTarjetaInactiva = this.tarjetaMediosActiva || this.tarjetaInfoActiva;
     }
 
-    if (tipo === 'medios') {
-        this.tarjetaMediosActiva = !this.tarjetaMediosActiva;
-        this.tarjetaInfoActiva = false;
-    } else {
-        this.tarjetaInfoActiva = !this.tarjetaInfoActiva;
-        this.tarjetaMediosActiva = false;
+    playFuturisticSound() {
+        if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+            const audio = this.audioPlayerRef.nativeElement;
+            audio.currentTime = 0;
+            audio.play().catch(error => {
+                console.warn('Error al reproducir el audio:', error);
+            });
+        }
     }
 
-    this.otraTarjetaInactiva = this.tarjetaMediosActiva || this.tarjetaInfoActiva;
-  }
+    ngOnInit(): void {
+        this.cargarTodosLosDatos();
+    }
 
-  // Asegúrate de que este método también exista
-  playFuturisticSound() {
-    // ... lógica para reproducir audio ...
-    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
-        const audio = this.audioPlayerRef.nativeElement;
-        audio.currentTime = 0;
-        audio.play().catch(error => {
-            console.warn('Error al reproducir el audio:', error);
+    ngOnDestroy(): void {}
+
+    cargarTodosLosDatos(): void {
+        this.route.params.pipe(
+            take(1),
+            switchMap(params => {
+                const id = +params['id'];
+                if (!id || isNaN(id)) {
+                    this.spinner = false;
+                    return of(null);
+                }
+                this.videojuegoId = id;
+
+                const data$ = forkJoin({
+                    videojuego: this.videojuegoService.getVideojuegoById(id).pipe(
+                        catchError(err => {
+                            console.error('Error al obtener videojuego:', err);
+                            return of(null);
+                        })
+                    ),
+                    requisitos: this.videojuegoService.getRequisitosPCByVideojuegoId(id).pipe(
+                        catchError(err => {
+                            console.error('Error al obtener requisitos:', err);
+                            return of(null);
+                        })
+                    )
+                });
+                return data$;
+            }),
+            filter((results): results is { videojuego: Videojuego | null, requisitos: RequisitosPC | null } => !!results),
+            tap(results => {
+                this.videojuego = results.videojuego;
+                this.requisitos = results.requisitos;
+                this.desarrolladorId = results.videojuego?.id_desarrollador || 0;
+            }),
+            switchMap(results => {
+                if (this.videojuego?.id_desarrollador) {
+                    return this.videojuegoService.getDesarrolladorByVideojuegoId(this.videojuego.id_desarrollador).pipe(
+                        catchError(err => {
+                            console.error('Error al obtener desarrollador:', err);
+                            return of(null);
+                        })
+                    );
+                }
+                return of(null);
+            })
+        ).subscribe({
+            next: (desarrollador) => {
+                this.desarrollador = desarrollador;
+            },
+            error: (error) => {
+                console.error('Error inusual en la suscripción principal:', error);
+                this.spinner = false;
+                this.cdr.detectChanges(); // 🛑 FORZAR detección de cambios en caso de error
+            },
+            complete: () => {
+                this.spinner = false;
+                this.cdr.detectChanges(); // 🛑 FORZAR detección de cambios para ocultar el spinner
+            }
         });
     }
-  }
 
-  ngOnInit(): void {
-    // Hemos combinado la carga del videojuego y el desarrollador en un solo método
-    this.cargarDatosDesdeRuta();
-    // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
-    this.obtenerRequisitosPC();
-  }
+    agregarACarrito(videojuego_id: number | undefined): void {
+        const userIdStr = this.authService.getUserId();
+        const videojuegoId = videojuego_id;
 
-  ngOnDestroy(): void {
-    // Código a ejecutar al destruir el componente (p. ej., desuscripciones manuales si no usamos async pipe)
-  }
-
-  /**
-   * Carga el Videojuego a partir del parámetro 'id' de la ruta
-   * y luego encadena la llamada para obtener el Desarrollador usando el 'id_desarrollador'.
-   */
-  cargarDatosDesdeRuta(): void {
-    this.route.params.pipe(
-      // 1. Obtener el ID de la ruta y obtener el Videojuego
-      switchMap(params => {
-        const id = +params['id']; // El '+' convierte el string del parámetro a número
-        if (id && !isNaN(id)) {
-          this.videojuegoId = id;
-          return this.videojuegoService.getVideojuegoById(id);
+        if (!userIdStr) {
+            this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
+            return;
         }
-        return of(null); // Retorna un observable nulo si el ID no es válido
-      }),
-      // Asegurarse de que el videojuego no sea nulo antes de continuar
-      filter((videojuego): videojuego is Videojuego => !!videojuego),
-      // 2. Usar 'tap' para asignar el videojuego a la propiedad local
-      tap(videojuego => {
-        this.videojuego = videojuego;
-        this.desarrolladorId = videojuego.id_desarrollador || 0;
-        console.log('Videojuego obtenido:', this.videojuego);
-      }),
-      // 3. Usar el segundo 'switchMap' para pasar del observable del Videojuego
-      //    al observable del Desarrollador, usando el id_desarrollador.
-      switchMap(videojuego => {
-        if (videojuego.id_desarrollador) {
-          // ⬅️ ¡Aquí se pasa correctamente el id_desarrollador!
-          return this.videojuegoService.getDesarrolladorByVideojuegoId(videojuego.id_desarrollador);
-        }
-        return of(null); // Retorna nulo si no hay ID de desarrollador
-      })
-    ).subscribe({
-      next: (desarrollador) => {
-        this.desarrollador = desarrollador;
-        console.log('Desarrollador obtenido:', this.desarrollador);
-      },
-      error: (error) => {
-        console.error('Error al obtener el videojuego o el desarrollador:', error);
-      }
-    });
-  }
 
-  obtenerRequisitosPC(): void {
-    this.route.params.pipe(
-      switchMap(params => {
-        const id = +params['id'];
-        if (id && !isNaN(id)) {
-          // No necesitamos almacenar this.videojuegoId aquí de nuevo, pero lo mantenemos por consistencia
-          return this.videojuegoService.getRequisitosPCByVideojuegoId(id);
+        if (!videojuegoId) {
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
+            return;
         }
-        return of(null);
-      }
-    )
-    ).subscribe({
-      next: (requisitos) => {
-        this.requisitos = requisitos;
-        console.log('Requisitos de PC obtenidos:', this.requisitos);
-      },
-      error: (error) => {
-        console.error('Error al obtener los requisitos de PC:', error);
-      }
-    });
-  }
 
-  agregarACarrito(videojuego_id: number | undefined): void {
-    const userIdStr = this.authService.getUserId();
-    const videojuegoId = videojuego_id;
-    
-    // 1. Verificar el ID del usuario
-    if (!userIdStr) {
-      this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
-      return;
+        const userId = parseInt(userIdStr, 10);
+
+        this.carritoService.agregarItem(userId, videojuegoId, 1)
+            .subscribe({
+                next: () => {
+                    this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
+                },
+                error: (err) => {
+                    console.error('Error al añadir al carrito:', err);
+                    this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo un error al procesar tu solicitud.'});
+                }
+            });
     }
 
-    // 2. Verificar el ID del videojuego
-    if (!videojuegoId) {
-       this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
-       return;
+
+    volverALaLista(): void {
+        this.router.navigate(['/videojuego/lista-videojuegos']);
     }
-
-    const userId = parseInt(userIdStr, 10);
-
-    // 3. Llamar al servicio del carrito
-    this.carritoService.agregarItem(userId, videojuegoId, 1) // Añade 1 unidad
-      .subscribe({
-        next: (response) => {
-          console.log('Videojuego añadido al carrito:', response);
-          this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
-        },
-        error: (err) => {
-          console.error('Error al añadir al carrito:', err);
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo un error al procesar tu solicitud.'});
-        }
-      });
-  }
-
-
-  volverALaLista(): void {
-    this.router.navigate(['/videojuego/lista-videojuegos']);
-  }
-
-
 }
-
