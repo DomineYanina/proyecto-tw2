@@ -1,31 +1,202 @@
-
-*{
-  color: white;
-}
-.contenedor-grande{
+/* Contenedor principal para las dos tarjetas */
+.contenedor-principal-tarjetas {
+  position: relative;
     display: flex;
-    flex-direction: row;
-    align-content: center;
+    justify-content: center;
+    /* CORRECCIÓN: Usar stretch para igualar alturas */
+    align-items: stretch;
+    gap: 2em;
+    /* Reducimos el padding en desktop para acercar las tarjetas */
+    margin: 5em 12em;
+    padding: 0; /* Eliminamos el padding aquí ya que lo dimos en .gral */
+    height: auto;
+}
+
+.tarjeta-medios,
+.tarjeta-info {
+   flex: 1;
+    min-width: 400px;
+    /* Estilo de fondo oscuro */
+    background-color: rgba(0, 0, 0, 0.85); /* Un poco más oscuro */
+    border-radius: 9px;
+    padding: 1.5em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    cursor: pointer;
+    z-index: 1;
+    position: static;
+    max-width: 50%;
+    /* CORRECCIÓN: Establece la disposición flex y la dirección columna */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido (importante para los botones) */
+}
+
+/* ESTADO DE EXPANSIÓN: CENTRADO Y OCULTAMIENTO */
+.tarjeta-medios.expandida,
+.tarjeta-info.expandida {
+   position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) scale(1.1);
+    max-width: 80%;
+    box-shadow: 0 0 50px rgba(255, 191, 0, 1);
+    z-index: 100;
+}
+
+/* ESTADO DE LA OTRA TARJETA (INACTIVA) */
+.tarjeta-medios:not(.expandida).otra-inactiva,
+.tarjeta-info:not(.expandida).otra-inactiva {
+   opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+/* Media Queries para Responsividad (adaptar el tamaño de la expansión en móvil) */
+@media (max-width: 768px) {
+    .tarjeta-medios.expandida,
+    .tarjeta-info.expandida {
+        position: static; /* Volver al flujo normal en móvil */
+        transform: scale(1.0); /* Evitar el efecto de centrado absoluto */
+        max-width: 100%;
+    }
+}
+
+/* Ajuste de la imagen dentro de la tarjeta de medios */
+.tarjeta-medios p-image img {
+    /* Esto es crucial para que la imagen se adapte al contenedor */
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px; /* Para suavizar las esquinas de la imagen */
+}
+
+/* Fuerza a que ambas tarjetas tengan la misma altura */
+.contenedor-principal-tarjetas {
+    /* Cambia align-items de flex-start a stretch para igualar la altura */
+    align-items: stretch;
+    /* ... el resto de tu CSS ... */
+}
+
+/* Alineación del texto descriptivo debajo de la imagen */
+.tarjeta-medios .descripcion-detalle {
+    text-align: center;
+    margin-top: 1em;
+    padding: 0 0.5em; /* Pequeño padding lateral */
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mejora la separación en la tarjeta de información */
+.tarjeta-info h3.seccion-titulo {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: rgb(255, 217, 0); /* Color dorado para los títulos de sección */
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid rgba(255, 191, 0, 0.2);
+}
+
+.gral{
+background: #FFD90080;
+background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    /* O el gradiente dorado/negro que tenías antes, pero más sutil: */
+    /* background: radial-gradient(circle at top, rgba(255, 191, 0, 0.1) 0%, #111 60%); */
+    min-height: 100vh; /* Asegura que cubra toda la altura de la ventana */
+    padding: 3em 0;
+}
+
+/* ======================================= */
+/* 1. ESTILO GLOBAL DE TEXTO Y TÍTULO      */
+/* ======================================= */
+
+/* Decoración a la izquierda del nombre del videojuego */
+.tarjeta-medios h2 {
+ font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding-left: 0.5em;
+    border-left: 5px solid rgb(255, 191, 0);
+    line-height: 1.2;
+}
+
+/* Centrar la imagen dentro de la tarjeta de medios */
+.tarjeta-medios p-image {
+  display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
-    gap: 3%;
-    margin: 5em 12em;
-    background-color: rgb(133, 40, 220);
-    border-radius: 9px;
-    padding: 2em;
+    width: 100%;
+}
+/* Asegura que la imagen de PrimeNG se comporte correctamente */
+.tarjeta-medios p-image img {
+    display: block;
+    width: 100%; /* Asegura que la imagen sea responsiva dentro de la tarjeta */
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-.img-game p-image img{
-  border-radius: 5px;
+
+/* ======================================= */
+/* 2. ESTILOS DE BOTONES (Hover Dorado)    */
+/* ======================================= */
+
+/* Contenedor de botones para alineación */
+.contenedor-botones {
+    display: flex;
+    gap: 1em;
+    justify-content: space-around; /* Alinea los botones a la derecha en desktop */
+    padding-top: auto;
+  }
+
+/* Estilo Base para el botón de "Volver" (Secundario) */
+.p-button-secondary {
+    background: #444 !important; /* Gris oscuro */
+    border: 1px solid #666 !important;
+    border-radius: 8px;
+    padding: 10px;
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* Efecto Hover: Cambiar de color (blanco) a dorado */
+.p-button-secondary:hover {
+    background: #666 !important;
+    border-color: rgb(255, 191, 0) !important; /* Borde dorado en hover */
+    color: rgb(255, 191, 0) !important; /* Texto dorado en hover */
 }
 
-.detalle-contenido{
-  border: 1px solid white;
-  border-radius: 5px;
+/* Estilo Base para el botón de "Agregar al carrito" (Primario/Acento) */
+.p-button-danger {
+    background: rgb(255, 191, 0) !important; /* Dorado base */
+    border: 1px solid rgb(255, 217, 0) !important;
+    border-radius: 8px;
+    padding: 10px;
+    color: black !important; /* Texto negro para contraste */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* Efecto Hover: Dorado más intenso */
+.p-button-danger:hover {
+    background: rgb(255, 217, 0) !important;
+    border-color: white !important;
+    color: black !important;
 }
 
-.contenedor-botones{
-  background-color: red;
+/* Ajuste para que los botones se apilen en móvil */
+@media (max-width: 768px) {
+    .contenedor-botones {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .p-button {
+        width: 100%;
+        max-width: 300px; /* Limita el ancho en móvil */
+    }
+
 
 }
