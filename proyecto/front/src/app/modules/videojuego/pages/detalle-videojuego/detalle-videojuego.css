@@ -219,3 +219,65 @@ background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 10
 
 
 }
+
+
+@media (max-width: 1024px) {
+  .contenedor-principal-tarjetas {
+    flex-direction: column;
+    margin: 3em 2em;
+    gap: 1.5em;
+  }
+
+  .tarjeta-medios,
+  .tarjeta-info {
+    max-width: 100%;
+    padding: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedor-principal-tarjetas {
+    margin: 2em 1em;
+  }
+
+  .tarjeta-medios,
+  .tarjeta-info {
+    padding: 0.8em;
+  }
+
+  .tarjeta-medios h2 {
+    font-size: 1.5em;
+  }
+
+  .tarjeta-info h3.seccion-titulo {
+    font-size: 1em;
+  }
+
+  .contenedor-botones {
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .contenedor-principal-tarjetas {
+    margin: 1em 0.5em;
+  }
+
+  .tarjeta-medios,
+  .tarjeta-info {
+    padding: 0.5em;
+  }
+
+  .tarjeta-medios h2 {
+    font-size: 1.2em;
+  }
+
+  .tarjeta-info h3.seccion-titulo {
+    font-size: 0.9em;
+  }
+
+  .contenedor-botones {
+    gap: 0.5em;
+  }
+}
