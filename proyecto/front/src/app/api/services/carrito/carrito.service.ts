@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
-import { Carrito, CarritoItem } from '../../../modules/carrito/interfaces/carrito.interface';
+import { CarritoItem } from '../../../modules/carrito/interfaces/carrito.interface';
 import { environment } from '../../../../environments/environment.development';
 import { Pedido } from '../../../modules/pedido/interfaces/pedido.interface';
 
