@@ -150,10 +150,10 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     });
   }
 
-  agregarACarrito(): void {
+  agregarACarrito(videojuego_id: number | undefined): void {
     const userIdStr = this.authService.getUserId();
-    const videojuegoId = this.videojuego?.id;
-
+    const videojuegoId = videojuego_id;
+    
     // 1. Verificar el ID del usuario
     if (!userIdStr) {
       this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});

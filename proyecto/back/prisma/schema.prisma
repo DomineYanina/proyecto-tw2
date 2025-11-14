@@ -26,7 +26,7 @@ model desarrollador {
 model pedido {
   id               Int                @id @default(autoincrement())
   usuario_id       Int
-  fecha_creacion   DateTime           @default(dbgenerated("CURRENT_DATE")) @db.Date
+  fecha_creacion   DateTime           @default(dbgenerated("('now'::text)::date")) @db.Date
   estado           estadopedido       @default(pendiente)
   total            Float
   usuario          usuario            @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_id")

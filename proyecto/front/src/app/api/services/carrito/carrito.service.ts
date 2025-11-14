@@ -18,12 +18,12 @@ export class CarritoService {
   }
 
   agregarItem(usuario_id: number, videojuego_id: number, cantidad: number = 1): Observable<any> {
-    const item = {
+    const item = {  
       videojuegoId: videojuego_id,
       cantidad: cantidad
     };
-
-    return this.http.post(`${environment.api_url}/carrito/agregar/${usuario_id}`, item);
+    
+    return this.http.post(`${environment.api_url}/carrito/agregar/${usuario_id}`, item); 
   }
 
   realizarCompra(userId: number): Observable<Pedido> {
@@ -32,13 +32,9 @@ export class CarritoService {
 
   eliminarItem(userId: number, itemId: number): Observable<void> {
 
-        // La URL debe coincidir con la ruta definida en tu backend (Express).
-        // Si tu ruta es DELETE /api/carrito/item/:itemId, la URL es:
        const url = `${environment.api_url}/carrito/item/${itemId}`;
 
-        // Usamos el método delete de HttpClient
         return this.http.delete<void>(url);
 
-        // NOTA: Si el backend requiere el userId en el path o body, ajusta la URL o el segundo argumento de delete().
     }
 }
