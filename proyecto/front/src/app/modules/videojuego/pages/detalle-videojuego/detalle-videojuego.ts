@@ -113,9 +113,9 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
     });
   }
 
-  agregarACarrito(): void {
+  agregarACarrito(videojuego_id: number | undefined): void {
     const userIdStr = this.authService.getUserId();
-    const videojuegoId = this.videojuego?.id;
+    const videojuegoId = videojuego_id;
     
     // 1. Verificar el ID del usuario
     if (!userIdStr) {

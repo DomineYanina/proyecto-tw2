@@ -49,4 +49,24 @@ export class PedidoRepository{
         });
     }
 
+    async findPedidosByUsuarioId(userId: number) {
+        return await prisma.pedido.findMany({
+            where: {
+                usuario_id: userId
+            },
+            // 🎯 Primer Nivel: Incluimos la tabla intermedia (pedidovideojuego)
+            include: {
+                pedidovideojuego: { 
+                    // 🎯 Segundo Nivel: Dentro de la tabla intermedia, incluimos el modelo Videojuego
+                    include: {
+                        videojuego: true // Carga todos los campos del Videojuego asociado
+                    }
+                }
+            },
+            // Recomendación: Ordenar los pedidos
+            orderBy: {
+                fecha_creacion: 'desc' 
+            }
+        });
+    }
 }
