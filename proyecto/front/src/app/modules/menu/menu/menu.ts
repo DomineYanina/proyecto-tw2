@@ -1,34 +1,39 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, ViewChild, inject, OnInit } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu'; // ⬅️ Nuevo: Módulo para el menú desplegable
-import { MenuItem } from 'primeng/api'; // ⬅️ Nuevo: Interfaz para definir los ítems
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../../core/auth.service';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  // ⬅️ Añadimos MenuModule a las importaciones
-  imports: [RouterLink, ButtonModule, MenuModule],
+  imports: [CommonModule, RouterLink, ButtonModule, MenuModule],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
 export class Menu implements OnInit {
 
+  auth = inject(AuthService);
+  router = inject(Router);
+
   menuItems: MenuItem[] = [];
-  @ViewChild('menu') menu: any; // Referencia al componente p-menu en el template
+  @ViewChild('menu') menu: any;
 
   ngOnInit(): void {
-    // Definición de los ítems del menú desplegable "Videojuegos"
+    this.auth.verificarSiHayUsuarioEnSession();
+
     this.menuItems = [
       {
         label: 'Ver Catálogo',
         icon: 'pi pi-list',
-        routerLink: ['/videojuego/catalogo'] // Enlace a la lista principal
+        routerLink: ['/videojuego/catalogo']
       },
       {
         label: 'Buscar por Título',
         icon: 'pi pi-search',
-        routerLink: ['/videojuego/buscar'] // Enlace a la búsqueda
+        routerLink: ['/videojuego/buscar']
       },
       { separator: true },
       {
@@ -43,5 +48,10 @@ export class Menu implements OnInit {
         ]
       }
     ];
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/usuario/login']);
   }
 }

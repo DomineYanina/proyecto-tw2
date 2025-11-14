@@ -1,39 +1,79 @@
-<div class="container mt-5">
-    <div class="row">
-        <!-- ÍTEM DESPLEGABLE: Videojuegos -->
-        <div class="col">
-            <!-- Botón que sirve de ancla y disparador -->
-            <p-button 
-                label="Videojuegos" 
-                severity="help" 
-                icon="pi pi-chevron-down" 
-                iconPos="right"
-                #menuAnchor 
-                (click)="menu.toggle($event)" 
-            />
+<nav class="navbar-container">
+  <div class="navbar">
 
-            <!-- Componente de menú desplegable (popup) -->
-            <p-menu 
-                #menu 
-                [model]="menuItems" 
-                [popup]="true"
-                [style]="{'width': '15rem'}"
-            />
-        </div>
-
-        <!-- ÍTEM SIMPLE: Pedidos -->
-        <div class="col">
-            <p-button [routerLink]="['/pedido']" label="Pedidos" severity="danger" />
-        </div>
-        
-        <!-- ÍTEM SIMPLE: Carrito -->
-        <div class="col">
-            <p-button [routerLink]="['/carrito']" label="Carrito" severity="danger" />
-        </div>
-        
-        <!-- ÍTEM SIMPLE: Usuario -->
-        <div class="col">
-            <p-button [routerLink]="['/usuario']" label="Usuario" severity="contrast" />
-        </div>
-    </div>
+    <!-- LOGO -->
+<div class="nav-logo">
+  <img 
+    src="assets/Logo/page-logo.png" 
+    alt="Logo" 
+    class="logo-img"
+    [routerLink]="['/videojuego/lista-videojuegos']"
+  >
 </div>
+
+
+    <!-- VIDEOJUEGOS -->
+    <div class="nav-item">
+<div class="nav-search" [routerLink]="['/videojuego/lista-videojuegos']">
+  <i class="pi pi-search"></i>
+  <span>Buscar videojuegos…</span>
+</div>
+
+    </div>
+
+    <!-- PEDIDOS -->
+    <div class="nav-item" *ngIf="auth.isLoggedIn()">
+      <p-button 
+        label=""
+        icon="pi pi-list"
+        [routerLink]="['/pedido']">
+      </p-button>
+    </div>
+
+    <!-- CARRITO -->
+    <div class="nav-item" *ngIf="auth.isLoggedIn()">
+      <p-button 
+        icon="pi pi-shopping-cart"
+        label=""
+        [routerLink]="['/carrito/carrito']">
+      </p-button>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="nav-item" *ngIf="auth.isLoggedIn()">
+      <p-button 
+        icon="pi pi-user"
+        label="Mi Perfil"
+        [routerLink]="['/usuario/perfil']">
+      </p-button>
+    </div>
+
+    <!-- LOGOUT -->
+    <div class="nav-item" *ngIf="auth.isLoggedIn()">
+      <p-button 
+        icon="pi pi-sign-out"
+        label="Salir"
+        (click)="logout()">
+      </p-button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="nav-item" *ngIf="!auth.isLoggedIn()">
+      <p-button 
+        icon="pi pi-sign-in"
+        label="Login"
+        [routerLink]="['/usuario/login']">
+      </p-button>
+    </div>
+
+    <!-- REGISTRO -->
+    <div class="nav-item" *ngIf="!auth.isLoggedIn()">
+      <p-button 
+        icon="pi pi-user-plus"
+        label="Registrarse"
+        [routerLink]="['/usuario/registro']">
+      </p-button>
+    </div>
+
+  </div>
+</nav>
