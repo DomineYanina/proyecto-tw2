@@ -63,23 +63,22 @@ export class CarritoService {
         console.log('4. Carrito vaciado. Terminando servicio.');
         return nuevoPedido;
     }
-    
-    async eliminarItem(itemId: number, userId: number) {
-        try {
-            // 1. Llamar al repositorio para ejecutar la eliminación por el ID del ítem.
-            // El orden de los argumentos DEBE coincidir con el repositorio: deleteItem(videojuego_id, usuario_id)
-            const resultado = await this.carritoRepository.deleteItem(itemId, userId); 
 
-            // 2. Manejo de caso donde el ítem no existe.
-            if (resultado === 0) {
-                // Lanzar un error capturable por el controlador
-                throw new Error(`Ítem de carrito con videojuego ID ${itemId} y usuario ID ${userId} no encontrado.`);
-            }
-            return resultado;
-        } catch (error) {
-            console.error(`Error en CarritoService al eliminar item ${itemId}:`, error);
-            throw error;
-        }
-    }
+    async eliminarItem(itemId: number, userId: number) {
+        try {
+            // 1. Llamar al repositorio para ejecutar la eliminación por el ID del ítem.
+            const resultado = await this.carritoRepository.deleteItem(itemId, userId);
+            // El orden de los argumentos DEBE coincidir con el repositorio: deleteItem(videojuego_id, usuario_id)
+            // 2. Manejo de caso donde el ítem no existe.
+            if (resultado === 0) {
+                // Lanzar un error capturable por el controlador
+                throw new Error(`Ítem de carrito con videojuego ID ${itemId} y usuario ID ${userId} no encontrado.`);
+            }
+            return resultado;
+        } catch (error) {
+            console.error(`Error en CarritoService al eliminar item ${itemId}:`, error);
+            throw error;
+        }
+    }
 
 }

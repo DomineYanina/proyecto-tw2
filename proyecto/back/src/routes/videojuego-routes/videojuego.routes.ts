@@ -6,9 +6,6 @@ const videojuegoController = new VideojuegoController();
 
 videojuegoRouter.get('/', videojuegoController.getVideojuegos.bind(videojuegoController));
 videojuegoRouter.get('/:id', videojuegoController.getVideojuego.bind(videojuegoController));
-/*videojuegoRouter.post('/', videojuegoController.crearVideojuego.bind(videojuegoController));*/
-videojuegoRouter.put('/:id', videojuegoController.actualizarVideojuego.bind(videojuegoController));
-videojuegoRouter.delete('/:id', videojuegoController.eliminarVideojuego.bind(videojuegoController));
 videojuegoRouter.get('/:id/requisitos-pc', videojuegoController.getRequisitosPC.bind(videojuegoController));
 videojuegoRouter.get('/desarrollador/:id', videojuegoController.getDesarrollador.bind(videojuegoController));
 
