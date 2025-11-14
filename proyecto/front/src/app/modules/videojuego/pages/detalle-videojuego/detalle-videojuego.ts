@@ -13,6 +13,7 @@ import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
 
+
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
@@ -22,6 +23,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule, ProgressSpinnerModule],
   // Nota: Deberías usar template y styles inline o en el mismo archivo para cumplir con el Single-File Mandate,
   // pero mantengo la estructura original por el momento.
+
   templateUrl: './detalle-videojuego.html',
   styleUrl: './detalle-videojuego.css'
 })
@@ -91,10 +93,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     // Código a ejecutar al destruir el componente (p. ej., desuscripciones manuales si no usamos async pipe)
   }
 
-  /**
-   * Carga el Videojuego a partir del parámetro 'id' de la ruta
-   * y luego encadena la llamada para obtener el Desarrollador usando el 'id_desarrollador'.
-   */
+  
   cargarDatosDesdeRuta(): void {
     this.route.params.pipe(
       // 1. Obtener el ID de la ruta y obtener el Videojuego

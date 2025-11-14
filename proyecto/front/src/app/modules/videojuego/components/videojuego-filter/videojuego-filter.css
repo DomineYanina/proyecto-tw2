@@ -1,2 +1,11 @@
 .p-button-primary { margin-right: 0.5rem; }
 .videojuego-filter { margin-bottom: 1rem; }
+
+.filter-card-vertical {
+    max-width: 100%; /* Opcional, si quieres que se ajuste al ancho del padre (300px) */
+}
+
+/* Opcional: Ajuste de espaciado si los campos están demasiado juntos */
+.campos-verticales > div {
+    margin-bottom: 1rem;
+}
