@@ -11,7 +11,18 @@
 
         <h2>{{ videojuego?.nombre }}</h2>
 
-        <p-image [src]="'/assets/portadas/' + videojuego?.url_portada" alt="Portada del Juego" width="100%" class="imgGaleria"/>
+        <p-galleria [value]="imagenesGaleria"
+                    [showThumbnails]="false"
+                    [showIndicators]="true"
+                    [autoPlay]="true"
+                    [transitionInterval]="5000"
+                    [containerStyle]="{'max-width': '100%'}">
+
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item" alt="Vista del juego" style="width: 100%; display: block;" />
+            </ng-template>
+
+            </p-galleria>
 
         <p class="descripcion-detalle">{{ videojuego?.descripcion }}</p>
 

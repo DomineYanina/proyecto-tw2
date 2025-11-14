@@ -198,5 +198,20 @@ background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 10
         max-width: 300px; /* Limita el ancho en móvil */
     }
 
+    .tarjeta-medios p-galleria {
+    width: 100%;
+    /* Altura máxima para que no se estire demasiado si la imagen es vertical */
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-bottom: 1em; /* Espacio antes de la descripción */
+}
+/* Asegura que los indicadores de PrimeNG sean visibles sobre el fondo */
+:host ::ng-deep .p-galleria .p-galleria-indicators .p-galleria-indicator.p-highlight button {
+    background: rgb(255, 191, 0) !important;
+}
+:host ::ng-deep .p-galleria .p-galleria-indicators button {
+    background: rgba(255, 255, 255, 0.4);
+}
 
 }
