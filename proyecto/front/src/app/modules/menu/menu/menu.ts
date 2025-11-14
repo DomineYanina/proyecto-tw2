@@ -18,6 +18,8 @@ export class Menu implements OnInit {
   auth = inject(AuthService);
   router = inject(Router);
 
+  mobileMenuOpen = false;
+
   menuItems: MenuItem[] = [];
   @ViewChild('menu') menu: any;
 
@@ -53,5 +55,15 @@ export class Menu implements OnInit {
   logout() {
     this.auth.logout();
     this.router.navigate(['/usuario/login']);
+    this.mobileMenuOpen = false;
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  go(path: string) {
+    this.router.navigate([path]);
+    this.mobileMenuOpen = false;
   }
 }

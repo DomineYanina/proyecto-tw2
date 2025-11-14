@@ -1,18 +1,19 @@
-/* NAVBAR estilo e-commerce */
+/* ===================================================== */
+/*                  NAVBAR ESTILO E-COMMERCE             */
+/* ===================================================== */
+
 .navbar-container {
   width: 100%;
   background: linear-gradient(
-    to bottom, 
-    rgb(255, 217, 0) 40%,      /* Amarillo normal */
-    rgba(0, 0, 0, 0.226) 100%   /* Negro con transparencia al final */
+    to bottom,
+    rgb(255, 217, 0) 40%,
+    rgba(0, 0, 0, 0.226) 100%
   );
   padding: 12px 0;
-
   position: sticky;
   top: 0;
   z-index: 1000;
 }
-
 
 /* Contenedor interno */
 .navbar {
@@ -23,45 +24,42 @@
   flex-wrap: wrap;
 }
 
-/* Ítem */
+/* Ítems */
 .nav-item {
   display: flex;
   align-items: center;
 }
 
-/* ===================================== */
-/*      BOTONES AMARILLOS PROFESIONALES   */
-/* ===================================== */
+/* ===================================================== */
+/*                   BOTONES AMARILLOS                   */
+/* ===================================================== */
 
 .p-button {
-  background: #ffe600 !important;       /* Amarillo igual que navbar */
-  border: 1px solid #d4bd00 !important;  /* Borde suave más oscuro */
-  color: #000 !important;                /* Texto negro */
+  background: #ffe600 !important;
+  border: 1px solid #d4bd00 !important;
+  color: #000 !important;
   font-weight: 600 !important;
   border-radius: 6px !important;
   padding: 8px 14px !important;
   transition: all 0.2s ease-in-out !important;
 }
 
-/* Íconos negros */
 .p-button .p-button-icon {
   color: #000 !important;
 }
 
-/* Hover más oscuro */
 .p-button:hover {
-  background: #f0d600 !important;  /* Amarillo más fuerte */
+  background: #f0d600 !important;
   transform: translateY(-2px);
   box-shadow: 0px 4px 6px rgba(0,0,0,0.15);
 }
 
-/* Click */
 .p-button:active {
   transform: translateY(0);
   box-shadow: none;
 }
 
-/* Quitar colores por severidad */
+/* Ajustar colores si el componente usa severity */
 .p-button.p-button-success,
 .p-button.p-button-danger,
 .p-button.p-button-info,
@@ -74,7 +72,10 @@
   border: 1px solid #d4bd00 !important;
 }
 
-/* LOGO */
+/* ===================================================== */
+/*                          LOGO                         */
+/* ===================================================== */
+
 .logo-img {
   height: 45px;
   margin-right: 20px;
@@ -91,32 +92,149 @@
   align-items: center;
 }
 
-/* BUSCADOR FALSO TIPO MERCADO LIBRE */
+/* ===================================================== */
+/*               BUSCADOR FALSO AMARILLO                 */
+/* ===================================================== */
+
 .nav-search {
-  background-color: rgb(255, 240, 154);                         /* fondo blanco */
-  color: #555;                                    /* texto gris oscuro */
-  padding: 8px 170px;
+  background-color: #ffe600;
+  color: #000;
+  padding: 10px 160px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
-  min-width: 220px;
+  min-width: 240px;
   border: 1px solid #d4bd00;
   transition: all 0.2s ease-in-out;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* Ícono de lupa */
 .nav-search i {
-  color: #000;                                    /* ícono negro */
-  font-size: 1.1rem;
+  color: #000;
+  font-size: 1.4rem;
 }
 
 /* Hover profesional */
 .nav-search:hover {
-  background-color: #f0f0f0;
-  border-color: #bcbcbc;
+  background-color: #f0d600;
+  border-color: #c6ac00;
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.20);
+}
+
+/* ===================================================== */
+/*                  HAMBURGUESA (MÓVIL)                  */
+/* ===================================================== */
+
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  color: #000;
+  cursor: pointer;
+}
+
+/* ===================================================== */
+/*            MENÚ MÓVIL DESLIZANTE (OFF-CANVAS)         */
+/* ===================================================== */
+
+/* Fondo oscuro */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease;
+  z-index: 999;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Panel */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: #ffe600;
+  color: #000;
+  transition: right .3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu.open {
+  right: 0;
+}
+
+/* Header */
+.mobile-menu-header {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+
+.close-btn {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+/* Items */
+.mobile-menu-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mobile-item {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  padding: 12px 8px;
+  border-radius: 8px;
+}
+
+.mobile-item:hover {
+  background: #f0d600;
+}
+
+/* ===================================================== */
+/*                  RESPONSIVE BREAKPOINT                */
+/* ===================================================== */
+
+@media (max-width: 1000px) {
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: block !important;
+  }
+
+  .navbar {
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+
+  .nav-search {
+    display: none;
+  }
+  
+  .mobile-only {
+    display: block !important;
+  }
 }
