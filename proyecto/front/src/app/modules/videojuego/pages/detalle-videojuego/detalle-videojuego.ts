@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, signal, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
 import { of } from 'rxjs';
@@ -13,22 +13,27 @@ import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
 
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 
 @Component({
   selector: 'app-detalle-videojuego',
   standalone: true,
-  imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule],
+  imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule, ProgressSpinnerModule],
   // Nota: Deberías usar template y styles inline o en el mismo archivo para cumplir con el Single-File Mandate,
   // pero mantengo la estructura original por el momento.
   templateUrl: './detalle-videojuego.html',
   styleUrl: './detalle-videojuego.css'
 })
 export class DetalleVideojuego implements OnInit, OnDestroy {
+  spinner=signal<boolean>(false);
+
 
   videojuegoId: number = 0;
   desarrolladorId: number = 0;
   videojuegoExtra: Videojuego | null = null;
   desarrollador: Desarrollador | null = null;
+  // desarrollador = signal<Desarrollador | null>(null); SIGNAL
   videojuego: Videojuego | null = null;
   requisitos: RequisitosPC | null = null;
   videojuegoService = inject(VideojuegoService);
@@ -73,8 +78,16 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         });
     }
   }
+  //ESTO SE BORRA
+  // constructor() {
+  //   effect(() => {
+  //     const val = this.desarrollador();
+  //     console.log('La signal cambió:', val);
+  //   });
+  // }
 
   ngOnInit(): void {
+    this.spinner.set(false);
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
     this.cargarDatosDesdeRuta();
     // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
@@ -121,6 +134,16 @@ toggleTarjeta(tipo: 'medios' | 'info') {
       next: (desarrollador) => {
         this.desarrollador = desarrollador;
         console.log('Desarrollador obtenido:', this.desarrollador);
+
+        // con timmer
+        setTimeout(() => {
+            this.spinner.set(true);
+        }, 2000);
+
+        //Solucion con SIGNAL
+        // console.log(desarrollador)
+        // this.desarrollador.set(desarrollador);
+        // console.log('Desarrollador obtenido:', this.desarrollador());
       },
       error: (error) => {
         console.error('Error al obtener el videojuego o el desarrollador:', error);
@@ -153,7 +176,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   agregarACarrito(videojuego_id: number | undefined): void {
     const userIdStr = this.authService.getUserId();
     const videojuegoId = videojuego_id;
-    
+
     // 1. Verificar el ID del usuario
     if (!userIdStr) {
       this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
