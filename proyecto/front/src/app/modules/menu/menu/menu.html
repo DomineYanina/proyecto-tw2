@@ -3,9 +3,9 @@
 
     <!-- LOGO -->
 <div class="nav-logo">
-  <img 
-    src="assets/Logo/page-logo.png" 
-    alt="Logo" 
+  <img
+    src="assets/Logo/page-logo.png"
+    alt="Logo"
     class="logo-img"
     [routerLink]="['/videojuego/lista-videojuegos']"
   >
@@ -26,7 +26,7 @@
 
 <!-- PEDIDOS (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
-  <p-button label="" icon="pi pi-list" [routerLink]="['/pedido']"></p-button>
+  <p-button label="" icon="pi pi-list" [routerLink]="['/pedido/lista-pedidos']"></p-button>
 </div>
 
 <!-- CARRITO (solo desktop) -->
@@ -36,7 +36,7 @@
 
 <!-- PERFIL (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
-  <p-button icon="pi pi-user" label="Mi Perfil" [routerLink]="['/usuario/perfil']"></p-button>
+  <p-button icon="pi pi-user" label="Mi Perfil" [routerLink]="['/usuario/verUsuario']"></p-button>
 </div>
 
 <!-- LOGOUT (solo desktop) -->
@@ -58,7 +58,7 @@
   </div>
 </nav>
 <!-- MENÚ DESLIZABLE MÓVIL -->
-<div class="mobile-menu-overlay" 
+<div class="mobile-menu-overlay"
      [class.open]="mobileMenuOpen"
      (click)="toggleMobileMenu()"></div>
 
@@ -75,32 +75,32 @@
       <i class="pi pi-search"></i> Buscar videojuegos
     </div>
 
-    <div class="mobile-item" *ngIf="auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
          (click)="go('/pedido')">
       <i class="pi pi-list"></i> Mis pedidos
     </div>
 
-    <div class="mobile-item" *ngIf="auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
          (click)="go('/carrito/carrito')">
       <i class="pi pi-shopping-cart"></i> Carrito
     </div>
 
-    <div class="mobile-item" *ngIf="auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
          (click)="go('/usuario/perfil')">
       <i class="pi pi-user"></i> Mi perfil
     </div>
 
-    <div class="mobile-item" *ngIf="auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
          (click)="logout()">
       <i class="pi pi-sign-out"></i> Cerrar sesión
     </div>
 
-    <div class="mobile-item" *ngIf="!auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="!auth.isLoggedIn()"
          (click)="go('/usuario/login')">
       <i class="pi pi-sign-in"></i> Login
     </div>
 
-    <div class="mobile-item" *ngIf="!auth.isLoggedIn()" 
+    <div class="mobile-item" *ngIf="!auth.isLoggedIn()"
          (click)="go('/usuario/registro')">
       <i class="pi pi-user-plus"></i> Registrarse
     </div>

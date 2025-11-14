@@ -1,0 +1,109 @@
+/* Fondo general */
+.registro-container {
+  /* background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%); */
+  background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 50px 0px;
+}
+
+/* Título (dentro de p-card) */
+h2 {
+  color: #ffbb0d; /* Dorado */
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre los campos */
+}
+
+/* Grupos de formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* Etiqueta del campo */
+label {
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 1.1rem; /* Ajustado para mejor legibilidad */
+  margin-bottom: 5px; /* Espacio entre etiqueta y input */
+}
+
+/* Input (PrimeNG pInputText se verá afectado) */
+input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px; /* Ajustado para mejor legibilidad */
+  width: 100%;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Mensajes de error (small) */
+small {
+  font-size: 0.9em; /* Más pequeño para errores */
+  font-weight: 500;
+  color: red;
+  margin-top: 5px;
+}
+
+/* Estilo para el botón principal (Actualizar) */
+.p-button-danger {
+  background: rgb(255, 191, 0) !important; /* Dorado base */
+  border: 1px solid rgb(255, 217, 0) !important;
+  border-radius: 8px;
+  padding: 10px;
+  color: black !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Efecto Hover del botón principal */
+.p-button-danger:hover {
+  background: rgb(255, 217, 0) !important;
+  border-color: white !important;
+  color: black !important;
+}
+
+/* Estilo para el botón secundario (si decides añadir un "Volver") */
+.p-button-secondary {
+  background: #444 !important; /* Gris oscuro */
+  border: 1px solid #666 !important;
+  border-radius: 8px;
+  padding: 10px;
+  color: white !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+/* Efecto Hover del botón secundario */
+.p-button-secondary:hover {
+  background: #666 !important;
+  border-color: rgb(255, 191, 0) !important;
+  color: rgb(255, 191, 0) !important;
+}
+/* Añade esto a tu archivo CSS de la vista de Actualización */
+
+.form-actions {
+  display: flex;
+  gap: 15px; /* Espacio entre los botones */
+  margin-top: 15px;
+}
+
+.action-button {
+  flex-grow: 1; /* Hace que ambos botones ocupen el mismo espacio horizontal */
+  width: auto !important; /* Sobreescribe el width: 100% del botón anterior */
+}

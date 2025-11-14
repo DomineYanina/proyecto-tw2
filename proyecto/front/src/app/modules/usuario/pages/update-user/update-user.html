@@ -1,4 +1,4 @@
-<div class="container my-5">
+<!-- <div class="container my-5">
   <div class="card shadow-lg">
 
     <div class="card-header bg-primary text-white">
@@ -97,4 +97,106 @@
       </form>
     </div>
   </div>
+</div> -->
+
+
+
+
+<div class="registro-container">
+  <p-card [style]="{ width: '30rem', overflow: 'hidden'}">
+    <h2>Actualizar Información del Usuario</h2>
+
+    <form [formGroup]="form" (ngSubmit)="actualizarUsuario()" autocomplete="off">
+
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input
+          type="text"
+          formControlName="nombre"
+          id="nombre"
+          pInputText
+          class="w-full"
+        />
+        @if(form.get('nombre')?.hasError('required') && form.get('nombre')?.touched){
+          <small>Este campo es obligatorio</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input
+          type="text"
+          formControlName="apellido"
+          id="apellido"
+          pInputText
+          class="w-full"
+        />
+        @if(form.get('apellido')?.hasError('required') && form.get('apellido')?.touched){
+          <small>Este campo es obligatorio</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input
+          type="text"
+          formControlName="usuario"
+          id="usuario"
+          pInputText
+          class="w-full"
+        />
+        @if(form.get('usuario')?.hasError('required') && form.get('usuario')?.touched){
+          <small>Este campo es obligatorio</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          formControlName="email"
+          id="email"
+          pInputText
+          class="w-full"
+        />
+        @if(form.get('email')?.hasError('required') && form.get('email')?.touched){
+          <small>Este campo es obligatorio</small>
+        }
+        @if(form.get('email')?.hasError('email') && form.get('email')?.touched){
+          <small>Ingrese un email válido</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Dirección:</label>
+        <input
+          type="text"
+          formControlName="direccion"
+          id="direccion"
+          pInputText
+          class="w-full"
+        />
+        @if(form.get('direccion')?.hasError('required') && form.get('direccion')?.touched){
+          <small>Este campo es obligatorio</small>
+        }
+      </div>
+
+      <div class="form-actions">
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="p-button-danger action-button"
+          >
+            Actualizar Usuario
+          </button>
+
+          <p-button
+            label="Volver"
+            icon="pi pi-arrow-left"
+            [routerLink]="['/usuario/verUsuario']"
+            class="p-button-secondary action-button"
+          ></p-button>
+      </div>
+      </form>
+  </p-card>
 </div>
