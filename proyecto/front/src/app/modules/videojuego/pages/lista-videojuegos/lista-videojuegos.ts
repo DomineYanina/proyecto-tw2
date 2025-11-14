@@ -17,7 +17,7 @@ import { VideojuegoFilter } from '../../components/videojuego-filter/videojuego-
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
-  
+
   videojuegos: Videojuego[] = [];
   videojuegoService = inject(VideojuegoService);
   private cdr = inject(ChangeDetectorRef);

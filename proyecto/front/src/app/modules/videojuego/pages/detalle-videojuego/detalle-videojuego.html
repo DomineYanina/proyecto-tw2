@@ -58,3 +58,71 @@
     </div>
 </div>
 </div>
+
+<!-- <div class="gral">
+<div class="contenedor-principal-tarjetas">
+  @if (!spinner()) {
+      <div class="tarjeta-carga">
+          <p-progress-spinner
+          ariaLabel="loading"
+          [style]="{ width: '300px', height: '500px' }" />
+</div>
+    } @else {
+    <audio #audioFx src="assets/soundefect.mp3" preload="auto"></audio>
+
+    <div class="tarjeta-medios"
+         [class.expandida]="tarjetaMediosActiva"
+         [class.otra-inactiva]="otraTarjetaInactiva && !tarjetaMediosActiva"
+         (click)="toggleTarjeta('medios')">
+
+        <h2>{{ videojuego?.nombre }}</h2>
+
+        <p-image [src]="'/assets/portadas/' + videojuego?.url_portada" alt="Portada del Juego" width="100%" class="imgGaleria"/>
+
+        <p class="descripcion-detalle">{{ videojuego?.descripcion }}</p>
+
+    </div>
+
+    <div class="tarjeta-info"
+         [class.expandida]="tarjetaInfoActiva"
+         [class.otra-inactiva]="otraTarjetaInactiva && !tarjetaInfoActiva"
+         (click)="toggleTarjeta('info')">
+
+        <div class="detalle-contenido">
+
+            <div class="seccion-detalle">
+                <h3 class="seccion-titulo">Detalles del Videojuego</h3>
+                <p><strong>Género:</strong> {{ videojuego?.genero }}</p>
+                <p><strong>Plataforma:</strong> {{ videojuego?.plataforma }}</p>
+                <p><strong>Precio:</strong> {{ videojuego?.precio | currency:'USD' }}</p>
+                <p><strong>Fecha de Lanzamiento:</strong> {{ videojuego?.fecha_lanzamiento | date }}</p>
+                <p><strong>Desarrollador:</strong> {{ desarrollador()?.nombre}}</p>
+                <p><strong>Desarrollador:</strong> {{ desarrollador?.nombre}}</p>
+            </div>
+
+            <div class="seccion-detalle">
+                <h3 class="seccion-titulo">Requerimientos</h3>
+                <p><strong>Requiere Conexión en Línea:</strong> {{ videojuego?.requiere_online ? 'Sí' : 'No' }}</p>
+                <p><strong>Requiere Espacio en Disco:</strong> {{ videojuego?.espacio_minimo }} GB</p>
+            </div>
+
+            @if (videojuego?.plataforma === 'pc') {
+                <div class="seccion-detalle">
+                    <h3 class="seccion-titulo">Requisitos Mínimos para PC</h3>
+                    <p><strong>SO Mínimo:</strong> {{ requisitos?.so_minimo }}</p>
+                    <p><strong>CPU Mínima:</strong> {{ requisitos?.cpu_minima }}</p>
+                    <p><strong>RAM Mínima:</strong> {{ requisitos?.ram_minima }} GB</p>
+                    <p><strong>GPU Mínima:</strong> {{ requisitos?.gpu_minima }}</p>
+                </div>
+            }
+
+        </div>
+
+        <div class="contenedor-botones">
+            <button pButton label="Volver a la Lista" icon="pi pi-arrow-left" (click)="volverALaLista()" class="p-button-secondary"></button>
+            <button pButton label="Agregar al carrito" icon="pi pi-shopping-cart" (click)="agregarACarrito(videojuego?.id)" class="p-button-danger"></button>
+        </div>
+    </div>
+  }
+</div>
+</div> -->

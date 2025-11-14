@@ -1,4 +1,37 @@
 <div class="registro-container">
+
+  <p-card [style]="{ width: '25rem', overflow: 'hidden'}">
+    <h2>Registro</h2>
+    @if (mensajeError()!="") {
+    <h3 style="color:red">{{mensajeError()}}</h3>
+    }
+    <form [formGroup]="form" (ngSubmit)="sendUsuario()" autocomplete="off">
+      @for (campo of camposFormulario; track campo) {
+      <div class="form-group">
+            <label id="campoTitulo" [for]="campo.nombre">{{campo.nombre}}</label>
+            <input  [id]="campo.nombre"
+            [type]="campo.tipo" [formControlName]="campo.nombre"
+            autocomplete="off" />
+        @if (campo.nombre=="email" && form.get('email')?.touched
+        && form.get('email')?.invalid) {
+        <small> Formato de email inválido</small>
+        }
+        @if (campo.nombre=="contra" && form.get('contra')?.touched
+        && form.get('contra')?.invalid) {
+        <small> Formato de contraseña inválido</small>
+        }
+      </div>
+      }
+      <button type="submit" [disabled]="form.invalid"
+      class="p-button-danger">Registrarse</button>
+    </form>
+
+    <button [routerLink]="'/usuario/login'" style="margin-top: 1em;"
+    class="p-button-secondary">Volver</button>
+  </p-card>
+</div>
+
+<!-- <div class="registro-container">
   <div class="registro-card">
     <h2>Registro</h2>
     @if (mensajeError()!="") {
@@ -30,7 +63,7 @@
 
     <button [routerLink]="'/usuario/login'" style="margin-top: 1em;" >Volver</button>
   </div>
-</div>
+</div> -->
 
 <!-- form.get('email')?.touched
  Me indica que el usuario lo toco una vez al menos
