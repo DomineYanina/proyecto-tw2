@@ -1,1 +1,100 @@
-<p>update-user works!</p>
+<div class="container my-5">
+  <div class="card shadow-lg">
+
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Actualizar Información del Usuario</h3>
+    </div>
+
+    <div class="card-body p-4">
+      <form [formGroup]="form" (ngSubmit)="actualizarUsuario()" autocomplete="off">
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input
+              type="text"
+              formControlName="nombre"
+              id="nombre"
+              pInputText
+              class="w-full"
+            />
+            @if(form.get('nombre')?.hasError('required') && form.get('nombre')?.touched){
+            <small class="text-danger">Este campo es obligatorio</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input
+              type="text"
+              formControlName="apellido"
+              id="apellido"
+              pInputText
+              class="w-full"
+            />
+            @if(form.get('apellido')?.hasError('required') && form.get('apellido')?.touched){
+            <small class="text-danger">Este campo es obligatorio</small>
+            }
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="usuario" class="form-label">Usuario:</label>
+            <input
+              type="text"
+              formControlName="usuario"
+              id="usuario"
+              pInputText
+              class="w-full"
+            />
+            @if(form.get('usuario')?.hasError('required') && form.get('usuario')?.touched){
+            <small class="text-danger">Este campo es obligatorio</small>
+            }
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email:</label>
+            <input
+              type="email"
+              formControlName="email"
+              id="email"
+              pInputText
+              class="w-full"
+            />
+            @if(form.get('email')?.hasError('required') && form.get('email')?.touched){
+            <small class="text-danger">Este campo es obligatorio</small>
+            }
+            @if(form.get('email')?.hasError('email') && form.get('email')?.touched){
+            <small class="text-danger">Ingrese un email válido</small>
+            }
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-12">
+            <label for="direccion" class="form-label">Dirección:</label>
+            <input
+              type="text"
+              formControlName="direccion"
+              id="direccion"
+              pInputText
+              class="w-full"
+            />
+            @if(form.get('direccion')?.hasError('required') && form.get('direccion')?.touched){
+            <small class="text-danger">Este campo es obligatorio</small>
+            }
+          </div>
+        </div>
+
+        <div class="text-center pt-3">
+          <p-button
+            type="submit"
+            [disabled]="form.invalid"
+            label="Actualizar Usuario"
+            [rounded]="true"
+            severity="success"
+          ></p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

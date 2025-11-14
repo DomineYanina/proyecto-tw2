@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
 import { of } from 'rxjs';
@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-detalle-videojuego',
@@ -35,7 +36,43 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
   carritoService = inject(CarritoService);
-  private messageService = inject(MessageService); 
+  private messageService = inject(MessageService);
+
+
+  @ViewChild('audioFx') audioPlayerRef!: ElementRef<HTMLAudioElement>;
+tarjetaMediosActiva: boolean = false;
+tarjetaInfoActiva: boolean = false;
+// Nueva variable para gestionar el estado de ocultamiento
+otraTarjetaInactiva: boolean = false;
+
+toggleTarjeta(tipo: 'medios' | 'info') {
+    // Lógica para reproducir sonido y alternar estados...
+    if (!this.tarjetaMediosActiva && !this.tarjetaInfoActiva) {
+        this.playFuturisticSound();
+    }
+
+    if (tipo === 'medios') {
+        this.tarjetaMediosActiva = !this.tarjetaMediosActiva;
+        this.tarjetaInfoActiva = false;
+    } else {
+        this.tarjetaInfoActiva = !this.tarjetaInfoActiva;
+        this.tarjetaMediosActiva = false;
+    }
+
+    this.otraTarjetaInactiva = this.tarjetaMediosActiva || this.tarjetaInfoActiva;
+  }
+
+  // Asegúrate de que este método también exista
+  playFuturisticSound() {
+    // ... lógica para reproducir audio ...
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+        const audio = this.audioPlayerRef.nativeElement;
+        audio.currentTime = 0;
+        audio.play().catch(error => {
+            console.warn('Error al reproducir el audio:', error);
+        });
+    }
+  }
 
   ngOnInit(): void {
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
@@ -122,7 +159,7 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
       this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
       return;
     }
-    
+
     // 2. Verificar el ID del videojuego
     if (!videojuegoId) {
        this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
@@ -130,7 +167,7 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
     }
 
     const userId = parseInt(userIdStr, 10);
-    
+
     // 3. Llamar al servicio del carrito
     this.carritoService.agregarItem(userId, videojuegoId, 1) // Añade 1 unidad
       .subscribe({
@@ -145,8 +182,11 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
       });
   }
 
- 
+
   volverALaLista(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
+
+
 }
+
