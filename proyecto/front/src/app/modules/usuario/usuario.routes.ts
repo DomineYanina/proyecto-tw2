@@ -2,12 +2,17 @@ import { Routes } from '@angular/router';
 import { ViewUser } from './pages/view-user/view-user';
 import { CreateUser } from './pages/create-user/create-user';
 import { LoginUserComponent } from './pages/login-user/login-user.component';
+import { UpdateUser } from './pages/update-user/update-user';
 
 export const usuarioRoutes: Routes = [
 
     {
-        path: 'verUsuario/:id', // ¡Cambiado de 'perfil/:id' a solo ':id'!
+        path: 'verUsuario', // ¡Cambiado de 'perfil/:id' a solo ':id'!
         component: ViewUser
+    },
+    {
+      path: 'actualizar',
+      component: UpdateUser
     },
     {
       path: 'registro',

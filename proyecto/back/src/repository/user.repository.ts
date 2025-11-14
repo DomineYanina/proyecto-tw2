@@ -21,7 +21,9 @@ export class UserRepository {
                 id: true,                      
                 nombre: true,
                 email: true,
-                usuario: true,                
+                usuario: true,  
+                apellido: true,
+                direccion: true              
             },
         });
     }

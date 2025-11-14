@@ -44,15 +44,15 @@
 
   <!-- Lista de Videojuegos -->
   <div class="card-container">
-    <p-card 
-      *ngFor="let videojuego of videojuegos" 
-      [header]="videojuego.nombre" 
+    <p-card
+      *ngFor="let videojuego of videojuegos"
+      [header]="videojuego.nombre"
       styleClass="videojuego-card"
     >
       <ng-template pTemplate="header">
           <img
-              [src]="'/assets/portadas/' + videojuego.url_portada" 
-              [alt]="'Portada de ' + videojuego.nombre" 
+              [src]="'/assets/portadas/' + videojuego.url_portada"
+              [alt]="'Portada de ' + videojuego.nombre"
               class="videojuego-portada"
           >
       </ng-template>

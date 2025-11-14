@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ListaVideojuegos implements OnInit, OnDestroy {
 
+  
   videojuegos: Videojuego[] = [];
   videojuegoService = inject(VideojuegoService);
   private cdr = inject(ChangeDetectorRef);
