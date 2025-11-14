@@ -40,7 +40,8 @@
 
     /* OPTIMIZACIÓN DE TRANSICIONES: Todas en una sola línea. */
     /* Aseguramos una transición de 0.3s para 'transform', 'box-shadow' y 'background' (gradiente). */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+       background: 0.3s ease;
 
     /* Gradiente original (Rojo abajo, Negro al centro, Azul arriba) */
     background: linear-gradient(
@@ -77,7 +78,8 @@
     opacity: 1;
     filter: blur(0);
     /* OPTIMIZACIÓN DE TRANSICIÓN: Consolidamos las transiciones de atenuación. */
-    transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+     background: 0.3s ease;
 }
 
 .card-container:has(.videojuego-card:hover) .videojuego-card:not(:hover) {
@@ -104,7 +106,7 @@
 /* ESTILO DESCRIPCIÓN */
 .descripcion-card {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+   /*0 -webkit-line-clamp: 4;*/
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -176,6 +178,55 @@
     transform: translateY(1px);
 }
 
-p-card{
-  color: white;
+.boton-principal{
+    background-color: transparent;
+    color: white;
 }
+
+.main-layout {
+    display: flex; 
+    gap: 30px; /* Espacio entre los filtros y las tarjetas */
+    width: 100%;
+}
+
+.filtro-vertical {
+    /* Fija el elemento a la ventana de visualización */
+    position: fixed; 
+    
+    /* Lo pega al borde izquierdo y superior */
+    left: 0; 
+    top: 0;
+    
+    /* Asegura que el filtro ocupe toda la altura de la ventana visible */
+    height: 100vh; 
+    
+    /* Define el ancho (puedes ajustarlo) */
+    width: 300px; 
+    
+    /* Añade un fondo para que cubra cualquier contenido detrás */
+    background-color: #2c2c2c; /* Usé un color oscuro de ejemplo; ajústalo a tu tema */
+    
+    /* Asegura que esté por encima de otros elementos (opcional, si hay z-index bajo) */
+    z-index: 100;
+    
+    /* Añade padding para separar el contenido del borde de la pantalla */
+    padding-top: 100px; /* Separación de la parte superior, ajusta si tienes un header */
+    padding-left: 0; /* Ya está pegado, pero se puede añadir padding interno */
+    padding-right: 30px; /* Espacio antes de que empiece la lista de videojuegos */
+}
+
+.card-container {
+    flex-grow: 1; 
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+    gap: 30px;
+    padding: 0; /* Eliminamos el padding grande que tenías, ya que ahora lo controla el layout */
+    padding-right: 200px; /* Si quieres un margen derecho */
+}
+
+.container.mt-4 > h2 {
+    margin-left: 330px; /* Desplaza el título al lado de los filtros */
+    padding-top: 30px; /* Espacio para que no se pegue al borde superior */
+}
+
