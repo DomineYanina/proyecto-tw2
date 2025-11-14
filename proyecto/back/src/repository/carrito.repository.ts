@@ -49,12 +49,14 @@ export class CarritoRepository {
     }
 
 
-    async deleteItem(itemId: number): Promise<number> {
-        const resultado = await prisma.carrito.deleteMany({
-            where: {
-    videojuego_id: itemId, // Usar 'id' o el nombre de tu PK/Unique Key
-            },
-        });
-        return resultado.count;
-    }
+    async deleteItem(itemId: number, userId: number): Promise<number> { // itemId = videojuego_id
+        const resultado = await prisma.carrito.deleteMany({
+            where: {
+                // 🎯 El itemId que recibimos es el videojuego_id
+                videojuego_id: itemId, 
+                usuario_id: userId
+            },
+        });
+        return resultado.count;
+    }
 }

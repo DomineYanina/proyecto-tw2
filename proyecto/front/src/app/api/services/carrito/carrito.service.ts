@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable, switchMap } from 'rxjs';
 import { Carrito, CarritoItem } from '../../../modules/carrito/interfaces/carrito.interface';
 import { environment } from '../../../../environments/environment.development';
 import { Pedido } from '../../../modules/pedido/interfaces/pedido.interface';
@@ -30,11 +30,12 @@ export class CarritoService {
       return this.http.post<Pedido>(`${environment.api_url}/carrito/compra/${userId}`, {});
   }
 
-  eliminarItem(userId: number, itemId: number): Observable<void> {
-
-       const url = `${environment.api_url}/carrito/item/${itemId}`;
-
-        return this.http.delete<void>(url);
-
-    }
+  eliminarItem(userId: number, itemId: number): Observable<CarritoItem[]> {
+    const url = `${environment.api_url}/carrito/item?userId=${userId}&itemId=${itemId}`;
+    return this.http.delete<void>(url).pipe(
+        switchMap(() => {
+            return this.http.get<CarritoItem[]>(`${environment.api_url}/carrito/${userId}`);
+        })
+    );
+}
 }

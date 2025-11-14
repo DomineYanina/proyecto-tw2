@@ -43,7 +43,7 @@
                 <div class="p-4">
                     <h5>Videojuegos en el Pedido #{{ pedido.id }}</h5>
                     
-                    <p-table [value]="pedido.videojuegos" dataKey="videojuego_id">
+                    <p-table [value]="pedido.pedidovideojuego" dataKey="videojuego_id">
                         <ng-template #header>
                             <tr>
                                 <th>Nombre</th>
