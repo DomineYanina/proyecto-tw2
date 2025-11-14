@@ -17,25 +17,26 @@ import { RippleModule } from 'primeng/ripple'; // Se recomienda importar este m�
   // Asegúrate de que todos los módulos de PrimeNG usados en el HTML estén aquí
   standalone: true, // Si es un componente standalone
   imports: [
-    TableModule, 
-    CommonModule, 
-    CardModule, 
-    ButtonModule, 
-    DatePipe, 
-    CurrencyPipe, 
-    ToastModule, 
-    TagModule, 
+    TableModule,
+    CommonModule,
+    CardModule,
+    ButtonModule,
+    DatePipe,
+    CurrencyPipe,
+    ToastModule,
+    TagModule,
     RippleModule // Añadido para pRipple
   ],
   templateUrl: './lista-pedidos.html',
   styleUrl: './lista-pedidos.css',
 })
 export class ListaPedidos implements OnInit, OnDestroy {
+  auth=inject(AuthService);
 
   pedidos: Pedido[] = [];
   // 🎯 Objeto para rastrear las filas expandidas por su ID.
-  expandedRows: { [key: number]: boolean } = {}; 
-  
+  expandedRows: { [key: number]: boolean } = {};
+
   // Inyecciones de dependencias
   pedidoService = inject(PedidoService);
   private authService = inject(AuthService);
@@ -43,6 +44,9 @@ export class ListaPedidos implements OnInit, OnDestroy {
   private router = inject(Router);
 
   ngOnInit(): void {
+    if(!this.auth.verificarSiHayUsuarioEnSession()){
+      this.router.navigate(["usuario/login"]);
+    }
     this.listarPedidos();
   }
 
@@ -82,13 +86,13 @@ export class ListaPedidos implements OnInit, OnDestroy {
       }
     })
   }
-  
+
   /**
    * Maneja el evento cuando una fila de pedido se expande.
    * @param event El evento de expansión de fila.
    */
   onRowExpand(event: TableRowExpandEvent) {
-    // Si necesitas cargar detalles adicionales de los videojuegos que no vienen 
+    // Si necesitas cargar detalles adicionales de los videojuegos que no vienen
     // en la carga inicial del pedido, este es el lugar para hacerlo.
     // console.log('Fila expandida:', event.data.id);
   }
@@ -108,7 +112,7 @@ export class ListaPedidos implements OnInit, OnDestroy {
     this.expandedRows = {}; // Limpia el objeto
     this.pedidos.forEach(pedido => (this.expandedRows[pedido.id] = true));
     // Forzar la detección de cambios para actualizar la vista inmediatamente
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 
   /**
@@ -117,7 +121,7 @@ export class ListaPedidos implements OnInit, OnDestroy {
   collapseAll() {
     this.expandedRows = {}; // Limpia el objeto
     // Forzar la detección de cambios
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 
   /**

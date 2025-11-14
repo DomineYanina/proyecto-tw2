@@ -34,6 +34,7 @@ import { tap } from 'rxjs/operators';
 })
 export class ListaCarrito implements OnInit {
 
+  auth=inject(AuthService);
 
   // Servicios inyectados
   private carritoService = inject(CarritoService);
@@ -51,6 +52,9 @@ export class ListaCarrito implements OnInit {
   cantidadTotal: number = 0;
 
   ngOnInit(): void {
+    if(!this.auth.verificarSiHayUsuarioEnSession()){
+      this.router.navigate(["usuario/login"]);
+    }
     this.cargarCarrito();
   }
 

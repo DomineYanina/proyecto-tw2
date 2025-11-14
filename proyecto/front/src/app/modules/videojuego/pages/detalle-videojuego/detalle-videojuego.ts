@@ -93,7 +93,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     // Código a ejecutar al destruir el componente (p. ej., desuscripciones manuales si no usamos async pipe)
   }
 
-  
+
   cargarDatosDesdeRuta(): void {
     this.route.params.pipe(
       // 1. Obtener el ID de la ruta y obtener el Videojuego
@@ -130,7 +130,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         // con timmer
         setTimeout(() => {
             this.spinner.set(true);
-        }, 20);
+        }, 500);
 
         //Solucion con SIGNAL
         // console.log(desarrollador)

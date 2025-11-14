@@ -5,13 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 // PrimeNG Imports
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../../core/auth.service';
 
 @Component({
   selector: 'app-checkout', // Selector actualizado
   standalone: true,
   imports: [
-    CommonModule, 
-    CardModule, 
+    CommonModule,
+    CardModule,
     ButtonModule
   ],
   template: `
@@ -25,10 +26,10 @@ import { ButtonModule } from 'primeng/button';
           <p *ngIf="pedidoId" class="text-lg mb-5">
             ID de tu Pedido: <strong class="text-blue-600">{{ pedidoId }}</strong>
           </p>
-          <p-button 
-            label="Volver al Catálogo" 
-            icon="pi pi-home" 
-            (onClick)="irACatalogo()" 
+          <p-button
+            label="Volver al Catálogo"
+            icon="pi pi-home"
+            (onClick)="irACatalogo()"
             styleClass="p-button-primary"
           ></p-button>
         </div>
@@ -38,13 +39,18 @@ import { ButtonModule } from 'primeng/button';
   styles: ``
 })
 export class Checkout implements OnInit { // Nombre de clase actualizado
-  
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  
+  auth=inject(AuthService);
+
+
   pedidoId: string | null = null;
 
   ngOnInit(): void {
+    if(!this.auth.verificarSiHayUsuarioEnSession()){
+      this.router.navigate(["usuario/login"]);
+    }
     // Obtener el ID del pedido de los parámetros de la ruta
     this.pedidoId = this.route.snapshot.paramMap.get('id');
   }
