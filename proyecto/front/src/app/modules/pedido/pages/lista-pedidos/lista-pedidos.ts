@@ -68,6 +68,7 @@ export class ListaPedidos implements OnInit, OnDestroy {
     this.pedidoService.getPedidosUsuario(userId).subscribe({
       next: (pedidos: Pedido[]) => {
         this.pedidos = pedidos;
+        console.log('Cantidad de videojuegos recibidos:', pedidos[0].videojuegos?.length);
         this.cdr.detectChanges();
         console.log('Pedidos cargados:', pedidos);
       },
