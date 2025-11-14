@@ -63,28 +63,23 @@ export class CarritoService {
         console.log('4. Carrito vaciado. Terminando servicio.');
         return nuevoPedido;
     }
-    async eliminarItem(itemId: number) {
-        try {
-            // 1. Llamar al repositorio para ejecutar la eliminación por el ID del ítem.
-            // Asumimos que carritoRepository tiene un método 'deleteItem' que recibe el ID.
-            const resultado = await this.carritoRepository.deleteItem(itemId);
+    
+    async eliminarItem(itemId: number, userId: number) {
+        try {
+            // 1. Llamar al repositorio para ejecutar la eliminación por el ID del ítem.
+            // El orden de los argumentos DEBE coincidir con el repositorio: deleteItem(videojuego_id, usuario_id)
+            const resultado = await this.carritoRepository.deleteItem(itemId, userId); 
 
-            // 2. Opcional: Manejo de caso donde el ítem no existe. 
-            // Si el repositorio devuelve 0 filas afectadas, puedes lanzar un error.
-            if (resultado === 0) {
-                // Lanzar un error específico que el controlador pueda capturar (404)
-                throw new Error(`Ítem de carrito con ID ${itemId} no encontrado.`);
-            }
-
-            // 3. Devolver el resultado de la operación.
-            // Esto es lo que el controlador verificará (aunque ya quitamos el 'if' allí, 
-            // es bueno que el servicio devuelva algo útil).
-            return resultado;
-        } catch (error) {
-            console.error(`Error en CarritoService al eliminar item ${itemId}:`, error);
-            // Re-lanzar el error para que el bloque 'catch' del controlador lo maneje.
-            throw error;
-        }
-    }
+            // 2. Manejo de caso donde el ítem no existe.
+            if (resultado === 0) {
+                // Lanzar un error capturable por el controlador
+                throw new Error(`Ítem de carrito con videojuego ID ${itemId} y usuario ID ${userId} no encontrado.`);
+            }
+            return resultado;
+        } catch (error) {
+            console.error(`Error en CarritoService al eliminar item ${itemId}:`, error);
+            throw error;
+        }
+    }
 
 }

@@ -157,34 +157,28 @@ export class ListaCarrito implements OnInit {
       });
   }
 
-quitarDelCarrito(itemId: number): Observable<any> {
-  const userIdStr = this.authService.getUserId();
+  quitarDelCarrito(itemId: number): Observable<any> {
+    const userIdStr = this.authService.getUserId();
 
-  if (!userIdStr) {
-    console.error('Error: Usuario no autenticado para eliminar el ítem.');
-    alert('Debes iniciar sesión para modificar el carrito.');
-    return throwError(() => new Error("usuario no autenticado"));
+    if (!userIdStr) {
+      console.error('Error: Usuario no autenticado para eliminar el ítem.');
+      alert('Debes iniciar sesión para modificar el carrito.');
+      return throwError(() => new Error("usuario no autenticado"));
+    }
+
+    const userId = parseInt(userIdStr, 10);
+
+    return this.carritoService.eliminarItem(userId, itemId).pipe(
+      tap(() => {
+        this.cargarCarrito();
+        console.log("videoJuegoEliminadoDelCarrito");
+      }),
+      catchError(err => {
+        console.error("Error al eliminar videojuego:", err);
+        alert('Hubo un error al eliminar el ítem. Inténtalo de nuevo.');
+        return throwError(() => err);
+      })
+    );
   }
-
-  const userId = parseInt(userIdStr, 10);
-
-  // 1. Devuelve el Observable del servicio.
-  return this.carritoService.eliminarItem(userId, itemId).pipe(
-    // 2. Usa el operador 'tap' para manejar los efectos secundarios
-    //    En lugar de asignar 'response' a carritoItems (porque es void),
-    //    llamamos a cargarCarrito() para refrescar la lista desde el backend.
-    tap(() => {
-      this.cargarCarrito(); // <-- ¡La clave! Refresca la lista y recalcula totales.
-      console.log("videoJuegoEliminadoDelCarrito");
-    }),
-    // 3. Usa 'catchError' para manejar errores dentro del flujo del Observable.
-    catchError(err => {
-      console.error("Error al eliminar videojuego:", err);
-      alert('Hubo un error al eliminar el ítem. Inténtalo de nuevo.');
-      // Devolver un Observable que emite un error para propagarlo
-      return throwError(() => err);
-    })
-  );
-}
 
 }

@@ -83,39 +83,30 @@ export class CarritoController {
     }
 
     public eliminarItem = async (req: Request, res: Response) => {
-        try {
+        try {
+                // 🎯 CORRECCIÓN: Leer los parámetros desde req.query (vienen como strings)
+            const { userId, itemId } = req.query; 
 
-            // 1. Obtener el ID del ítem de carrito a eliminar. 
-            // Asumimos que la ruta es /api/carrito/item/:itemId o similar.
-            const { itemId } = req.params;
-            const itemIdNum = Number(itemId);
+            const itemIdNum = Number(itemId);
+            const userIdNum = Number(userId);
 
-            // 2. Validar que el ID sea un número válido.
-            if (isNaN(itemIdNum) || itemIdNum <= 0) {
-                return res.status(400).json({ message: 'ID del ítem de carrito inválido' });
-            }
+            if (isNaN(itemIdNum) || itemIdNum <= 0 || isNaN(userIdNum) || userIdNum <= 0) {
+                return res.status(400).json({ message: 'ID de usuario o de videojuego inválido.' });
+            }
+            // 🎯 INVERSIÓN DE ORDEN: Aseguramos que se envía itemId (videojuego_id) y luego userId,
+            // si el servicio espera primero el ID del ítem a borrar.
+            const resultado = await carritoService.eliminarItem(itemIdNum, userIdNum);
 
-            // 3. Llamar al servicio para realizar la eliminación en la base de datos.
-            // Asumimos que el CarritoService tiene un método 'eliminarItemDelCarrito'.
-            const resultado = await carritoService.eliminarItem(itemIdNum);
-
-            // 4. Comprobar si la eliminación fue exitosa (ej. 1 fila afectada, o una respuesta de éxito).
-            // La lógica exacta puede variar dependiendo de lo que devuelva el repositorio/servicio.
-            //if (!resultado) {
-                // Si el servicio devuelve null o false si el ítem no existía.
-               // return res.status(404).json({ message: `Ítem de carrito con ID ${itemIdNum} no encontrado.` });
-            //}
-
-            // 5. Respuesta exitosa (HTTP 204 No Content es estándar para DELETE exitoso sin devolver body, 
-            // pero 200/202 con mensaje también es común). Usaremos 204 para ser canónicos.
-            res.status(204).send();
-        }
-        catch (error) {
-            console.error('⚠️ Error al intentar eliminar el item:', error);
-            const message = error instanceof Error ? error.message : 'Error interno';
-            res.status(500).json({
-                message: `Error al eliminar el juego: ${message}`
-            });
-        }
-    }
+            // 204 No Content es la respuesta estándar para un DELETE exitoso.
+            res.status(204).send(); 
+        }
+        catch (error) {
+            console.error('⚠️ Error al intentar eliminar el item:', error);
+            // Manejo de error si el item no existe (e.g., error.message contiene 'no encontrado')
+            const message = error instanceof Error ? error.message : 'Error interno';
+            res.status(500).json({
+                message: `Error al eliminar el juego: ${message}`
+            });
+        }
+    }
 }
