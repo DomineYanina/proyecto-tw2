@@ -1,13 +1,14 @@
-import { Component, inject, output, signal } from '@angular/core';
-import { Usuario } from '../../interfaces/usuario.interface';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsuarioRegistro } from '../../interfaces/usuarioRegistro.interface';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-create-user',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CardModule, ButtonModule,RouterLink],
   templateUrl: './create-user.html',
   styleUrl: './create-user.css',
 })
@@ -19,14 +20,16 @@ export class CreateUser {
 
   mensajeError = signal("");
 
+  value="hola";
+
   form!: FormGroup;
   camposFormulario = [
-    { nombre: 'email', tipo: "email" },
-    { nombre: 'usuario', tipo: "text" },
-    { nombre: 'contra', tipo: "password" },
-    { nombre: 'nombre', tipo: "text" },
-    { nombre: 'apellido', tipo: "text" },
-    { nombre: 'direccion', tipo: "text" }];
+    { nombre: 'email', tipo: "email" ,placeholder:"japigames@sape.com"},
+    { nombre: 'usuario', tipo: "text",placeholder:" sape123" },
+    { nombre: 'contra', tipo: "password",placeholder:"Minimo 5 caracteres, 1 mayuscula, 1 minuscula y 1 numero" },
+    { nombre: 'nombre', tipo: "text",placeholder:" Joel" },
+    { nombre: 'apellido', tipo: "text",placeholder:" Escobar" },
+    { nombre: 'direccion', tipo: "text",placeholder:"Av siempre viva 123" }];
 
   ngOnInit(): void {
     this.form = this.fb.group({

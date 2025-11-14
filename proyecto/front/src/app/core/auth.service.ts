@@ -34,6 +34,11 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+    // 📦 Obtener info del usuario logueado
+  // getUser(): any {
+  //   const user = localStorage.getItem('user');
+  //   return user ? JSON.parse(user) : null;
+  // }
 
   // 👤 Saber si el usuario sigue logueado
   isLoggedIn(): boolean {
@@ -44,12 +49,30 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    localStorage.removeItem('user_id');
+    try { localStorage.removeItem('videojuego-filtros'); } catch(e) { /* ignore */ }
   }
 
   // 📦 Obtener info del usuario logueado
   getUser(): any {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+    localStorage.removeItem('user_id');
+  }
+
+  verificarSiHayUsuarioEnSession():boolean{
+    let hayUsuarioEnSession:boolean=true;
+    if(!this.getToken() || !this.getUser() || !this.getUserId()){
+        hayUsuarioEnSession=false;
+    }
+
+    return hayUsuarioEnSession;
+  }
+
+  verObjetosGuardadosDeLaSession() {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key!);
+      console.log(key, value);
+    }
   }
 }
