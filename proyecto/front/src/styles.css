@@ -1,10 +1,67 @@
-
+/* PrimeNG Icons */
 @import "primeicons/primeicons.css";
 
+/* PrimeFlex Utility Classes */
 @import "primeflex/primeflex.css";
 
+/* ============================================= */
+/*               ESTILOS DEL BODY                */
+/* ============================================= */
 
-body{
+body {
   background-color: rgb(28, 28, 28);
   color: white;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* ============================================= */
+/*   BOTONES GLOBALMENTE AMARILLOS (PRIMENG)     */
+/* ============================================= */
+
+:root .p-button {
+  background-color: rgb(255, 217, 0) !important;   /* mismo amarillo que navbar */
+  border: 1px solid #d4bd00 !important;    /* borde suave */
+  color: #000 !important;                  /* texto negro */
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 8px 14px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Íconos negros */
+:root .p-button .p-button-icon {
+  color: #000 !important;
+}
+
+/* Hover elegante */
+:root .p-button:hover {
+  background-color: #f0d600 !important;    /* amarillo más oscuro */
+  border-color: #c6ac00 !important;
+  color: #000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15) !important;
+}
+
+/* Reducir efecto de clic */
+:root .p-button:active {
+  transform: translateY(0);
+  box-shadow: none !important;
+}
+
+/* ============================================= */
+/* QUITAR COLORES DE PRIME NG POR SEVERITY       */
+/* ============================================= */
+
+:root .p-button.p-button-success,
+:root .p-button.p-button-danger,
+:root .p-button.p-button-info,
+:root .p-button.p-button-warning,
+:root .p-button.p-button-contrast,
+:root .p-button.p-button-secondary,
+:root .p-button.p-button-primary {
+  background-color: #ffe600 !important;
+  border: 1px solid #d4bd00 !important;
+  color: #000 !important;
 }

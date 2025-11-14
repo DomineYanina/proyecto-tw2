@@ -6,9 +6,12 @@ import { UsuarioRegistro } from '../../interfaces/usuarioRegistro.interface';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 
+import { FloatLabelModule } from 'primeng/floatlabel';
+
 @Component({
   selector: 'app-create-user',
-  imports: [ReactiveFormsModule,CardModule, ButtonModule,RouterLink],
+  imports: [ReactiveFormsModule,CardModule,
+    ButtonModule,RouterLink, FloatLabelModule],
   templateUrl: './create-user.html',
   styleUrl: './create-user.css',
 })
