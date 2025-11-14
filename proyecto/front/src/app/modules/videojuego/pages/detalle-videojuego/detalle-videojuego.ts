@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, signal, effect } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
 import { of } from 'rxjs';
@@ -78,16 +78,9 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         });
     }
   }
-  //ESTO SE BORRA
-  // constructor() {
-  //   effect(() => {
-  //     const val = this.desarrollador();
-  //     console.log('La signal cambió:', val);
-  //   });
-  // }
 
   ngOnInit(): void {
-    this.spinner.set(false);
+    // this.spinner.set(false);
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
     this.cargarDatosDesdeRuta();
     // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
@@ -136,9 +129,9 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         console.log('Desarrollador obtenido:', this.desarrollador);
 
         // con timmer
-        setTimeout(() => {
-            this.spinner.set(true);
-        }, 2000);
+        // setTimeout(() => {
+        //     this.spinner.set(true);
+        // }, 2000);
 
         //Solucion con SIGNAL
         // console.log(desarrollador)
