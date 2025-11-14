@@ -80,7 +80,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   }
 
   ngOnInit(): void {
-    // this.spinner.set(false);
+     this.spinner.set(false);
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
     this.cargarDatosDesdeRuta();
     // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
@@ -129,9 +129,9 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         console.log('Desarrollador obtenido:', this.desarrollador);
 
         // con timmer
-        // setTimeout(() => {
-        //     this.spinner.set(true);
-        // }, 2000);
+        setTimeout(() => {
+            this.spinner.set(true);
+        }, 20);
 
         //Solucion con SIGNAL
         // console.log(desarrollador)
