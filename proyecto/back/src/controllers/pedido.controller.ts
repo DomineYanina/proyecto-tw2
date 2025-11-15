@@ -7,7 +7,7 @@ const pedidoService = new PedidoService(pedidoRepository);
 
 export class PedidoController {
     constructor() {
-        // Constructor logic here
+        
     }
 
     public getItems=async (req: Request, res: Response)=> {

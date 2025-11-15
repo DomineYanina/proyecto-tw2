@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '../prisma.js';
 
 export class CarritoRepository {
@@ -6,7 +5,7 @@ export class CarritoRepository {
     async findCarritoByUsuario(id: number) {
         return prisma.carrito.findMany({
             where: { usuario_id: id },
-            // Incluye la data del videojuego en cada ítem del carrito
+            
             include: {
                 videojuego: true
             }
@@ -45,7 +44,7 @@ export class CarritoRepository {
     }
 
 
-    async deleteItem(itemId: number, userId: number): Promise<number> { // itemId = videojuego_id
+    async deleteItem(itemId: number, userId: number): Promise<number> {
         const resultado = await prisma.carrito.deleteMany({
             where: {
                 videojuego_id: itemId,

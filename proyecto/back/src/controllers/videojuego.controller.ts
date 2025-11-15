@@ -8,7 +8,7 @@ const videojuegoService = new VideojuegoService(videojuegoRepository);
 export class VideojuegoController {
     service: any;
     constructor() {
-        // Constructor logic here
+        
     }
 
     public getVideojuegos = async (request: Request, response: Response) => {
@@ -79,8 +79,5 @@ export class VideojuegoController {
             response.status(500).json({ message: 'Error al obtener el desarrollador', error });
         }
     }
-
-
-
 
 }

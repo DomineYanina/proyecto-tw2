@@ -15,7 +15,6 @@ export class UserService {
         return await this.userRepository.findUserById(id);
     }
 
-
     async createUser(data: {
         nombre: string;
         apellido: string;
@@ -50,7 +49,6 @@ export class UserService {
     }
 
     public validacionMail(mail: string) {
-        // [^\s@] caracteres que no sean @
         const emailPatron = /^[^\s@]+@[^\s@]+$/;
         if (!emailPatron.test(mail)) {
             throw new Error("mail Invalido");
@@ -98,7 +96,6 @@ export class UserService {
         if (!isMatch) {
             throw new Error('Credenciales inválidas');
         }
-
 
         return await this.userRepository.findUserById(userPasswordData.id);
     }

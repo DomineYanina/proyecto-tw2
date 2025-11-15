@@ -63,7 +63,6 @@ export class UserRepository {
         usuario?: string; 
         apellido?: string;
         direccion?: string; 
-        //rol?: rolusuario;
     }) {
         return await prisma.usuario.update({
             where: { id },                     

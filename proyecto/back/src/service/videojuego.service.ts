@@ -24,7 +24,5 @@ export class VideojuegoService {
     async obtenerDesarrollador(id: number){
         return await this.videojuegoRepository.findDesarrolladorByVideojuegoId(id);
     }
-
-
  
 }

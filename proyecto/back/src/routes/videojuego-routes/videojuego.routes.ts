@@ -10,6 +10,4 @@ videojuegoRouter.get('/:id/requisitos-pc', videojuegoController.getRequisitosPC.
 videojuegoRouter.get('/desarrollador/:id', videojuegoController.getDesarrollador.bind(videojuegoController));
 
 
-
-
 export default videojuegoRouter;

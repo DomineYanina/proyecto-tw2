@@ -12,7 +12,7 @@ export class AppRoutes {
         router.use('/api/videojuego', videojuegoRouter);
         router.use('/api/user', userRouter);
         router.use('/api/carrito', carritoRouter);
-        router.use('/api/pedidos', pedidoRouter); // Asegúrate de tener un pedidoRouter definido
+        router.use('/api/pedidos', pedidoRouter);
 
         return router;
     }

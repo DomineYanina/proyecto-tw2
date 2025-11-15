@@ -3,8 +3,7 @@ import { UserService } from '../service/user.service.js';
 import type { usuario as User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = 'mi_clave_secreta'; // ⚠️ en producción usar process.env.JWT_SECRET
-
+const SECRET_KEY = 'mi_clave_secreta';
 export class UserController {
 
     constructor(private userService: UserService = new UserService()) { }
