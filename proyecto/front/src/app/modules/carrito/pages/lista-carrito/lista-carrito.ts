@@ -74,14 +74,12 @@ export class ListaCarrito implements OnInit {
         this.carritoItems = [];
         this.totalCarrito = 0;
         this.cantidadTotal = 0;
-        // ✅ SOLUCIÓN AL ERROR DE TIPADO:
-        // Se añade un cast al valor que devuelve 'of' para que TypeScript sepa
-        // que, en caso de error, sigue emitiendo el tipo esperado (CarritoItem[])
+
         return of([] as CarritoItem[]);
       })
     )
     .subscribe({
-      // El tipo 'itemsCompletos' ya no causará el error porque el tipo del Observable final es consistente.
+
       next: (itemsCompletos: CarritoItem[]) => {
         this.carritoItems = itemsCompletos;
 
@@ -91,7 +89,7 @@ export class ListaCarrito implements OnInit {
         this.cdr.detectChanges();
       },
       error: () => {
-        // El error ya fue manejado en catchError
+
       }
     });
   }
@@ -101,7 +99,7 @@ export class ListaCarrito implements OnInit {
     let cantidad = 0;
 
     this.carritoItems.forEach(item => {
-      // item.videojuego ahora es mandatorio si usas la interfaz actualizada
+
       if (item.videojuego && item.videojuego.precio && item.cantidad) {
         total += item.videojuego.precio * item.cantidad;
         cantidad += item.cantidad;
@@ -122,19 +120,19 @@ export class ListaCarrito implements OnInit {
 
     if (!userIdStr) {
       console.error('Error: Usuario no autenticado para realizar la compra.');
-      // Opcional: Redirigir al login si el ID no existe
+
       this.router.navigate(['/auth/login']);
       return;
     }
 
     const userId = parseInt(userIdStr, 10);
 
-    // 1. Llamar al servicio para realizar la compra
+
     this.carritoService.realizarCompra(userId)
       .pipe(
         catchError(err => {
           console.error('Error al procesar la compra:', err);
-          // Opcional: Mostrar un mensaje de error al usuario
+
           alert('Hubo un error al procesar tu compra. Inténtalo de nuevo.');
           return of(null); // Emitir un valor nulo para completar el Observable sin error
         })
@@ -149,12 +147,12 @@ export class ListaCarrito implements OnInit {
             this.calcularTotales();
             this.cdr.detectChanges();
 
-            // 2. Navegar a la página de checkout, pasando el ID del pedido
-            this.router.navigate(['/checkout', response.id]); // Redirección al nuevo componente
+
+            this.router.navigate(['/checkout', response.id]);
           }
         },
         error: (err) => {
-          // Ya manejado en catchError, pero por si acaso.
+
           console.error('Suscripción terminada con error:', err);
         }
       });

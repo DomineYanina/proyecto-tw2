@@ -1,6 +1,4 @@
-/* ===================================================== */
-/*                  NAVBAR ESTILO E-COMMERCE             */
-/* ===================================================== */
+
 
 .navbar-container {
   width: 100%;
@@ -15,7 +13,7 @@
   z-index: 1000;
 }
 
-/* Contenedor interno */
+
 .navbar {
   display: flex;
   align-items: center;
@@ -30,9 +28,6 @@
   align-items: center;
 }
 
-/* ===================================================== */
-/*                   BOTONES AMARILLOS                   */
-/* ===================================================== */
 
 .p-button {
   background: #ffe600 !important;
@@ -59,7 +54,7 @@
   box-shadow: none;
 }
 
-/* Ajustar colores si el componente usa severity */
+
 .p-button.p-button-success,
 .p-button.p-button-danger,
 .p-button.p-button-info,
@@ -72,9 +67,7 @@
   border: 1px solid #d4bd00 !important;
 }
 
-/* ===================================================== */
-/*                          LOGO                         */
-/* ===================================================== */
+
 
 .logo-img {
   height: 45px;
@@ -91,10 +84,6 @@
   display: flex;
   align-items: center;
 }
-
-/* ===================================================== */
-/*               BUSCADOR FALSO AMARILLO                 */
-/* ===================================================== */
 
 .nav-search {
   background-color: #ffe600;
@@ -116,7 +105,7 @@
   font-size: 1.4rem;
 }
 
-/* Hover profesional */
+
 .nav-search:hover {
   background-color: #f0d600;
   border-color: #c6ac00;
@@ -124,9 +113,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.20);
 }
 
-/* ===================================================== */
-/*                  HAMBURGUESA (MÓVIL)                  */
-/* ===================================================== */
+
 
 .hamburger {
   display: none;
@@ -135,11 +122,8 @@
   cursor: pointer;
 }
 
-/* ===================================================== */
-/*            MENÚ MÓVIL DESLIZANTE (OFF-CANVAS)         */
-/* ===================================================== */
 
-/* Fondo oscuro */
+
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
@@ -155,7 +139,7 @@
   visibility: visible;
 }
 
-/* Panel */
+
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -174,7 +158,7 @@
   right: 0;
 }
 
-/* Header */
+
 .mobile-menu-header {
   font-size: 1.4rem;
   font-weight: bold;
@@ -211,9 +195,6 @@
   background: #f0d600;
 }
 
-/* ===================================================== */
-/*                  RESPONSIVE BREAKPOINT                */
-/* ===================================================== */
 
 @media (max-width: 1000px) {
 
@@ -233,7 +214,7 @@
   .nav-search {
     display: none;
   }
-  
+
   .mobile-only {
     display: block !important;
   }
