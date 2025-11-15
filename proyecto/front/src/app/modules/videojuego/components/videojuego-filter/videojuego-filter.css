@@ -1,4 +1,4 @@
-/* 1. Fondo general de la página/contenedor */
+
 .filter-page-container {
     background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
     min-height: 100vh;
@@ -6,39 +6,35 @@
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', sans-serif;
-    padding: 50px 0; /* Espaciado vertical para centrar mejor */
+    padding: 50px 0;
 }
 
-/* 2. Estilo de la Tarjeta de Filtros (Bootstrap .card) */
 .card {
-    background-color: #2b2b2b; /* Fondo oscuro similar al de PrimeNG Card */
+    background-color: #2b2b2b;
     border: 1px solid #444;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    color: #ffffff; /* Color de texto base blanco */
+    color: #ffffff;
     border-radius: 12px;
 }
 
-/* 3. Título de la Tarjeta (Bootstrap .card-title) */
 .card-title {
-    color: #ffbb0d; /* Dorado */
+    color: #ffbb0d;
     font-weight: 600;
     margin-bottom: 1.5em;
     font-size: 1.5rem;
 }
 
-/* 4. Etiqueta del campo (label) */
 label {
     font-weight: 500;
     color: #ffffff;
     font-size: 1.1rem;
     margin-bottom: 5px;
-    display: block; /* Asegura que la etiqueta ocupe su propia línea */
+    display: block;
 }
 
-/* 5. Inputs y Selects (Bootstrap .form-control) */
 .form-control {
-    background-color: #383838; /* Fondo oscuro para el input */
-    color: #ffffff; /* Texto blanco en el input */
+    background-color: #383838;
+    color: #ffffff;
     border: 1px solid #555;
     border-radius: 8px;
     padding: 10px 12px;
@@ -48,21 +44,18 @@ label {
 
 .form-control:focus {
     background-color: #454545;
-    border-color: #ffbb0d; /* Borde dorado al enfocar */
+    border-color: #ffbb0d;
     box-shadow: 0 0 0 0.25rem rgba(255, 191, 0, 0.4);
     outline: none;
 }
 
-/* 6. Contenedor de Acciones (Botones) */
 .filter-actions-container {
     display: flex;
     gap: 15px;
     margin-top: 15px;
 }
 
-/* 7. Estilo para el botón principal (Aplicar Filtros) */
 .p-button-primary {
-    /* Sobrescribe los estilos de PrimeNG para el tema dorado/negro */
     background: rgb(255, 191, 0) !important;
     border: 1px solid rgb(255, 217, 0) !important;
     color: black !important;
@@ -78,9 +71,7 @@ label {
     color: black !important;
 }
 
-/* 8. Estilo para el botón secundario (Limpiar Filtros) */
 .p-button-secondary {
-    /* Estilo oscuro/gris para el botón secundario */
     background: #444 !important;
     border: 1px solid #666 !important;
     color: white !important;
@@ -95,14 +86,11 @@ label {
     border-color: rgb(255, 191, 0) !important;
     color: rgb(255, 191, 0) !important;
 }
-
-/* Asegura que los botones ocupen el mismo espacio horizontal */
 .action-button {
     flex-grow: 1;
     width: auto !important;
 }
 
-/* Mantenemos tus estilos originales de filtro para layout */
 .videojuego-filter { margin-bottom: 1rem; }
 .filter-card-vertical { max-width: 100%; }
 .campos-verticales > div { margin-bottom: 1rem; }

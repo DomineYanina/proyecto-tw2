@@ -1,52 +1,39 @@
-/* ---------------------------------------------------- */
-/* --- LAYOUT PRINCIPAL (Lista de Videojuegos Component) --- */
-/* ---------------------------------------------------- */
 
-/* 1. Contenedor principal: Maneja el fondo y la altura mínima */
 .videojuegos-pagina-wrapper {
     background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
     min-height: 100vh;
-    padding: 30px 20px; /* Padding general de la página */
+    padding: 30px 20px;
 }
 
-/* 2. Contenedor Grid para el layout de dos columnas */
 .main-layout-grid {
     display: grid;
     gap: 30px;
-    max-width: 1400px; /* Limita el ancho del contenido principal */
+    max-width: 1400px;
     margin: 0 auto;
 
-    /* Por defecto (Móviles): Una sola columna apilada */
     grid-template-columns: 1fr;
 }
-
-/* 3. Estilo para DESKTOP (pantallas medianas y grandes) */
 @media (min-width: 992px) {
     .main-layout-grid {
-        /* Dos columnas: 300px para el filtro (fijo), el resto (1fr) para los juegos */
         grid-template-columns: 300px 1fr;
-        align-items: flex-start; /* Asegura que el contenido se alinee arriba */
+        align-items: flex-start;
     }
 }
 
-/* 4. Filtro: Implementación de Sticky */
 .filtro-sticky {
- /* Por defecto (Móviles/Tablets): No es sticky, sigue el flujo normal */
- position: static; /* Asegura que no es sticky por defecto */
- width: 100%; /* Sigue siendo ancho completo */
+ position: static;
+ width: 100%;
 }
 
-/* 4.1. Estilo para DESKTOP: Aplicación de Sticky */
+
 @media (min-width: 992px) {
  .filtro-sticky {
- /* Mantiene el filtro fijo mientras el contenido central hace scroll */
+
  position: sticky;
- top: 12.65em; /* Distancia desde la parte superior del viewport */
+ top: 12.65em;
  }
 }
 
-
-/* 5. Estilos del Contenido Principal (Título y Cartas) */
 .titulo-listado {
  color: white;
  font-size: 2.5em;
@@ -54,10 +41,6 @@
  margin-bottom: 30px;
  padding-top: 10px;
 }
-
-/* ---------------------------------------------------- */
-/* --- ESTILOS DE TARJETAS (MANTENIDOS) --- */
-/* ---------------------------------------------------- */
 
 .card-container {
     display: grid;
