@@ -41,3 +41,6 @@
   <p-button label="Seguir comprando" icon="pi pi-arrow-left" (click)="seguirComprando()"></p-button>
   <p-button label="Realizar compra" icon="pi pi-shopping-cart" (click)="comprar()"></p-button>
 </div>
+@if (this.mensajeDeExitoCompra().length > 0) {
+  <h2 style="color: green; margin-top: 1.5em;">{{this.mensajeDeExitoCompra()}}</h2>
+}

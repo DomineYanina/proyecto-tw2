@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectorRef, signal } from '@angular/core';
 import { PedidoService } from '../../../../api/services/pedido/pedido.service';
 import { ToastModule } from 'primeng/toast';
 import { Pedido } from '../../interfaces/pedido.interface';
@@ -42,6 +42,7 @@ export class ListaPedidos implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef); // Necesario para expandAll/collapseAll
   private router = inject(Router);
+
 
   ngOnInit(): void {
     if(!this.auth.verificarSiHayUsuarioEnSession()){

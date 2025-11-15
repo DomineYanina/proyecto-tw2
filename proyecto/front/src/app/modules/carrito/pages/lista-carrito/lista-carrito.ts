@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,6 +34,8 @@ import { tap } from 'rxjs/operators';
 })
 export class ListaCarrito implements OnInit {
 
+  mensajeDeExitoCompra=signal<string>("");
+
   auth=inject(AuthService);
 
   // Servicios inyectados
@@ -52,6 +54,7 @@ export class ListaCarrito implements OnInit {
   cantidadTotal: number = 0;
 
   ngOnInit(): void {
+    this.mensajeDeExitoCompra.set("");
     if(!this.auth.verificarSiHayUsuarioEnSession()){
       this.router.navigate(["usuario/login"]);
     }
@@ -121,6 +124,10 @@ export class ListaCarrito implements OnInit {
     const userIdStr = this.authService.getUserId();
     console.log('Iniciando proceso de compra para el usuario ID:', userIdStr);
 
+        setTimeout(() => {
+          this.mensajeDeExitoCompra.set("Gracias por su compra!");
+        }, 2000);
+
     if (!userIdStr) {
       console.error('Error: Usuario no autenticado para realizar la compra.');
       // Opcional: Redirigir al login si el ID no existe
@@ -143,8 +150,6 @@ export class ListaCarrito implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.id) {
-            console.log('Compra realizada con éxito:', response);
-
             // 1. Limpiar el estado del carrito en el front-end
             this.carritoItems = [];
             this.calcularTotales();
