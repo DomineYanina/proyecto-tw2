@@ -1,9 +1,22 @@
-<div class="container mt-4">
-    <h2>Lista de Videojuegos</h2>
+<div class="videojuegos-pagina-wrapper">
+<!-- El wrapper maneja el fondo degradado y la altura mínima (min-height: 100vh) -->
 
-    <div class="main-layout"> 
-        
-        <videojuego-filter (apply)="onApply($event)" (clear)="onClear()" class="filtro-vertical"></videojuego-filter>
+<div class="main-layout-grid">
+    <!--
+        1. FILTRO (Componente Hijo)
+        La clase .filtro-sticky aplica position: sticky en el CSS de ListaVideojuegos.
+    -->
+    <videojuego-filter
+        (apply)="onApply($event)"
+        (clear)="onClear()"
+        class="filtro-sticky">
+    </videojuego-filter>
+
+    <!--
+        2. CONTENIDO PRINCIPAL (Título y Tarjetas)
+    -->
+    <div class="content-wrapper">
+        <h2 class="titulo-listado">Lista de Videojuegos</h2>
 
         <div class="card-container">
             <p-card
@@ -30,5 +43,8 @@
             </ng-template>
             </p-card>
         </div>
+    </div>
+</div>
 
-    </div> </div>
+
+</div>

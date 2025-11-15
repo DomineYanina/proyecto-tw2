@@ -21,9 +21,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   selector: 'app-detalle-videojuego',
   standalone: true,
   imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule, ProgressSpinnerModule],
-  // Nota: Deberías usar template y styles inline o en el mismo archivo para cumplir con el Single-File Mandate,
-  // pero mantengo la estructura original por el momento.
-
   templateUrl: './detalle-videojuego.html',
   styleUrl: './detalle-videojuego.css'
 })
@@ -35,7 +32,6 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
   desarrolladorId: number = 0;
   videojuegoExtra: Videojuego | null = null;
   desarrollador: Desarrollador | null = null;
-  // desarrollador = signal<Desarrollador | null>(null); SIGNAL
   videojuego: Videojuego | null = null;
   requisitos: RequisitosPC | null = null;
   videojuegoService = inject(VideojuegoService);
@@ -49,11 +45,9 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
   @ViewChild('audioFx') audioPlayerRef!: ElementRef<HTMLAudioElement>;
 tarjetaMediosActiva: boolean = false;
 tarjetaInfoActiva: boolean = false;
-// Nueva variable para gestionar el estado de ocultamiento
 otraTarjetaInactiva: boolean = false;
 
 toggleTarjeta(tipo: 'medios' | 'info') {
-    // Lógica para reproducir sonido y alternar estados...
     if (!this.tarjetaMediosActiva && !this.tarjetaInfoActiva) {
         this.playFuturisticSound();
     }
@@ -69,9 +63,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     this.otraTarjetaInactiva = this.tarjetaMediosActiva || this.tarjetaInfoActiva;
   }
 
-  // Asegúrate de que este método también exista
   playFuturisticSound() {
-    // ... lógica para reproducir audio ...
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
         const audio = this.audioPlayerRef.nativeElement;
         audio.currentTime = 0;
@@ -83,59 +75,47 @@ toggleTarjeta(tipo: 'medios' | 'info') {
 
   ngOnInit(): void {
      this.spinner.set(false);
-    // Hemos combinado la carga del videojuego y el desarrollador en un solo método
     this.cargarDatosDesdeRuta();
-    // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
     this.obtenerRequisitosPC();
   }
 
   ngOnDestroy(): void {
-    // Código a ejecutar al destruir el componente (p. ej., desuscripciones manuales si no usamos async pipe)
   }
 
 
   cargarDatosDesdeRuta(): void {
     this.route.params.pipe(
-      // 1. Obtener el ID de la ruta y obtener el Videojuego
       switchMap(params => {
-        const id = +params['id']; // El '+' convierte el string del parámetro a número
+        const id = +params['id'];
         if (id && !isNaN(id)) {
           this.videojuegoId = id;
           return this.videojuegoService.getVideojuegoById(id);
         }
-        return of(null); // Retorna un observable nulo si el ID no es válido
+        return of(null);
       }),
-      // Asegurarse de que el videojuego no sea nulo antes de continuar
       filter((videojuego): videojuego is Videojuego => !!videojuego),
-      // 2. Usar 'tap' para asignar el videojuego a la propiedad local
       tap(videojuego => {
         this.videojuego = videojuego;
         this.desarrolladorId = videojuego.id_desarrollador || 0;
         console.log('Videojuego obtenido:', this.videojuego);
       }),
-      // 3. Usar el segundo 'switchMap' para pasar del observable del Videojuego
-      //    al observable del Desarrollador, usando el id_desarrollador.
+
       switchMap(videojuego => {
         if (videojuego.id_desarrollador) {
-          // ⬅️ ¡Aquí se pasa correctamente el id_desarrollador!
+
           return this.videojuegoService.getDesarrolladorByVideojuegoId(videojuego.id_desarrollador);
         }
-        return of(null); // Retorna nulo si no hay ID de desarrollador
+        return of(null);
       })
     ).subscribe({
       next: (desarrollador) => {
         this.desarrollador = desarrollador;
         console.log('Desarrollador obtenido:', this.desarrollador);
 
-        // con timmer
         setTimeout(() => {
             this.spinner.set(true);
         }, 500);
 
-        //Solucion con SIGNAL
-        // console.log(desarrollador)
-        // this.desarrollador.set(desarrollador);
-        // console.log('Desarrollador obtenido:', this.desarrollador());
       },
       error: (error) => {
         console.error('Error al obtener el videojuego o el desarrollador:', error);
@@ -148,7 +128,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
       switchMap(params => {
         const id = +params['id'];
         if (id && !isNaN(id)) {
-          // No necesitamos almacenar this.videojuegoId aquí de nuevo, pero lo mantenemos por consistencia
+
           return this.videojuegoService.getRequisitosPCByVideojuegoId(id);
         }
         return of(null);
@@ -169,13 +149,11 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     const userIdStr = this.authService.getUserId();
     const videojuegoId = videojuego_id;
 
-    // 1. Verificar el ID del usuario
     if (!userIdStr) {
       this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
       return;
     }
 
-    // 2. Verificar el ID del videojuego
     if (!videojuegoId) {
        this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
        return;
@@ -183,8 +161,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
 
     const userId = parseInt(userIdStr, 10);
 
-    // 3. Llamar al servicio del carrito
-    this.carritoService.agregarItem(userId, videojuegoId, 1) // Añade 1 unidad
+    this.carritoService.agregarItem(userId, videojuegoId, 1)
       .subscribe({
         next: (response) => {
           console.log('Videojuego añadido al carrito:', response);
@@ -197,11 +174,9 @@ toggleTarjeta(tipo: 'medios' | 'info') {
       });
   }
 
-
   volverALaLista(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
-
 
 }
 

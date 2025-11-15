@@ -1,13 +1,63 @@
-/* lista-videojuegos.css - Código Optimizado */
+/* ---------------------------------------------------- */
+/* --- LAYOUT PRINCIPAL (Lista de Videojuegos Component) --- */
+/* ---------------------------------------------------- */
+
+/* 1. Contenedor principal: Maneja el fondo y la altura mínima */
+.videojuegos-pagina-wrapper {
+    background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    min-height: 100vh;
+    padding: 30px 20px; /* Padding general de la página */
+}
+
+/* 2. Contenedor Grid para el layout de dos columnas */
+.main-layout-grid {
+    display: grid;
+    gap: 30px;
+    max-width: 1400px; /* Limita el ancho del contenido principal */
+    margin: 0 auto;
+
+    /* Por defecto (Móviles): Una sola columna apilada */
+    grid-template-columns: 1fr;
+}
+
+/* 3. Estilo para DESKTOP (pantallas medianas y grandes) */
+@media (min-width: 992px) {
+    .main-layout-grid {
+        /* Dos columnas: 300px para el filtro (fijo), el resto (1fr) para los juegos */
+        grid-template-columns: 300px 1fr;
+        align-items: flex-start; /* Asegura que el contenido se alinee arriba */
+    }
+}
+
+/* 4. Filtro: Implementación de Sticky */
+.filtro-sticky {
+    /* Mantiene el filtro fijo mientras el contenido central hace scroll */
+    position: sticky;
+    top: 30px; /* Distancia desde la parte superior del viewport */
+    width: 100%;
+}
+
+/* 5. Estilos del Contenido Principal (Título y Cartas) */
+.titulo-listado {
+    color: white;
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    padding-top: 10px;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- ESTILOS DE TARJETAS (MANTENIDOS) --- */
+/* ---------------------------------------------------- */
 
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
     gap: 30px;
-    padding: 200px;
+    padding: 0;
 }
 
-/* 🎯 ESTILO: Nombre del Videojuego y Contenido */
 .p-card .p-card-title {
     font-size: 1.5em;
     font-weight: bold;
@@ -18,16 +68,6 @@
     padding-top: 10px;
 }
 
-/* Selector p-card redundante y genérico, se elimina a menos que p-card sea una etiqueta HTML real. */
-/* Si p-card es una clase, debe ser .p-card */
-/* p-card {
-    color: white;
-} */
-
-
-/*
-* EFECTO HOVER: Card Individual (Zoom, Sombra y Gradiente)
-*/
 .videojuego-card {
     width: 100%;
     z-index: 1;
@@ -38,12 +78,9 @@
     position: relative;
     overflow: hidden;
 
-    /* OPTIMIZACIÓN DE TRANSICIONES: Todas en una sola línea. */
-    /* Aseguramos una transición de 0.3s para 'transform', 'box-shadow' y 'background' (gradiente). */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-       background: 0.3s ease;
+    background: 0.3s ease;
 
-    /* Gradiente original (Rojo abajo, Negro al centro, Azul arriba) */
     background: linear-gradient(
         0deg,
         rgb(255, 191, 0) 0%,
@@ -53,12 +90,11 @@
     );
 }
 
-/* NUEVO REQUERIMIENTO: Gradiente de la tarjeta cambia a verde cuando el botón está en hover. */
 .videojuego-card:has(.ver-detalles-btn:hover) {
-    /* Gradiente VERDE (Verde abajo, Negro al centro, Azul arriba) */
+
     background: linear-gradient(
         0deg,
-       rgb(255, 140, 0) 0%,
+        rgb(255, 140, 0) 0%,
         rgba(0, 0, 0, 1) 37%,
         rgba(0, 0, 0, 1) 32%,
         rgb(255, 170, 0) 100%
@@ -71,15 +107,12 @@
     z-index: 10;
 }
 
-/*
-* EFECTO HOVER: Atenuación del resto de Cards (Desenfoque)
-*/
 .card-container .videojuego-card {
     opacity: 1;
     filter: blur(0);
-    /* OPTIMIZACIÓN DE TRANSICIÓN: Consolidamos las transiciones de atenuación. */
+
     transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-     background: 0.3s ease;
+    background: 0.3s ease;
 }
 
 .card-container:has(.videojuego-card:hover) .videojuego-card:not(:hover) {
@@ -87,8 +120,6 @@
     filter: blur(2px);
 }
 
-
-/* Mantén los estilos de imagen */
 .videojuego-portada {
     width: 100%;
     height: 200px;
@@ -103,10 +134,9 @@
     transition: box-shadow 0.3s ease;
 }
 
-/* ESTILO DESCRIPCIÓN */
 .descripcion-card {
     display: -webkit-box;
-   /*0 -webkit-line-clamp: 4;*/
+
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -114,10 +144,9 @@
     font-size: 0.95em;
     line-height: 1.4;
     color: #e0e0e0;
-    padding: 0 15px 10px 15px; /* Propiedad abreviada */
+    padding: 0 15px 10px 15px;
 }
 
-/* 🔑 CLAVE DE ALINEACIÓN: Contenedor del footer */
 .videojuego-card .p-card-footer {
     display: flex;
     flex-direction: row;
@@ -129,7 +158,6 @@
     z-index: 2;
 }
 
-/* Estilos de botones - Ahora el botón es transparente por defecto */
 .ver-detalles-btn {
     background: transparent;
     color: rgba(15, 15, 16, 0.721);
@@ -140,7 +168,6 @@
     justify-content: center;
     font-weight: bolder;
     border-radius: 8px;
-    /* Transición solo para propiedades del botón */
     transition: box-shadow 0.3s ease, transform 0.1s ease, color 0.3s ease;
     border: none;
 }
@@ -159,7 +186,6 @@
     border: none;
 }
 
-/* Efectos Hover/Active para ambos botones */
 .ver-detalles-btn:hover {
     color: black;
     cursor: pointer;
@@ -182,51 +208,3 @@
     background-color: transparent;
     color: white;
 }
-
-.main-layout {
-    display: flex; 
-    gap: 30px; /* Espacio entre los filtros y las tarjetas */
-    width: 100%;
-}
-
-.filtro-vertical {
-    /* Fija el elemento a la ventana de visualización */
-    position: fixed; 
-    
-    /* Lo pega al borde izquierdo y superior */
-    left: 0; 
-    top: 0;
-    
-    /* Asegura que el filtro ocupe toda la altura de la ventana visible */
-    height: 100vh; 
-    
-    /* Define el ancho (puedes ajustarlo) */
-    width: 300px; 
-    
-    /* Añade un fondo para que cubra cualquier contenido detrás */
-    background-color: #2c2c2c; /* Usé un color oscuro de ejemplo; ajústalo a tu tema */
-    
-    /* Asegura que esté por encima de otros elementos (opcional, si hay z-index bajo) */
-    z-index: 100;
-    
-    /* Añade padding para separar el contenido del borde de la pantalla */
-    padding-top: 100px; /* Separación de la parte superior, ajusta si tienes un header */
-    padding-left: 0; /* Ya está pegado, pero se puede añadir padding interno */
-    padding-right: 30px; /* Espacio antes de que empiece la lista de videojuegos */
-}
-
-.card-container {
-    flex-grow: 1; 
-    
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
-    gap: 30px;
-    padding: 0; /* Eliminamos el padding grande que tenías, ya que ahora lo controla el layout */
-    padding-right: 200px; /* Si quieres un margen derecho */
-}
-
-.container.mt-4 > h2 {
-    margin-left: 330px; /* Desplaza el título al lado de los filtros */
-    padding-top: 30px; /* Espacio para que no se pegue al borde superior */
-}
-
