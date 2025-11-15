@@ -33,8 +33,6 @@ export class UpdateUser {
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      //id: [''],
-      //password_hash: [''],
       usuario : ['', Validators.required],
       direccion : ['', Validators.required]
     });
@@ -55,8 +53,6 @@ export class UpdateUser {
           nombre: dataUsuario.nombre,
           apellido: dataUsuario.apellido,
           email: dataUsuario.email,
-          //id: dataUsuario.id,
-          //password_hash: dataUsuario.password_hash,
           usuario: dataUsuario.usuario,
           direccion: dataUsuario.direccion
         });

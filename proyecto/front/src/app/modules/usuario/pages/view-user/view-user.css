@@ -1,9 +1,4 @@
-/* =========================================
-   Estilos de Contenedor y Fondo
-   ========================================= */
-
 .registro-container {
-  /* Fondo Degradado Dorado/Negro */
   background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
   min-height: 100vh;
   display: flex;
@@ -14,60 +9,43 @@
   width: 100%;
 }
 
-/* Título Principal (Detalle del Usuario) */
 .main-title {
-  color: #ffbb0d; /* Dorado para el encabezado principal */
+  color: #ffbb0d;
   font-weight: 700;
   margin-top: 15px;
 }
 
-/* =========================================
-   Estilos de la Tarjeta (p-card)
-   ========================================= */
-
-/* Sobreescribe estilos de PrimeNG para el contenedor de la tarjeta */
 :host ::ng-deep .custom-card .p-card {
-    background-color: rgba(30, 30, 30, 0.9); /* Fondo oscuro transparente */
-    color: white; /* Texto principal en blanco */
+    background-color: rgba(30, 30, 30, 0.9);
+    color: white;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Estilo para el encabezado de la tarjeta */
 :host ::ng-deep .custom-card .p-card-title {
-    color: #ffbb0d; /* Título de la tarjeta en Dorado */
+    color: #ffbb0d;
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-/* Estilo para el subtítulo de la tarjeta */
 :host ::ng-deep .custom-card .p-card-subtitle {
-    color: #aaaaaa; /* Subtítulo en gris claro */
+    color: #aaaaaa;
 }
 
-/* =========================================
-   Estilos de Detalles del Usuario
-   ========================================= */
-
 .detail-label {
-  color: #ffbb0d; /* Etiquetas de los campos en Dorado */
+  color: #ffbb0d;
   font-size: 1.1rem;
 }
 
 .detail-value {
-  color: white; /* Valores de los campos en Blanco */
+  color: white;
   font-size: 1.1rem;
 }
 
 .border-bottom {
-  border-color: rgba(255, 255, 255, 0.2) !important; /* Separadores más sutiles */
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* =========================================
-   Estilos de Botones Personalizados
-   ========================================= */
-
-/* 1. Botón Principal: Modificar Usuario (p-button-danger) - Dorado/Negro */
 :host ::ng-deep .p-button-danger {
     background: rgb(255, 191, 0) !important;
     border: 1px solid rgb(255, 217, 0) !important;
@@ -87,7 +65,6 @@
     transform: translateY(-1px);
 }
 
-/* 2. Botón Secundario: Volver (p-button-secondary) - Gris Oscuro/Dorado */
 :host ::ng-deep .p-button-secondary {
     background: #2b2b2b !important;
     border: 1px solid #4a4a4a !important;
@@ -107,15 +84,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     transform: translateY(-1px);
 }
-/* Asegúrate que estas clases estén en tu archivo CSS de la vista de detalle */
 
 .form-actions {
   display: flex;
-  gap: 15px; /* Espacio entre los botones */
-  /* padding-top: 15px;  (Opcional, si quieres espacio del contenido de la tarjeta) */
+  gap: 15px;
 }
 
 .action-button {
-  flex-grow: 1; /* Hace que ambos botones ocupen el mismo espacio horizontal */
+  flex-grow: 1;
   width: auto !important;
 }

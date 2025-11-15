@@ -1,6 +1,4 @@
-/* Fondo general */
 .registro-container {
-  /* background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%); */
   background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
   min-height: 100vh;
   display: flex;
@@ -10,41 +8,36 @@
   padding: 50px 0px;
 }
 
-/* Título (dentro de p-card) */
 h2 {
-  color: #ffbb0d; /* Dorado */
+  color: #ffbb0d;
   font-weight: 600;
   margin-bottom: 1em;
 }
 
-/* Formulario */
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espacio entre los campos */
+  gap: 20px;
 }
 
-/* Grupos de formulario */
 .form-group {
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-/* Etiqueta del campo */
 label {
   font-weight: 500;
   color: #ffffff;
-  font-size: 1.1rem; /* Ajustado para mejor legibilidad */
-  margin-bottom: 5px; /* Espacio entre etiqueta y input */
+  font-size: 1.1rem;
+  margin-bottom: 5px;
 }
 
-/* Input (PrimeNG pInputText se verá afectado) */
 input {
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 15px; /* Ajustado para mejor legibilidad */
+  font-size: 15px;
   width: 100%;
 }
 
@@ -53,9 +46,8 @@ input:focus {
   outline: none;
 }
 
-/* Mensajes de error (small) */
 small {
-  font-size: 0.9em; /* Más pequeño para errores */
+  font-size: 0.9em;
   font-weight: 500;
   color: red;
   margin-top: 5px;

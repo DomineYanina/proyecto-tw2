@@ -2,13 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-// PrimeNG Imports
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../../core/auth.service';
 
 @Component({
-  selector: 'app-checkout', // Selector actualizado
+  selector: 'app-checkout',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,7 +37,7 @@ import { AuthService } from '../../../../core/auth.service';
   `,
   styles: ``
 })
-export class Checkout implements OnInit { // Nombre de clase actualizado
+export class Checkout implements OnInit {
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -51,7 +50,7 @@ export class Checkout implements OnInit { // Nombre de clase actualizado
     if(!this.auth.verificarSiHayUsuarioEnSession()){
       this.router.navigate(["usuario/login"]);
     }
-    // Obtener el ID del pedido de los parámetros de la ruta
+    
     this.pedidoId = this.route.snapshot.paramMap.get('id');
   }
 

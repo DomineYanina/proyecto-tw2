@@ -1,7 +1,6 @@
 <nav class="navbar-container">
   <div class="navbar">
 
-    <!-- LOGO -->
 <div class="nav-logo">
   <img
     src="assets/Logo/page-logo.png"
@@ -10,13 +9,11 @@
     [routerLink]="['/videojuego/lista-videojuegos']"
   >
 </div>
-<!-- BOTÓN HAMBURGUESA (solo móvil) -->
+
 <div class="hamburger" (click)="toggleMobileMenu()">
   <i class="pi pi-bars"></i>
 </div>
 
-
-<!-- BUSCADOR (solo desktop) -->
 <div class="nav-item desktop-only">
   <div class="nav-search" [routerLink]="['/videojuego/lista-videojuegos']">
     <i class="pi pi-search"></i>
@@ -24,40 +21,32 @@
   </div>
 </div>
 
-<!-- PEDIDOS (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
   <p-button label="" icon="pi pi-list" [routerLink]="['/pedido/lista-pedidos']"></p-button>
 </div>
 
-<!-- CARRITO (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
   <p-button icon="pi pi-shopping-cart" label="" [routerLink]="['/carrito/carrito']"></p-button>
 </div>
 
-<!-- PERFIL (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
   <p-button icon="pi pi-user" label="Mi Perfil" [routerLink]="['/usuario/verUsuario']"></p-button>
 </div>
 
-<!-- LOGOUT (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
   <p-button icon="pi pi-sign-out" label="Salir" (click)="logout()"></p-button>
 </div>
 
-<!-- LOGIN (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="!auth.isLoggedIn()">
   <p-button icon="pi pi-sign-in" label="Login" [routerLink]="['/usuario/login']"></p-button>
 </div>
 
-<!-- REGISTRO (solo desktop) -->
 <div class="nav-item desktop-only" *ngIf="!auth.isLoggedIn()">
   <p-button icon="pi pi-user-plus" label="Registrarse" [routerLink]="['/usuario/registro']"></p-button>
 </div>
-
-
   </div>
 </nav>
-<!-- MENÚ DESLIZABLE MÓVIL -->
+
 <div class="mobile-menu-overlay"
      [class.open]="mobileMenuOpen"
      (click)="toggleMobileMenu()"></div>

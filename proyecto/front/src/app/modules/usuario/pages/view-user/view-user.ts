@@ -17,22 +17,17 @@ import { Router} from '@angular/router';
 })
 export class ViewUser {
   usuarioService = inject(UsuarioService);
-  //activatedRoute = inject(ActivatedRoute);
-  //id: number = 0;
   usuario!: Usuario;
   private cdr = inject(ChangeDetectorRef);
 
-  // Con estas 4 lineas manejo la session
   auth=inject(AuthService);
   router = inject(Router);
-    //   if(!this.auth.verificarSiHayUsuarioEnSession()){
-    //   this.router.navigate(["/"]);}
 
   ngOnInit(): void {
     if(!this.auth.verificarSiHayUsuarioEnSession()){
       this.router.navigate(["usuario/login"]);
     }
-    //this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    
       this.verUsuario();
   }
   ngOnDestroy(): void {
@@ -58,4 +53,3 @@ export class ViewUser {
   }
 
 }
-

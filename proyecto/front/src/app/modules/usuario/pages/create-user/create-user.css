@@ -1,32 +1,14 @@
-/* Fondo general */
+
 .registro-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); */
   background: radial-gradient(circle, rgba(255, 217, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
   font-family: 'Segoe UI', sans-serif;
   padding: 50px 0px;
 }
 
-/* Tarjeta */
-/* .registro-card {
-  background-color: #fff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 380px;
-  text-align: center;
-} */
-
-/* Título */
-/* .registro-card h2 {
-  margin-bottom: 20px;
-  color: #ffbb0d;
-  font-weight: 600;
-} */
 
 h2 {
   color: #ffbb0d;
@@ -34,46 +16,20 @@ h2 {
   margin-bottom: 1em;
 }
 
-/* Formulario */
 form {
-  /* background-color: rgb(9, 119, 40); */
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* .form-group {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin: 15px;
-} */
-
-/* label {
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #444;
-} */
-
-/* input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.2s;
-  font-size: 15px;
-} */
-
-
-/* Selector para todos los p-floatLabel */
 label {
   font-weight: 500;
   color: #ffffff;
-  font-size: 1.3rem; /* tamaño normal */
+  font-size: 1.3rem;
 }
 
 
 small {
-  /* margin-bottom: 6px; */
   font-size: 1.2em;
   font-weight: 500;
   color:red;
@@ -94,7 +50,6 @@ input:focus {
   outline: none;
 }
 
-/* Botón */
 button {
   background-color: #007bff;
   color: white;
@@ -116,17 +71,16 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Estilo Base para el botón de "Agregar al carrito" (Primario/Acento) */
 .p-button-danger {
-    background: rgb(255, 191, 0) !important; /* Dorado base */
+    background: rgb(255, 191, 0) !important;
     border: 1px solid rgb(255, 217, 0) !important;
     border-radius: 8px;
     padding: 10px;
-    color: black !important; /* Texto negro para contraste */
+    color: black !important;
     font-weight: bold;
     text-transform: uppercase;
 }
-/* Efecto Hover: Dorado más intenso */
+
 .p-button-danger:hover {
     background: rgb(255, 217, 0) !important;
     border-color: white !important;
@@ -134,7 +88,7 @@ button:disabled {
 }
 
 .p-button-secondary {
-    background: #444 !important; /* Gris oscuro */
+    background: #444 !important;
     border: 1px solid #666 !important;
     border-radius: 8px;
     padding: 10px;
@@ -142,9 +96,9 @@ button:disabled {
     font-weight: bold;
     text-transform: uppercase;
 }
-/* Efecto Hover: Cambiar de color (blanco) a dorado */
+
 .p-button-secondary:hover {
     background: #666 !important;
-    border-color: rgb(255, 191, 0) !important; /* Borde dorado en hover */
-    color: rgb(255, 191, 0) !important; /* Texto dorado en hover */
+    border-color: rgb(255, 191, 0) !important;
+    color: rgb(255, 191, 0) !important;
 }

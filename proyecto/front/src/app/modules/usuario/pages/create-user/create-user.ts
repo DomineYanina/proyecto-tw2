@@ -70,33 +70,3 @@ export class CreateUser {
     })
   }
 }
-// Anotaciones mias
-
-// this.form.get('usuario')?.value
-// const control = this.form.get('usuario');
-// const valor = control ? control.value : undefined;
-// Si control existe (no es null ni undefined), se devuelve control.value.
-// condicion? valor verdadero:valor falso
-
-// form!: FormGroup;
-//El ! indica que sera inicializado antes de usarlo
-
-// fuera de la clase puedo poner tipado normal
-// Pero dentro de funciones tengo que poner LET y CONST para el tipado
-// const filas:number=this.camposFormulario.length;
-// let i:number=0;
-
-// Expresiones regulares
-// /^ --> inicia
-// $/ --> asi terminar
-// Al menos un número [0-9]
-// Al menos una letra mayúscula [A-Z]
-// Al menos una letra minuscula [a-z]
-// Al menos un símbolo [!@#$%^&*]
-// Mínimo 8 caracteres . {8,}
-
-//atributos de codigo de error
-// 1 Error recibido:", error);
-// 2 Código:", error.status);
-// 3 Mensaje genérico:", error.message);
-// 4 Cuerpo del error :", error.error);

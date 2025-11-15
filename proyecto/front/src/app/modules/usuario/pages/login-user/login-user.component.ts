@@ -6,8 +6,8 @@ import { AuthService } from '../../../../core/auth.service';
 
 @Component({
   selector: 'app-login-user',
-  standalone: true, // 👈 importante
-  imports: [CommonModule, FormsModule,RouterLink], // 👈 agrega esto
+  standalone: true,
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.css']
 })
@@ -26,11 +26,11 @@ export class LoginUserComponent {
 
     this.authService.login(this.email, this.contrasena).subscribe({
       next: (response) => {
-        console.log('✅ Login exitoso:', response);
+        console.log('Login exitoso:', response);
         this.router.navigate(['/videojuego/lista-videojuegos']);
       },
       error: (err) => {
-        console.error('❌ Error en login:', err);
+        console.error('Error en login:', err);
         this.errorMsg = err.error?.message || 'Credenciales inválidas';
       }
     });

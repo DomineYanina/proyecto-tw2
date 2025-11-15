@@ -3,7 +3,6 @@
             font-family: 'Inter', sans-serif;
             display: block;
         }
-        /* Clase para evitar el parpadeo en la carga inicial si no se usa un esqueleto */
         .min-h-screen { min-height: 100vh; }
 
 body {

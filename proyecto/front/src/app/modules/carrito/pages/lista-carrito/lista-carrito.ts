@@ -6,7 +6,6 @@ import { CarritoService } from '../../../../api/services/carrito/carrito.service
 import { AuthService } from '../../../../core/auth.service';
 import { CarritoItem } from '../../interfaces/carrito.interface';
 
-// PrimeNG Imports
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
@@ -36,18 +35,15 @@ export class ListaCarrito implements OnInit {
 
   auth=inject(AuthService);
 
-  // Servicios inyectados
   private carritoService = inject(CarritoService);
   private authService = inject(AuthService);
 
   private router = inject(Router);
 
-  // Propiedades reactivas
   carritoItems: CarritoItem[] = [];
 
   private cdr = inject(ChangeDetectorRef);
 
-  // Propiedades calculadas
   totalCarrito: number = 0;
   cantidadTotal: number = 0;
 
@@ -68,21 +64,18 @@ export class ListaCarrito implements OnInit {
 
     const userId = parseInt(userIdStr, 10);
 
-    // 1. Obtener el carrito completo (Observable<CarritoItem[]>)
     this.carritoService.obtenerCarrito(userId).pipe(
       catchError(err => {
         console.error('Error al cargar carrito:', err);
         this.carritoItems = [];
         this.totalCarrito = 0;
         this.cantidadTotal = 0;
-        // ✅ SOLUCIÓN AL ERROR DE TIPADO:
-        // Se añade un cast al valor que devuelve 'of' para que TypeScript sepa
-        // que, en caso de error, sigue emitiendo el tipo esperado (CarritoItem[])
+        
         return of([] as CarritoItem[]);
       })
     )
     .subscribe({
-      // El tipo 'itemsCompletos' ya no causará el error porque el tipo del Observable final es consistente.
+      
       next: (itemsCompletos: CarritoItem[]) => {
         this.carritoItems = itemsCompletos;
 
@@ -92,7 +85,7 @@ export class ListaCarrito implements OnInit {
         this.cdr.detectChanges();
       },
       error: () => {
-        // El error ya fue manejado en catchError
+        
       }
     });
   }
@@ -102,7 +95,7 @@ export class ListaCarrito implements OnInit {
     let cantidad = 0;
 
     this.carritoItems.forEach(item => {
-      // item.videojuego ahora es mandatorio si usas la interfaz actualizada
+      
       if (item.videojuego && item.videojuego.precio && item.cantidad) {
         total += item.videojuego.precio * item.cantidad;
         cantidad += item.cantidad;
@@ -123,21 +116,19 @@ export class ListaCarrito implements OnInit {
 
     if (!userIdStr) {
       console.error('Error: Usuario no autenticado para realizar la compra.');
-      // Opcional: Redirigir al login si el ID no existe
+      
       this.router.navigate(['/auth/login']);
       return;
     }
 
     const userId = parseInt(userIdStr, 10);
 
-    // 1. Llamar al servicio para realizar la compra
     this.carritoService.realizarCompra(userId)
       .pipe(
         catchError(err => {
           console.error('Error al procesar la compra:', err);
-          // Opcional: Mostrar un mensaje de error al usuario
           alert('Hubo un error al procesar tu compra. Inténtalo de nuevo.');
-          return of(null); // Emitir un valor nulo para completar el Observable sin error
+          return of(null);
         })
       )
       .subscribe({
@@ -145,17 +136,15 @@ export class ListaCarrito implements OnInit {
           if (response && response.id) {
             console.log('Compra realizada con éxito:', response);
 
-            // 1. Limpiar el estado del carrito en el front-end
             this.carritoItems = [];
             this.calcularTotales();
             this.cdr.detectChanges();
 
-            // 2. Navegar a la página de checkout, pasando el ID del pedido
-            this.router.navigate(['/checkout', response.id]); // Redirección al nuevo componente
+            this.router.navigate(['/checkout', response.id]);
           }
         },
         error: (err) => {
-          // Ya manejado en catchError, pero por si acaso.
+          
           console.error('Suscripción terminada con error:', err);
         }
       });

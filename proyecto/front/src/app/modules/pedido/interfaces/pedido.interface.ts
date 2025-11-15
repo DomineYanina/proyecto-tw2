@@ -1,5 +1,3 @@
-// pedido.interface.ts
-
 import { Usuario } from '../../usuario/interfaces/usuario.interface';
 import { Videojuego } from '../../videojuego/interfaces/videojuego.interface';
 
@@ -9,7 +7,7 @@ export interface PedidoVideojuego {
     pedido_id: number;
     videojuego_id: number;
     cantidad: number;
-    videojuego?: Videojuego; // IMPORTADO
+    videojuego?: Videojuego;
 }
 
 export interface Pedido {
@@ -18,6 +16,6 @@ export interface Pedido {
     fecha_creacion: Date;
     estado: EstadoPedido; 
     total: number;
-    usuario?: Usuario; // IMPORTADO
+    usuario?: Usuario;
     videojuegos?: PedidoVideojuego[]; 
 }
