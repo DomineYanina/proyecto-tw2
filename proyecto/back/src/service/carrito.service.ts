@@ -45,7 +45,8 @@ export class CarritoService {
         const nuevoPedido = await this.pedidoRepository.crearPedido({
             userId: userId,
             fecha_creacion: new Date(),
-            estado: 'pendiente',
+            // estado: 'pendiente',
+            estado: 'completado',
             total: totalCompra
         });
 
