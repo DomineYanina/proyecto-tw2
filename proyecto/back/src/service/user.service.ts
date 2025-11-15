@@ -11,11 +11,6 @@ export class UserService {
         this.userRepository = new UserRepository();
     }
 
-    async findAllUsers() {
-        return await this.userRepository.findAllUsers();
-    }
-
-
     async findUserById(id: number) {
         return await this.userRepository.findUserById(id);
     }
@@ -87,11 +82,6 @@ export class UserService {
         }
 
         return await this.userRepository.updateUser(id, dataToUpdate);
-    }
-
-
-    async deleteUser(id: number) {
-        return await this.userRepository.deleteUser(id);
     }
 
     async login(email: string, contrasenaPlana: string) {

@@ -9,11 +9,6 @@ export class UserController {
 
     constructor(private userService: UserService = new UserService()) { }
 
-    public findAllUsers = async (req: Request, res: Response): Promise<void> => {
-        const users = await this.userService.findAllUsers();
-        res.json(users);
-    }
-
     public getUserById = async (req: Request, res: Response) => {
         const id = Number(req.params.id);
         if (isNaN(id)) {
@@ -80,22 +75,6 @@ export class UserController {
         }
     }
 
-    public deleteUser = async (req: Request, res: Response) => {
-        const id = Number(req.params.id);
-        if (isNaN(id)) {
-            return res.status(400).json({ message: 'ID de usuario inválido' });
-        }
-
-        try {
-            await this.userService.deleteUser(id);
-            res.status(204).send();
-        } catch (error) {
-            if (error instanceof Error && error.message.includes('No existe el usuario')) {
-                return res.status(404).json({ message: 'Usuario no encontrado' });
-            }
-            return res.status(500).json({ message: 'Error al eliminar usuario' });
-        }
-    }
 
     public login = async (req: Request, res: Response) => {
         const { email, contrasena } = req.body;

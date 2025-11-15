@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
 import { of } from 'rxjs';
@@ -13,14 +13,21 @@ import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
 
+
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+
 @Component({
   selector: 'app-detalle-videojuego',
   standalone: true,
-  imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule],
+  imports: [DividerModule, ImageModule, DatePipe, CommonModule, CurrencyPipe, ButtonModule, ProgressSpinnerModule],
   templateUrl: './detalle-videojuego.html',
   styleUrl: './detalle-videojuego.css'
 })
 export class DetalleVideojuego implements OnInit, OnDestroy {
+  spinner=signal<boolean>(false);
+
+  mensajeDeError=signal<string>("");
 
   videojuegoId: number = 0;
   desarrolladorId: number = 0;
@@ -39,11 +46,9 @@ export class DetalleVideojuego implements OnInit, OnDestroy {
   @ViewChild('audioFx') audioPlayerRef!: ElementRef<HTMLAudioElement>;
 tarjetaMediosActiva: boolean = false;
 tarjetaInfoActiva: boolean = false;
-// Nueva variable para gestionar el estado de ocultamiento
 otraTarjetaInactiva: boolean = false;
 
 toggleTarjeta(tipo: 'medios' | 'info') {
-    // Lógica para reproducir sonido y alternar estados...
     if (!this.tarjetaMediosActiva && !this.tarjetaInfoActiva) {
         this.playFuturisticSound();
     }
@@ -59,9 +64,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
     this.otraTarjetaInactiva = this.tarjetaMediosActiva || this.tarjetaInfoActiva;
   }
 
-  // Asegúrate de que este método también exista
   playFuturisticSound() {
-    // ... lógica para reproducir audio ...
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
         const audio = this.audioPlayerRef.nativeElement;
         audio.currentTime = 0;
@@ -72,49 +75,49 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   }
 
   ngOnInit(): void {
-    // Hemos combinado la carga del videojuego y el desarrollador en un solo método
+    this.mensajeDeError.set("");
+     this.spinner.set(false);
     this.cargarDatosDesdeRuta();
-    // La carga de requisitos sigue siendo independiente, solo necesita el ID de la ruta
     this.obtenerRequisitosPC();
   }
 
   ngOnDestroy(): void {
-    // Código a ejecutar al destruir el componente (p. ej., desuscripciones manuales si no usamos async pipe)
   }
 
-  
+
   cargarDatosDesdeRuta(): void {
     this.route.params.pipe(
-      // 1. Obtener el ID de la ruta y obtener el Videojuego
       switchMap(params => {
-        const id = +params['id']; // El '+' convierte el string del parámetro a número
+        const id = +params['id'];
         if (id && !isNaN(id)) {
           this.videojuegoId = id;
           return this.videojuegoService.getVideojuegoById(id);
         }
-        return of(null); // Retorna un observable nulo si el ID no es válido
+        return of(null);
       }),
-      // Asegurarse de que el videojuego no sea nulo antes de continuar
       filter((videojuego): videojuego is Videojuego => !!videojuego),
-      // 2. Usar 'tap' para asignar el videojuego a la propiedad local
       tap(videojuego => {
         this.videojuego = videojuego;
         this.desarrolladorId = videojuego.id_desarrollador || 0;
         console.log('Videojuego obtenido:', this.videojuego);
       }),
-      // 3. Usar el segundo 'switchMap' para pasar del observable del Videojuego
-      //    al observable del Desarrollador, usando el id_desarrollador.
+
       switchMap(videojuego => {
         if (videojuego.id_desarrollador) {
-          // ⬅️ ¡Aquí se pasa correctamente el id_desarrollador!
+
           return this.videojuegoService.getDesarrolladorByVideojuegoId(videojuego.id_desarrollador);
         }
-        return of(null); // Retorna nulo si no hay ID de desarrollador
+        return of(null);
       })
     ).subscribe({
       next: (desarrollador) => {
         this.desarrollador = desarrollador;
         console.log('Desarrollador obtenido:', this.desarrollador);
+
+        setTimeout(() => {
+            this.spinner.set(true);
+        }, 500);
+
       },
       error: (error) => {
         console.error('Error al obtener el videojuego o el desarrollador:', error);
@@ -127,7 +130,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
       switchMap(params => {
         const id = +params['id'];
         if (id && !isNaN(id)) {
-          // No necesitamos almacenar this.videojuegoId aquí de nuevo, pero lo mantenemos por consistencia
+
           return this.videojuegoService.getRequisitosPCByVideojuegoId(id);
         }
         return of(null);
@@ -147,14 +150,12 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   agregarACarrito(videojuego_id: number | undefined): void {
     const userIdStr = this.authService.getUserId();
     const videojuegoId = videojuego_id;
-    
-    // 1. Verificar el ID del usuario
+
     if (!userIdStr) {
       this.messageService.add({severity:'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para agregar ítems al carrito.'});
       return;
     }
 
-    // 2. Verificar el ID del videojuego
     if (!videojuegoId) {
        this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo identificar el videojuego.'});
        return;
@@ -162,25 +163,27 @@ toggleTarjeta(tipo: 'medios' | 'info') {
 
     const userId = parseInt(userIdStr, 10);
 
-    // 3. Llamar al servicio del carrito
-    this.carritoService.agregarItem(userId, videojuegoId, 1) // Añade 1 unidad
+    this.carritoService.agregarItem(userId, videojuegoId, 1)
       .subscribe({
         next: (response) => {
           console.log('Videojuego añadido al carrito:', response);
           this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
         },
         error: (err) => {
+          this.mensajeDeError.set("El juego ya esta en el carrito");
+           setTimeout(() => {
+            this.mensajeDeError.set("");
+        }, 2000);
+
           console.error('Error al añadir al carrito:', err);
           this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo un error al procesar tu solicitud.'});
         }
       });
   }
 
-
   volverALaLista(): void {
     this.router.navigate(['/videojuego/lista-videojuegos']);
   }
-
 
 }
 

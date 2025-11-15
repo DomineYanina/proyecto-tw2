@@ -1,39 +1,110 @@
-<div class="container mt-5">
-    <div class="row">
-        <!-- ÍTEM DESPLEGABLE: Videojuegos -->
-        <div class="col">
-            <!-- Botón que sirve de ancla y disparador -->
-            <p-button 
-                label="Videojuegos" 
-                severity="help" 
-                icon="pi pi-chevron-down" 
-                iconPos="right"
-                #menuAnchor 
-                (click)="menu.toggle($event)" 
-            />
+<nav class="navbar-container">
+  <div class="navbar">
 
-            <!-- Componente de menú desplegable (popup) -->
-            <p-menu 
-                #menu 
-                [model]="menuItems" 
-                [popup]="true"
-                [style]="{'width': '15rem'}"
-            />
-        </div>
+    <!-- LOGO -->
+<div class="nav-logo">
+  <img
+    src="assets/Logo/page-logo.png"
+    alt="Logo"
+    class="logo-img"
+    [routerLink]="['/videojuego/lista-videojuegos']"
+  >
+</div>
+<!-- BOTÓN HAMBURGUESA (solo móvil) -->
+<div class="hamburger" (click)="toggleMobileMenu()">
+  <i class="pi pi-bars"></i>
+</div>
 
-        <!-- ÍTEM SIMPLE: Pedidos -->
-        <div class="col">
-            <p-button [routerLink]="['/pedido']" label="Pedidos" severity="danger" />
-        </div>
-        
-        <!-- ÍTEM SIMPLE: Carrito -->
-        <div class="col">
-            <p-button [routerLink]="['/carrito']" label="Carrito" severity="danger" />
-        </div>
-        
-        <!-- ÍTEM SIMPLE: Usuario -->
-        <div class="col">
-            <p-button [routerLink]="['/usuario']" label="Usuario" severity="contrast" />
-        </div>
+
+<!-- BUSCADOR (solo desktop) -->
+<div class="nav-item desktop-only">
+  <div class="nav-search" [routerLink]="['/videojuego/lista-videojuegos']">
+    <i class="pi pi-search"></i>
+    <span>Buscar videojuegos…</span>
+  </div>
+</div>
+
+<!-- PEDIDOS (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
+  <p-button label="" icon="pi pi-list" [routerLink]="['/pedido/lista-pedidos']"></p-button>
+</div>
+
+<!-- CARRITO (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
+  <p-button icon="pi pi-shopping-cart" label="" [routerLink]="['/carrito/carrito']"></p-button>
+</div>
+
+<!-- PERFIL (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
+  <p-button icon="pi pi-user" label="Mi Perfil" [routerLink]="['/usuario/verUsuario']"></p-button>
+</div>
+
+<!-- LOGOUT (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="auth.isLoggedIn()">
+  <p-button icon="pi pi-sign-out" label="Salir" (click)="logout()"></p-button>
+</div>
+
+<!-- LOGIN (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="!auth.isLoggedIn()">
+  <p-button icon="pi pi-sign-in" label="Login" [routerLink]="['/usuario/login']"></p-button>
+</div>
+
+<!-- REGISTRO (solo desktop) -->
+<div class="nav-item desktop-only" *ngIf="!auth.isLoggedIn()">
+  <p-button icon="pi pi-user-plus" label="Registrarse" [routerLink]="['/usuario/registro']"></p-button>
+</div>
+
+
+  </div>
+</nav>
+<!-- MENÚ DESLIZABLE MÓVIL -->
+<div class="mobile-menu-overlay"
+     [class.open]="mobileMenuOpen"
+     (click)="toggleMobileMenu()"></div>
+
+<div class="mobile-menu" [class.open]="mobileMenuOpen">
+
+  <div class="mobile-menu-header">
+    <span>Menú</span>
+    <i class="pi pi-times close-btn" (click)="toggleMobileMenu()"></i>
+  </div>
+
+  <div class="mobile-menu-content">
+
+    <div class="mobile-item" (click)="go('/videojuego/lista-videojuegos')">
+      <i class="pi pi-search"></i> Buscar videojuegos
     </div>
+
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
+         (click)="go('/pedido/lista-pedidos')">
+      <i class="pi pi-list"></i> Mis pedidos
+    </div>
+
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
+         (click)="go('/carrito/carrito')">
+      <i class="pi pi-shopping-cart"></i> Carrito
+    </div>
+
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
+         (click)="go('/usuario/verUsuario')">
+      <i class="pi pi-user"></i> Mi perfil
+    </div>
+
+    <div class="mobile-item" *ngIf="auth.isLoggedIn()"
+         (click)="logout()">
+      <i class="pi pi-sign-out"></i> Cerrar sesión
+    </div>
+
+    <div class="mobile-item" *ngIf="!auth.isLoggedIn()"
+         (click)="go('/usuario/login')">
+      <i class="pi pi-sign-in"></i> Login
+    </div>
+
+    <div class="mobile-item" *ngIf="!auth.isLoggedIn()"
+         (click)="go('/usuario/registro')">
+      <i class="pi pi-user-plus"></i> Registrarse
+    </div>
+
+  </div>
+
 </div>

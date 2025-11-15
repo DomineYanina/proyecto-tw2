@@ -1,7 +1,13 @@
 
 <div class="gral">
 <div class="contenedor-principal-tarjetas">
-
+  @if (!spinner()) {
+      <div class="tarjeta-carga">
+          <p-progress-spinner
+          ariaLabel="loading"
+          [style]="{ width: '300px', height: '500px' }" />
+</div>
+    } @else {
     <audio #audioFx src="assets/soundefect.mp3" preload="auto"></audio>
 
     <div class="tarjeta-medios"
@@ -23,6 +29,10 @@
          (click)="toggleTarjeta('info')">
 
         <div class="detalle-contenido">
+
+             @if(this.mensajeDeError().length!=0){
+              <h2 style="color: red;">{{this.mensajeDeError()}}</h2>
+            }
 
             <div class="seccion-detalle">
                 <h3 class="seccion-titulo">Detalles del Videojuego</h3>
@@ -56,5 +66,6 @@
             <button pButton label="Agregar al carrito" icon="pi pi-shopping-cart" (click)="agregarACarrito(videojuego?.id)" class="p-button-danger"></button>
         </div>
     </div>
+  }
 </div>
 </div>

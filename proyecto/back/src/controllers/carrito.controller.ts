@@ -83,30 +83,27 @@ export class CarritoController {
     }
 
     public eliminarItem = async (req: Request, res: Response) => {
-        try {
-                // 🎯 CORRECCIÓN: Leer los parámetros desde req.query (vienen como strings)
-            const { userId, itemId } = req.query; 
-
-            const itemIdNum = Number(itemId);
-            const userIdNum = Number(userId);
-
-            if (isNaN(itemIdNum) || itemIdNum <= 0 || isNaN(userIdNum) || userIdNum <= 0) {
-                return res.status(400).json({ message: 'ID de usuario o de videojuego inválido.' });
-            }
+        try {
+            // 🎯 CORRECCIÓN: Leer los parámetros desde req.query (vienen como strings)
+            const { userId, itemId } = req.query;
+            const itemIdNum = Number(itemId);
+            const userIdNum = Number(userId);
+            if (isNaN(itemIdNum) || itemIdNum <= 0 || isNaN(userIdNum) || userIdNum <= 0) {
+                return res.status(400).json({ message: 'ID de usuario o de videojuego inválido.' });
+            }
             // 🎯 INVERSIÓN DE ORDEN: Aseguramos que se envía itemId (videojuego_id) y luego userId,
             // si el servicio espera primero el ID del ítem a borrar.
-            const resultado = await carritoService.eliminarItem(itemIdNum, userIdNum);
-
-            // 204 No Content es la respuesta estándar para un DELETE exitoso.
-            res.status(204).send(); 
-        }
-        catch (error) {
-            console.error('⚠️ Error al intentar eliminar el item:', error);
-            // Manejo de error si el item no existe (e.g., error.message contiene 'no encontrado')
-            const message = error instanceof Error ? error.message : 'Error interno';
-            res.status(500).json({
-                message: `Error al eliminar el juego: ${message}`
-            });
-        }
-    }
+            const resultado = await carritoService.eliminarItem(itemIdNum, userIdNum);
+            // 204 No Content es la respuesta estándar para un DELETE exitoso.
+            res.status(204).send();
+        }
+        catch (error) {
+            console.error('⚠️ Error al intentar eliminar el item:', error);
+            // Manejo de error si el item no existe (e.g., error.message contiene 'no encontrado')
+            const message = error instanceof Error ? error.message : 'Error interno';
+            res.status(500).json({
+                message: `Error al eliminar el juego: ${message}`
+            });
+        }
+    }
 }

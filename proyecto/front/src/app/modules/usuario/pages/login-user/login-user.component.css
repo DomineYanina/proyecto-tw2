@@ -4,25 +4,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+  background: linear-gradient(135deg, #000000, #111111, rgba(255, 217, 0, 0.18));
+  background-size: 300% 300%;
+  animation: gradientMove 10s ease-in-out infinite;
+
   font-family: 'Segoe UI', sans-serif;
 }
 
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
 /* Tarjeta */
 .login-card {
-  background-color: #fff;
+    background: linear-gradient(
+    to bottom,
+    rgb(255, 191, 0) 85%,
+    rgb(22, 22, 22) 100%
+  );
   padding: 40px 30px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 380px;
   text-align: center;
+  border: 1px solid #000000;
 }
 
 /* Título */
 .login-card h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: #000000;
   font-weight: 600;
 }
 
@@ -37,25 +53,25 @@
 label {
   margin-bottom: 6px;
   font-weight: 500;
-  color: #444;
+  color: #000000;
 }
 
 input {
   padding: 10px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 8px;
   transition: border-color 0.2s;
   font-size: 15px;
 }
 
 input:focus {
-  border-color: #007bff;
+  border-color: rgb(255, 191, 0);
   outline: none;
 }
 
 /* Botón */
 button {
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   font-weight: 600;
   border: none;
@@ -67,7 +83,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: rgb(58, 43, 0);
 }
 
 button:disabled {
@@ -89,9 +105,11 @@ button:disabled {
 }
 
 .register-hint a {
-  color: #007bff;
+  color: #ffffff;
   text-decoration: none;
+  text-shadow: 0 0 6px rgba(14, 14, 14, 0.9);
 }
+
 
 .register-hint a:hover {
   text-decoration: underline;

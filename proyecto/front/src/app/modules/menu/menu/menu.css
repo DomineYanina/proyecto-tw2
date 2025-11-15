@@ -1,57 +1,221 @@
-/*
- * Contenedor principal del menú: Fija la barra en la parte superior
- * y garantiza que ocupe todo el ancho de la ventana.
- */
-.menu-container {
-    background-color: #2c3e50; /* Fondo oscuro (azul marino) */
-    padding: 0.75rem 0; /* Relleno vertical */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Sombra suave para elevación */
-    position: fixed; /* Fija el menú en la parte superior */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+
+
+.navbar-container {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgb(255, 217, 0) 40%,
+    rgba(0, 0, 0, 0.226) 100%
+  );
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-/* * Estilo para el contenedor de los botones (anteriormente .container .row)
- * Usamos Flexbox para distribuir los botones uniformemente.
- */
-.menu-row {
-    display: flex;
-    justify-content: center; /* Centra el grupo de botones horizontalmente */
-    max-width: 1200px; /* Ancho máximo para el menú */
-    margin: 0 auto; /* Centra el contenedor en la pantalla */
-    gap: 1rem; /* Espacio entre columnas/ítems */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-/* * Estilo para cada columna que contiene un botón
- */
-.menu-col {
-    /* Permitir que la columna crezca o se encoja para distribución */
-    flex-grow: 0; 
-    flex-shrink: 0;
-    /* Los botones tendrán su propio estilo */
+/* Ítems */
+.nav-item {
+  display: flex;
+  align-items: center;
 }
 
-/* * Ajuste de los botones para un aspecto uniforme
- */
+
 .p-button {
-    min-width: 120px; /* Ancho mínimo para todos los botones */
-    transition: transform 0.2s;
-    border-radius: 8px; /* Bordes redondeados */
+  background: #ffe600 !important;
+  border: 1px solid #d4bd00 !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 8px 14px !important;
+  transition: all 0.2s ease-in-out !important;
 }
 
-/* Efecto hover */
+.p-button .p-button-icon {
+  color: #000 !important;
+}
+
 .p-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: #f0d600 !important;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.15);
 }
 
-/* * Para asegurar que el contenido de la página no quede oculto
- * detrás del menú fijo, el contenido principal (router-outlet)
- * debe tener un margen superior igual o superior a la altura del menú.
- * (La altura del menú es ~50px, usamos 60px para margen de seguridad)
- */
-body {
-    padding-top: 60px; 
+.p-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+.p-button.p-button-success,
+.p-button.p-button-danger,
+.p-button.p-button-info,
+.p-button.p-button-warning,
+.p-button.p-button-contrast,
+.p-button.p-button-secondary,
+.p-button.p-button-primary {
+  background: #ffe600 !important;
+  color: #000 !important;
+  border: 1px solid #d4bd00 !important;
+}
+
+
+
+.logo-img {
+  height: 45px;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-search {
+  background-color: #ffe600;
+  color: #000;
+  padding: 10px 160px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  min-width: 240px;
+  border: 1px solid #d4bd00;
+  transition: all 0.2s ease-in-out;
+  font-weight: 600;
+}
+
+.nav-search i {
+  color: #000;
+  font-size: 1.4rem;
+}
+
+
+.nav-search:hover {
+  background-color: #f0d600;
+  border-color: #c6ac00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.20);
+}
+
+
+
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  color: #000;
+  cursor: pointer;
+}
+
+
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease;
+  z-index: 999;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: #ffe600;
+  color: #000;
+  transition: right .3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu.open {
+  right: 0;
+}
+
+
+.mobile-menu-header {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+
+.close-btn {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+/* Items */
+.mobile-menu-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mobile-item {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  padding: 12px 8px;
+  border-radius: 8px;
+}
+
+.mobile-item:hover {
+  background: #f0d600;
+}
+
+
+@media (max-width: 1000px) {
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: block !important;
+  }
+
+  .navbar {
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+
+  .nav-search {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
 }

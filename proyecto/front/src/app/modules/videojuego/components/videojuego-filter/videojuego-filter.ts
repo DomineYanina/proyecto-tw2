@@ -28,8 +28,8 @@ export class VideojuegoFilter implements OnInit, OnDestroy {
 
   limpiar(): void {
     this.filtros = { nombre: '', clasificacion: '', precioMin: undefined, precioMax: undefined };
- 
-    try { localStorage.removeItem('videojuego-filtros'); } catch (e) { /* ignore */ }
+
+    try { localStorage.removeItem('videojuego-filtros'); } catch (e) {  }
     this.clear.emit();
   }
 
@@ -52,7 +52,7 @@ export class VideojuegoFilter implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-   
+
     this.saveFilters();
   }
 

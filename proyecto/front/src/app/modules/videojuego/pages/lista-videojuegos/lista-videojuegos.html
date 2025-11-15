@@ -1,9 +1,16 @@
-<div class="container mt-4">
-    <h2>Lista de Videojuegos</h2>
+<div class="videojuegos-pagina-wrapper">
 
-    <div class="main-layout"> 
-        
-        <videojuego-filter (apply)="onApply($event)" (clear)="onClear()" class="filtro-vertical"></videojuego-filter>
+<div class="main-layout-grid">
+
+    <videojuego-filter
+        (apply)="onApply($event)"
+        (clear)="onClear()"
+        class="filtro-sticky">
+    </videojuego-filter>
+
+
+    <div class="content-wrapper">
+        <h2 class="titulo-listado">Lista de Videojuegos</h2>
 
         <div class="card-container">
             <p-card
@@ -30,5 +37,8 @@
             </ng-template>
             </p-card>
         </div>
+    </div>
+</div>
 
-    </div> </div>
+
+</div>
