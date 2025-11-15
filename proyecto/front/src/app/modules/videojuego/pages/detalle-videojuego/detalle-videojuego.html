@@ -1,4 +1,3 @@
-
 <div class="gral">
 <div class="contenedor-principal-tarjetas">
   @if (!spinner()) {
@@ -63,7 +62,11 @@
 
         <div class="contenedor-botones">
             <button pButton label="Volver a la Lista" icon="pi pi-arrow-left" (click)="volverALaLista()" class="p-button-secondary"></button>
-            <button pButton label="Agregar al carrito" icon="pi pi-shopping-cart" (click)="agregarACarrito(videojuego?.id)" class="p-button-danger"></button>
+            @if (!productoEnCarrito()) {
+                <button pButton label="Agregar al carrito" icon="pi pi-shopping-cart" (click)="agregarACarrito(videojuego?.id)" class="p-button-danger"></button>
+            } @else {
+                <button pButton label="En el carrito" icon="pi-check" disabled class="p-button-success"></button>
+            }
         </div>
     </div>
   }

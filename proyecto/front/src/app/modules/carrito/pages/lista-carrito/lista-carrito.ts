@@ -134,22 +134,20 @@ export class ListaCarrito implements OnInit {
           console.error('Error al procesar la compra:', err);
 
           alert('Hubo un error al procesar tu compra. Inténtalo de nuevo.');
-          return of(null); // Emitir un valor nulo para completar el Observable sin error
+          return of(null);
         })
       )
       .subscribe({
         next: (response) => {
-          if (response && response.id) {
             console.log('Compra realizada con éxito:', response);
 
-            // 1. Limpiar el estado del carrito en el front-end
             this.carritoItems = [];
             this.calcularTotales();
             this.cdr.detectChanges();
 
 
-            this.router.navigate(['/checkout', response.id]);
-          }
+            this.router.navigate(['/pedido/lista-pedidos']);
+            console.log('Navegando a la lista de pedidos después de la compra.');
         },
         error: (err) => {
 

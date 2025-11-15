@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit, ElementRef, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, filter } from 'rxjs/operators'; // ⬅️ Añadido tap y filter
+import { switchMap, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DividerModule } from 'primeng/divider';
 import { Desarrollador, RequisitosPC, Videojuego } from '../../interfaces/videojuego.interface';
@@ -12,8 +12,6 @@ import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../../core/auth.service';
 import { CarritoService } from '../../../../api/services/carrito/carrito.service';
 import { MessageService } from 'primeng/api';
-
-
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
@@ -26,9 +24,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 })
 export class DetalleVideojuego implements OnInit, OnDestroy {
   spinner=signal<boolean>(false);
-
+  productoEnCarrito = signal<boolean>(false);
   mensajeDeError=signal<string>("");
-
   videojuegoId: number = 0;
   desarrolladorId: number = 0;
   videojuegoExtra: Videojuego | null = null;
@@ -79,6 +76,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
      this.spinner.set(false);
     this.cargarDatosDesdeRuta();
     this.obtenerRequisitosPC();
+    this.productoEnCarrito.set(false);
   }
 
   ngOnDestroy(): void {
@@ -168,9 +166,11 @@ toggleTarjeta(tipo: 'medios' | 'info') {
         next: (response) => {
           console.log('Videojuego añadido al carrito:', response);
           this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
+          this.productoEnCarrito.set(true);
         },
         error: (err) => {
           this.mensajeDeError.set("El juego ya esta en el carrito");
+          this.productoEnCarrito.set(true);
            setTimeout(() => {
             this.mensajeDeError.set("");
         }, 2000);
@@ -186,4 +186,3 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   }
 
 }
-
