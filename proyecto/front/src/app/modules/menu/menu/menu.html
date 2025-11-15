@@ -76,7 +76,7 @@
     </div>
 
     <div class="mobile-item" *ngIf="auth.isLoggedIn()"
-         (click)="go('/pedido')">
+         (click)="go('/pedido/lista-pedidos')">
       <i class="pi pi-list"></i> Mis pedidos
     </div>
 
@@ -86,7 +86,7 @@
     </div>
 
     <div class="mobile-item" *ngIf="auth.isLoggedIn()"
-         (click)="go('/usuario/perfil')">
+         (click)="go('/usuario/verUsuario')">
       <i class="pi pi-user"></i> Mi perfil
     </div>
 
