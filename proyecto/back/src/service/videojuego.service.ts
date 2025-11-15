@@ -17,26 +17,6 @@ export class VideojuegoService {
         return await this.videojuegoRepository.findVideojuegoById(id);
     }
 
-    /*async crearVideojuego(data:{[nombre: string]:any}){
-        const{nombre} = data;
-        if(!nombre|| typeof nombre !== 'string'){
-            throw new Error('El nombre del videojuego es obligatorio y debe ser una cadena.');
-        }
-        return await this.videojuegoRepository.createVideojuego({data});
-    }*/
-
-    async actualizarVideojuego(id: number, data:{[nombre: string]:any}){
-        return await this.videojuegoRepository.updateVideojuego(id, data);
-    }
-
-    async eliminarVideojuego(id: number){
-        try {
-            return await this.videojuegoRepository.deleteVideojuego(id);
-        } catch (error) {
-            throw new Error('Error al eliminar el videojuego');
-        }
-    }
-
     async obtenerRequisitosPC(id: number){
         return await this.videojuegoRepository.findRequisitosPCByVideojuegoId(id);
     }

@@ -1,14 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { UsuarioService } from '../../../../api/services/usuario/usuario.service';
 import { Usuario } from '../../interfaces/usuario.interface';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { Button } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../../core/auth.service';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-update-user',
   standalone: true,
-  imports: [ReactiveFormsModule, Button],
+  imports: [ReactiveFormsModule, Card,ButtonModule,Button,RouterLink],
   templateUrl: './update-user.html',
   styleUrls: ['./update-user.css'],
 })
@@ -20,7 +22,12 @@ export class UpdateUser {
   usuario!: Usuario;
   form!: FormGroup;
 
-  ngOnInit(): void {
+  auth=inject(AuthService);
+
+  ngOnInit(): void {;
+    if(!this.auth.verificarSiHayUsuarioEnSession()){
+      this.router.navigate(["usuario/login"]);
+    }
 
     this.form = this.fb.group({
       nombre: ['', Validators.required],

@@ -3,16 +3,6 @@ import { rolusuario } from "@prisma/client";
 
 export class UserRepository {
 
-    async findAllUsers() {
-        return await prisma.usuario.findMany({ 
-            select: { 
-                id: true,                      
-                nombre: true,
-                email: true,
-                usuario: true,                 
-            },
-        });
-    }
 
     async findUserById(id: number) { 
         return await prisma.usuario.findUnique({
@@ -89,13 +79,6 @@ export class UserRepository {
             },
         });
     }
-
-    async deleteUser(id: number) {             
-        return await prisma.usuario.delete({
-            where: { id },                     
-        });
-    }
-
     
 }
     

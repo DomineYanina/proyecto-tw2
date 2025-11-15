@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        :host {
+            font-family: 'Inter', sans-serif;
+            display: block;
+        }
+        .min-h-screen { min-height: 100vh; }
+
+body {
+    background-color: wheat;
+}

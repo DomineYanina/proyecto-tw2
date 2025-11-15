@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/auth.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../../../../core/auth.service';
 @Component({
   selector: 'app-login-user',
   standalone: true, // 👈 importante
-  imports: [CommonModule, FormsModule], // 👈 agrega esto
+  imports: [CommonModule, FormsModule,RouterLink], // 👈 agrega esto
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.css']
 })

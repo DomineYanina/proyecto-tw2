@@ -8,8 +8,7 @@ import { environment } from '../../environments/environment.development';
 })
 export class AuthService {
 
-  private apiUrl = `${environment.api_url}/user`; // http://localhost:3000/api/user
-
+  private apiUrl = `${environment.api_url}/user`;
   constructor(private http: HttpClient) {}
 
   // 🔐 Login
@@ -30,26 +29,42 @@ export class AuthService {
   getUserId(): string | null {
     return localStorage.getItem('user_id');
   }
-  // 🧭 Obtener el token actual
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // 👤 Saber si el usuario sigue logueado
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  // 🚪 Cerrar sesión
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    localStorage.removeItem('user_id');
+    try { localStorage.removeItem('videojuego-filtros'); } catch(e) { /* ignore */ }
   }
 
-  // 📦 Obtener info del usuario logueado
   getUser(): any {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+    localStorage.removeItem('user_id');
+  }
+
+  verificarSiHayUsuarioEnSession():boolean{
+    let hayUsuarioEnSession:boolean=true;
+    if(!this.getToken() || !this.getUser() || !this.getUserId()){
+        hayUsuarioEnSession=false;
+    }
+
+    return hayUsuarioEnSession;
+  }
+
+  verObjetosGuardadosDeLaSession() {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key!);
+      console.log(key, value);
+    }
   }
 }
