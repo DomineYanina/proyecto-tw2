@@ -36,18 +36,17 @@ export class ListaCarrito implements OnInit {
 
   auth=inject(AuthService);
 
-  // Servicios inyectados
   private carritoService = inject(CarritoService);
   private authService = inject(AuthService);
 
   private router = inject(Router);
 
-  // Propiedades reactivas
+
   carritoItems: CarritoItem[] = [];
 
   private cdr = inject(ChangeDetectorRef);
 
-  // Propiedades calculadas
+
   totalCarrito: number = 0;
   cantidadTotal: number = 0;
 
@@ -68,7 +67,7 @@ export class ListaCarrito implements OnInit {
 
     const userId = parseInt(userIdStr, 10);
 
-    // 1. Obtener el carrito completo (Observable<CarritoItem[]>)
+
     this.carritoService.obtenerCarrito(userId).pipe(
       catchError(err => {
         console.error('Error al cargar carrito:', err);
