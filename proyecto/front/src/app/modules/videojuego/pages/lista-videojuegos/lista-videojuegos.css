@@ -31,21 +31,29 @@
 
 /* 4. Filtro: Implementación de Sticky */
 .filtro-sticky {
-    /* Mantiene el filtro fijo mientras el contenido central hace scroll */
-    position: sticky;
-    top: 30px; /* Distancia desde la parte superior del viewport */
-    width: 100%;
+ /* Por defecto (Móviles/Tablets): No es sticky, sigue el flujo normal */
+ position: static; /* Asegura que no es sticky por defecto */
+ width: 100%; /* Sigue siendo ancho completo */
 }
+
+/* 4.1. Estilo para DESKTOP: Aplicación de Sticky */
+@media (min-width: 992px) {
+ .filtro-sticky {
+ /* Mantiene el filtro fijo mientras el contenido central hace scroll */
+ position: sticky;
+ top: 12.65em; /* Distancia desde la parte superior del viewport */
+ }
+}
+
 
 /* 5. Estilos del Contenido Principal (Título y Cartas) */
 .titulo-listado {
-    color: white;
-    font-size: 2.5em;
-    font-weight: 600;
-    margin-bottom: 30px;
-    padding-top: 10px;
+ color: white;
+ font-size: 2.5em;
+ font-weight: 600;
+ margin-bottom: 30px;
+ padding-top: 10px;
 }
-
 
 /* ---------------------------------------------------- */
 /* --- ESTILOS DE TARJETAS (MANTENIDOS) --- */
