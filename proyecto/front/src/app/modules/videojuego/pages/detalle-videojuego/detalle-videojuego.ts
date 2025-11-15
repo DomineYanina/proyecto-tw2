@@ -30,6 +30,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 export class DetalleVideojuego implements OnInit, OnDestroy {
   spinner=signal<boolean>(false);
 
+  mensajeDeError=signal<string>("");
 
   videojuegoId: number = 0;
   desarrolladorId: number = 0;
@@ -82,6 +83,7 @@ toggleTarjeta(tipo: 'medios' | 'info') {
   }
 
   ngOnInit(): void {
+    this.mensajeDeError.set("");
      this.spinner.set(false);
     // Hemos combinado la carga del videojuego y el desarrollador en un solo método
     this.cargarDatosDesdeRuta();
@@ -191,6 +193,11 @@ toggleTarjeta(tipo: 'medios' | 'info') {
           this.messageService.add({severity:'success', summary: 'Éxito', detail: `${this.videojuego?.nombre} añadido al carrito.`});
         },
         error: (err) => {
+          this.mensajeDeError.set("El juego ya esta en el carrito");
+           setTimeout(() => {
+            this.mensajeDeError.set("");
+        }, 2000);
+
           console.error('Error al añadir al carrito:', err);
           this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo un error al procesar tu solicitud.'});
         }

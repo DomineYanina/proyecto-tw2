@@ -90,6 +90,10 @@
 
         <div class="detalle-contenido">
 
+             @if(this.mensajeDeError().length!=0){
+              <h2 style="color: red;">{{this.mensajeDeError()}}</h2>
+            }
+
             <div class="seccion-detalle">
                 <h3 class="seccion-titulo">Detalles del Videojuego</h3>
                 <p><strong>Género:</strong> {{ videojuego?.genero }}</p>
